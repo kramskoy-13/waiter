@@ -24,8 +24,36 @@
 
         <div class="shadow-container"></div>
 
-        <div class="initial-text__container initial">
-            <div id="textContainer" class="initial-text__text">Hello! Today I Will Be Your Waiter!</div>
+        <div id="initialContainer" class="initial-text__container initial">
+		
+            <div id="textContainer" class="initial-text__text"></div><!--Hello! Today I Will Be Your Waiter!-->
+			
+			<!-- SIGN IN -->
+			
+			<div class="initial-login__wrapper" data-sign="signIn">
+				<div class="initial-login__container">
+					<h3 class="initial-login__logo">Waiter</h3>
+					<form id="initialLogin" class="initial-login">
+						<div class="initial-login__container_inner">
+							<div class="initial-login__input-wrapper">
+								<label class="initial-login__label" for="login">Your Login (email/username)</label>
+								<input type="text" name="login" id="login"/>
+							</div>
+							<div class="initial-login__input-wrapper">
+								<label class="initial-login__label" for="password">Your Password (email/username)</label>
+								<input type="password" name="password" id="password"/>
+							</div>
+							<div class="initial-login__submit">
+								<input type="submit" class="btn btn-submit"/>
+							</div>
+						</div>
+					</form>	
+				</div>
+				<div class="initial-login__change-option">Want to Sign Up</div>
+			</div>
+
+			<!-- SIGN UP -->
+	
         </div>
 
         <!--<div class="select-place__container side">-->
