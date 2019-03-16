@@ -1,4 +1,5 @@
 @import './initial/_initial.css';
+@import './login/_login.css';
 * {
     box-sizing: border-box;
 }
@@ -13,19 +14,13 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: white;
+    flex-direction: column;
     border-radius: 18px;
     overflow: hidden;
     width: 100%;
     height: 100%;
 	background: #f9f9f9;
 }
-/*.header {*/
-    /*position: absolute;*/
-/*}*/
-/*.header__logo {*/
-    /*height: 69px;*/
-    /*width: 69px;*/
-    /*background: url('../logo/logo.png') no-repeat;*/
-    /*background-size: cover;*/
-/*}*/
+.color-main {
+    color: rgb(255, 77, 77);
+}
