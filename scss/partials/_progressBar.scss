@@ -1,0 +1,28 @@
+.progress-bar {
+  height: 100%;
+  background: $primaryColor;
+  border-radius: 10px;
+  transition: .3s;
+
+  &__wrapper {
+    height: 10px;
+    width: 64%;
+    background: transparent;
+    border: .5px solid rgba(0, 0, 0, .1);
+    margin: 50px auto 40px;
+    border-radius: 10px;
+    text-align: center;
+    position: relative;
+
+    & > span {
+      font-family: $primaryFont;
+      position: absolute;
+      top: -250%;
+      left: 50%;
+      transform: translateX(-50%);
+      &:after {
+        content: '%';
+      }
+    }
+  }
+}

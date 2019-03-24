@@ -1,6 +1,6 @@
-const View = {
+function View() {
 
-    getSingInForm(element) {
+    this.getSingInHTML = (element) => {
         element.innerHTML = `
            <div class="login__wrapper" id="singInWrapper">
 			<div class="initial-login__wrapper">
@@ -9,15 +9,17 @@ const View = {
 					<form id="signInForm" class="initial-login">
 						<div class="initial-login__container_inner">
 							<div class="initial-login__input-wrapper">
-								<label class="initial-login__label" for="login">Your Login (email/username)</label>
-								<input type="text" name="login" id="login"/>
+								<label class="initial-login__label" for="email">Your Login (email/username)</label>
+								<input type="text" name="email" id="email"/>
+								<div class="initial-login__notification" id="notify-email">!</div>
 							</div>
 							<div class="initial-login__input-wrapper">
 								<label class="initial-login__label" for="password">Your Password</label>
 								<input type="password" name="password" id="password"/>
+								<div class="initial-login__notification" id="notify-password">!</div>
 							</div>
 							<div class="initial-login__submit">
-								<input type="submit" class="btn btn-submit" value="SEND"/>
+								<input type="submit" class="btn btn-submit" value="Sing In"/>
 							</div>
 						</div>
 					</form>
@@ -26,8 +28,8 @@ const View = {
 			</div>
 		</div>
         `;
-    },
-    getSingUpForm(element) {
+    };
+    this.getSingUpHTML = (element) => {
         element.innerHTML = `
           <div class="login__wrapper" id="signUpWrapper">
 			<div class="initial-login__wrapper">
@@ -36,19 +38,22 @@ const View = {
 					<form id="signUpForm" class="initial-login">
 						<div class="initial-login__container_inner">
 							<div class="initial-login__input-wrapper">
-								<label class="initial-login__label" for="login">Your Name</label>
-								<input type="text" name="login" id="login"/>
+								<label class="initial-login__label" for="name">Your Name</label>
+								<input type="text" name="name" id="name"/>
+								<div class="initial-login__notification" id="notify-name">!</div>
 							</div>
 							<div class="initial-login__input-wrapper">
-								<label class="initial-login__label" for="login">Your Email</label>
-								<input type="text" name="login" id="login"/>
+								<label class="initial-login__label" for="email">Your Email</label>
+								<input type="text" name="email" id="email"/>
+								<div class="initial-login__notification" id="notify-email">!</div>
 							</div>
 							<div class="initial-login__input-wrapper">
 								<label class="initial-login__label" for="password">Your Password</label>
 								<input type="password" name="password" id="password"/>
+								<div class="initial-login__notification" id="notify-password">!</div>
 							</div>
 							<div class="initial-login__submit">
-								<input type="submit" class="btn btn-submit" value="SEND"/>
+								<input type="submit" class="btn btn-submit" value="Sing Up"/>
 							</div>
 						</div>
 					</form>
@@ -57,6 +62,5 @@ const View = {
 			</div>
 		</div>
         `
-    }
-
-};
+    };
+}

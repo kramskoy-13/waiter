@@ -1,0 +1,115 @@
+.initial-text {
+
+   &__container {
+     display: flex;
+     justify-content: center;
+     flex-direction: column;
+     flex-wrap: wrap;
+     width: 90%;
+     height: 255px;
+     border-radius: 15px;
+     border: 3px solid $frameBackgroundColor;
+     background: white;
+     position: relative;
+     transition: transform .5s, opacity .1s;
+     overflow: hidden;
+     margin-top: 24px;
+
+     &.initial {
+       transform: translateY(-200%);
+       transition: transform .5s;
+     }
+
+     &.loaded {
+       -webkit-animation: 1s bounce-up-down;
+       -moz-animation: 1s bounce-up-down;
+       -o-animation: 1s bounce-up-down;
+       animation: 1s bounce-up-down;
+     }
+
+     &.completed {
+       animation: 1s bounce-scale;
+       opacity: 0;
+       transform: scale(1);
+       transition: 1s;
+     }
+
+   }
+
+  &__text {
+    font-family: $primaryFont;
+    font-size:42px;
+    text-align: center;
+    padding: 20px;
+    color: $primaryColor;
+  }
+
+}
+.initial-login {
+
+  &__container {
+    background: white;
+    padding: 10px 15px;
+    border: 1px solid $frameBackgroundColor;
+  }
+
+  &__logo {
+    font-family: $primaryFont;
+    font-size: 46px;
+    text-align: center;
+    color: $primaryColor;
+  }
+
+  &__notification {
+    position: absolute;
+    right: 0;
+    top: 46%;
+    font-size: 24px;
+    font-weight: 900;
+    background: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    transform: translate(60%, 0%);
+    border-radius: 50%;
+    color: $frameBackgroundColor;
+    border: 1px solid $frameBackgroundColor;
+  }
+
+  &__input-wrapper {
+    margin: 10px;
+    position: relative;
+
+    & input {
+      display: block;
+      width: 98%;
+      margin-left: -4%;
+      border: 1px solid $frameBackgroundColor;
+      border-radius: 5px;
+      padding: 10px 25px;
+      background: $wrapperBackgroundColor;
+      margin-top: 5px;
+      outline: none;
+      font-size: 16px;
+      font-family: $secondaryFont;
+      &:focus {
+        border: 1px solid $frameBackgroundColor;
+      }
+    }
+
+  }
+
+  &__change-option {
+    margin-top: 15px;
+    background: white;
+    padding: 10px 15px;
+    text-align: center;
+    border: 1px solid $frameBackgroundColor;
+    &.bounce-animate {
+      animation: .5s bounce-scale;
+    }
+  }
+
+}

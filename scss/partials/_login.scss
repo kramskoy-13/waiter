@@ -1,0 +1,30 @@
+.login__wrapper {
+  width: 95%;
+  border-radius: 10px;
+  font-size: 16px;
+  font-family: "Quicksand", sans-serif;
+  max-width: 400px;
+  margin: 30px auto 30px;
+
+  & input[type='submit'] {
+    width: 100%;
+    background: $primaryColor;
+    margin-top: 15px;
+    padding: 7.5px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    font-family: $secondaryFont;
+    color: white;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+}
+
+.sing-up-link {
+  color: dodgerblue;
+  padding: 0 16px;
+  display: inline-block;
+  text-decoration: underline;
+}
+

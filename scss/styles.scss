@@ -1,0 +1,46 @@
+@import './partials/_variables.scss';
+@import './partials/_initial.scss';
+@import './partials/_login.scss';
+@import './partials/_progressBar.scss';
+html {
+  height: 100%;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  background: $frameBackgroundColor;
+  padding: 12px;
+  margin: 0;
+  //height: 100vh;
+  height: 100%;
+  width: 100vw;
+
+}
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 18px;
+  overflow: hidden;
+  width: 100%;
+  min-height: 100%;
+  background: $wrapperBackgroundColor;
+  max-width: 500px;
+  margin: 24px auto;
+}
+.color-main {
+  color: $primaryColor;
+}
+@keyframes bounce-up-down {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-50px); }
+  100% { transform: translateY(0); }
+}
+@keyframes bounce-scale {
+  0% { transform: scale(.9); }
+  30% { transform: scale(1.1); }
+  60% { transform: scale(1); }
+  100% { transform: scale(.9); }
+}
