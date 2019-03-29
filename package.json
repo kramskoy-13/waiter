@@ -1,7 +1,6 @@
 {
   "name": "waiter",
   "version": "1.0.0",
-  "description": "",
   "main": "gulpfile.js",
   "dependencies": {},
   "devDependencies": {
@@ -21,5 +20,6 @@
   "bugs": {
     "url": "https://github.com/kramskoy-13/waiter/issues"
   },
-  "homepage": "https://github.com/kramskoy-13/waiter#readme"
+  "homepage": "https://github.com/kramskoy-13/waiter#readme",
+  "description": ""
 }

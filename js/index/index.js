@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function() {
             this.width += Math.floor(Math.random() * (10 - 1)) + 1;
             setTimeout(function() {
                 Index.showProgress(Index.width);
-              }, Math.floor(Math.random() * (500 - 50)) + 50)
+            }, Math.floor(Math.random() * (100 - 50)) + 50)
         }
     };
 
@@ -53,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }, 1500);
 
     //////////////////////////////////////////////
-    ////// CHANGE SIGN IN to SIGN UP LOGIC //////
+    ////// CHANGE SIGN IN && SIGN UP LOGIC //////
     ////////////////////////////////////////////
 
     document.addEventListener('click', function (event) {
@@ -90,5 +90,20 @@ document.addEventListener("DOMContentLoaded", function() {
         event.preventDefault();
         controller.validateUserInfo(UserSignIn);
     })
+	//////////////////////////////////////////////
+    ///////// OPEND AND CLOSE ERROR TAB /////////
+    ////////////////////////////////////////////
+	
+	document.addEventListener('click', function(event){
+		if(!event.target.classList.contains('initial-login__notification')) {
+			let elem = document.querySelectorAll('.initial-login__notification');
+			if(elem.length > 0) { elem.forEach(function(elem) {
+					elem.classList.remove('opened')
+				})
+			}
+			return
+		};
+		event.target.classList.toggle('opened');
+	})
 });
 

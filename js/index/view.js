@@ -4,6 +4,7 @@ function View() {
        errors.forEach( elem => {
             let notification = document.createElement('div');
                 notification.innerText = elem.message;
+			window[elem.id].nextElementSibling.classList.add('error');	
             window[elem.id].nextElementSibling.appendChild(notification)
         });
 
@@ -46,11 +47,6 @@ function View() {
 					<h1 class="initial-login__logo">Waiter</h1>
 					<form id="signUpForm" class="initial-login">
 						<div class="initial-login__container_inner">
-							<div class="initial-login__input-wrapper">
-								<label class="initial-login__label" for="name">Your Name</label>
-								<input type="text" name="name" id="name"/>
-								<div class="initial-login__notification" id="notify-name">!</div>
-							</div>
 							<div class="initial-login__input-wrapper">
 								<label class="initial-login__label" for="email">Your Email</label>
 								<input type="text" name="email" id="email"/>
