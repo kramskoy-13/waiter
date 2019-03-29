@@ -9,7 +9,10 @@
     };
 
     this.validateUserInfo = (obj) => {
-        model.validateUserInfo(obj);
+       let formErrors = model.validateUserInfo(obj);
+       if(formErrors.length > 0) {
+           view.showFormErrors(formErrors)
+       }
     };
 
 }

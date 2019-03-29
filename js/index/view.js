@@ -1,5 +1,14 @@
 function View() {
 
+    this.showFormErrors = (errors) => {
+       errors.forEach( elem => {
+            let notification = document.createElement('div');
+                notification.innerText = elem.message;
+            window[elem.id].nextElementSibling.appendChild(notification)
+        });
+
+    };
+
     this.getSingInHTML = (element) => {
         element.innerHTML = `
            <div class="login__wrapper" id="singInWrapper">

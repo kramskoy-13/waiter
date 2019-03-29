@@ -1,5 +1,4 @@
 
-
 const model      = new Model();
 
 const view       = new View();
@@ -78,10 +77,14 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     const UserSignIn = {
-        name         : '',
         email        : '',
         password     : ''
     };
+
+    document.addEventListener('input', function(event) {
+        if(event.target.tagName.toUpperCase() !== 'INPUT' || !event.target.id) return;
+        UserSignIn[event.target.id] = event.target.value;
+    });
 
     document.addEventListener('submit', function(event) {
         event.preventDefault();
