@@ -29,9 +29,7 @@ function Model () {
                     }
                 }
             }
-
             return this.errorArray;
-
         },
 
     };
@@ -48,7 +46,7 @@ function Model () {
     };
     _validator.types.email = {
         checker: function(value) {
-            let emailRegexp = /[\w\d.$]+@(gmail|mail|email)+.(com|ua|ru)$/;
+            let emailRegexp = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
             return !value.match(emailRegexp);
         },
         message: 'Email address is invalid.'

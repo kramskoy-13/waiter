@@ -2,6 +2,7 @@
 @import './partials/_initial.scss';
 @import './partials/_login.scss';
 @import './partials/_progressBar.scss';
+@import './partials/_shadowLoading.scss';
 html {
   height: 100%;
 }
@@ -29,6 +30,7 @@ body {
   background: $wrapperBackgroundColor;
   max-width: 500px;
   margin: 24px auto;
+  position: relative;
 }
 .color-main {
   color: $primaryColor;
@@ -43,4 +45,12 @@ body {
   30% { transform: scale(1.1); }
   60% { transform: scale(1); }
   100% { transform: scale(.9); }
+}
+@keyframes rotate-to-zero {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

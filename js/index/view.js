@@ -1,18 +1,39 @@
 function View() {
 
+    const wrapper         = document.querySelector('#wrapper');
+
+    const shadowContainer = document.createElement('div');
+          shadowContainer.className = 'shadow-container__wrapper';
+          shadowContainer.innerHTML = `
+                    <h1 class="shadow-container__logo initial-login__logo">Waiter</h1>
+                    <div class="shadow-container__loading">
+                        <div class="shadow-container__dots">
+                            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                        </div>
+                    </div>  
+    `;
+
     this.showFormErrors = (errors) => {
        errors.forEach( elem => {
             let notification = document.createElement('div');
                 notification.innerText = elem.message;
-			window[elem.id].nextElementSibling.classList.add('error');	
-            window[elem.id].nextElementSibling.appendChild(notification)
+			window[elem.id].nextElementSibling.classList.add('error');
+            window[elem.id].nextElementSibling.appendChild(notification);
         });
 
     };
 
-    this.getSingInHTML = (element) => {
-        element.innerHTML = `
-           <div class="login__wrapper" id="singInWrapper">
+    this.setLoading = () => {
+        wrapper.appendChild(shadowContainer);
+    };
+
+    this.removeLoading = () => {
+        wrapper.removeChild(shadowContainer);
+    };
+
+    this.getLoginHTML = (text) => {
+        wrapper.innerHTML = `
+           <div class="login__wrapper">
 			<div class="initial-login__wrapper">
 				<div class="initial-login__container">
 					<h1 class="initial-login__logo">Waiter</h1>
@@ -29,43 +50,15 @@ function View() {
 								<div class="initial-login__notification" id="notify-password">!</div>
 							</div>
 							<div class="initial-login__submit">
-								<input type="submit" class="btn btn-submit" value="Sing In"/>
+								<input type="submit" class="btn btn-submit" value="LogIn"/>
 							</div>
 						</div>
 					</form>
 				</div>
-				<div class="initial-login__change-option">New to <span class="color-main">Waiter</span>? <div id="signUpLink" class="sing-up-link">Sign Up.</div></div>
+				<div class="initial-login__change-option">${text}</div></div>
 			</div>
 		</div>
         `;
     };
-    this.getSingUpHTML = (element) => {
-        element.innerHTML = `
-          <div class="login__wrapper" id="signUpWrapper">
-			<div class="initial-login__wrapper">
-				<div class="initial-login__container">
-					<h1 class="initial-login__logo">Waiter</h1>
-					<form id="signUpForm" class="initial-login">
-						<div class="initial-login__container_inner">
-							<div class="initial-login__input-wrapper">
-								<label class="initial-login__label" for="email">Your Email</label>
-								<input type="text" name="email" id="email"/>
-								<div class="initial-login__notification" id="notify-email">!</div>
-							</div>
-							<div class="initial-login__input-wrapper">
-								<label class="initial-login__label" for="password">Your Password</label>
-								<input type="password" name="password" id="password"/>
-								<div class="initial-login__notification" id="notify-password">!</div>
-							</div>
-							<div class="initial-login__submit">
-								<input type="submit" class="btn btn-submit" value="Sing Up"/>
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="initial-login__change-option">Have Already <span class="color-main">Waiter</span> Account? <div id="signInLink" class="sing-up-link">Sign In.</div></div>
-			</div>
-		</div>
-        `
-    };
+
 }
