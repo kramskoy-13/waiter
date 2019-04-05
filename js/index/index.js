@@ -115,6 +115,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			return
 		};
 		event.target.classList.toggle('opened');
-	})
+	});
+
 });
 

@@ -21,7 +21,8 @@
        //IMITATE SERVER RESPONSE DELAY
         setTimeout(function(){
             view.removeLoading();
-        }, 49000)
+			view.selectPlace();//HERE THE RECEIVED FROM A SERVER OBJECT SHOULD BE USED
+        }, 500)
     };
 
 }

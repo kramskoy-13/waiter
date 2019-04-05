@@ -5,7 +5,7 @@ function View() {
     const shadowContainer = document.createElement('div');
           shadowContainer.className = 'shadow-container__wrapper';
           shadowContainer.innerHTML = `
-                    <h1 class="shadow-container__logo initial-login__logo">Waiter</h1>
+                    <h1 class="shadow-container__logo initial-login__logo logo-margin">Waiter</h1>
                     <div class="shadow-container__loading">
                         <div class="shadow-container__dots">
                             <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
@@ -30,7 +30,49 @@ function View() {
     this.removeLoading = () => {
         wrapper.removeChild(shadowContainer);
     };
+	
+	this.selectPlace = () => {
+			
+		wrapper.innerHTML = `
+			<h1 class="initial-login__logo">Waiter</h1>
+			<div class="select-place__wrapper">
+				<div class="select-place__container">
+                    <div class="select-place__container_select">	
+						<span>We have found several places near you. Please, select one in which you want to be served.</span>
+                        <ul class="select-place__container_list"></ul> 
+                    </div>
+					<button class="select-place__container_button button">Select</button>
+                </div>
+			</div>
+		`;
+		
+		setTimeout(function(){
+			let arr       = ['MC', 'KFC', 'Caffee'], //THE REAL ARRAY SHOULD COME FROM A SERVER
+				arrLength = arr.length,
+				fragment  = document.createDocumentFragment(),
+				ul 		  = document.querySelector('.select-place__container_list'),
+				li,
+				i;
+			
+			for(i = 0; i < arrLength; i++) {
+				li = document.createElement('li');
+				li.innerHTML = arr[i];
+				fragment.appendChild(li);
+			}
+			ul.appendChild(fragment);
+			
+			function showList() {
+				debugger
+				let ul = document.querySelector('.select-place__container');
+					ul.classList.add('opened');
+					document.removeEventListener('click', showList)
+			}
+			
+			document.addEventListener('click', showList) 
 
+		},0);
+	};
+	
     this.getLoginHTML = (text) => {
         wrapper.innerHTML = `
            <div class="login__wrapper">
