@@ -51,6 +51,12 @@
     background: white;
     padding: 10px 15px;
     border: 1px solid $frameBackgroundColor;
+    transition: .35s;
+
+    &.scale-down {
+      transform: scale(.75);
+    }
+
   }
 
   &__logo {
@@ -66,7 +72,6 @@
     top: 46%;
     font-size: 24px;
     font-weight: 900;
-    background: $wrapperBackgroundColor;
     display: flex;
     justify-content: center;
     align-items: center;

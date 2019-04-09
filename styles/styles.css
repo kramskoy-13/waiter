@@ -50,7 +50,6 @@
   top: 46%;
   font-size: 24px;
   font-weight: 900;
-  background: #f9f9f9;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -249,35 +248,35 @@
 .select-place__wrapper {
   width: 100%;
   font-family: "Quicksand", cursive, sans-serif; }
-  .select-place__wrapper span {
-    display: block;
-    text-align: center; }
+  .select-place__wrapper p {
+    text-align: center;
+    border: 1px solid #eeeeee;
+    padding: 15px 15px 0;
+    line-height: 25px;
+    background: white; }
+    .select-place__wrapper p > span {
+      display: block;
+      padding: 5px 15px; }
 
 .select-place__container {
   width: 75%;
   margin: 0 auto; }
   .select-place__container_list {
+    background: white;
     max-height: 0;
     transform: scale(0);
     transition: .3s; }
+    .select-place__container_list > li {
+      padding: 10px 15px;
+      position: relative; }
+      .select-place__container_list > li.selected {
+        background: #eeeeee; }
   .select-place__container_button {
+    transform: scale(0);
     width: 100%;
-    overflow: hidden;
-    background: transparent;
     border: 1px solid #ff4d4d;
     position: relative;
     transition-delay: .25s; }
-    .select-place__container_button:after {
-      content: '';
-      display: block;
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 0;
-      height: 0;
-      background: transparent;
-      transition: .75s;
-      transition-delay: .5s; }
   .select-place__container.opened .select-place__container_list {
     transform: scale(1);
     max-height: 200px;
@@ -285,13 +284,10 @@
     border: 0.5px solid #eeeeee;
     border-radius: 8px; }
   .select-place__container.opened .select-place__container_button {
+    transform: scale(1);
     animation: .5s bounce-up-down; }
-    .select-place__container.opened .select-place__container_button:after {
-      width: 1px;
-      height: 1px;
-      transform: scale(1000);
-      background: #ff4d4d;
-      z-index: -5; }
+  .select-place__container.opened p {
+    display: none; }
 
 .select-place__logo {
   width: 100%;

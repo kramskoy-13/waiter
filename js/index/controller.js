@@ -4,25 +4,18 @@
         view.getLoginHTML(text);
     };
 
-    this.getSingInHTML = (element) => {
-        view.getSingInHTML(element)
-    };
-
-    this.getSingUpHTML = (element) => {
-        view.getSingUpHTML(element)
-    };
-
     this.validateUserInfo = (obj) => {
        let formInfo = model.validateUserInfo(obj);
-       if(formInfo.length > 0 ) {
-           return view.showFormErrors(formInfo);
-       }
+       if(formInfo.length > 0 ) { return view.showFormErrors(formInfo) }
+
        view.setLoading();
+
+       view.removeDocumentEvListener('click', 'toggleErrorTab');
        //IMITATE SERVER RESPONSE DELAY
         setTimeout(function(){
             view.removeLoading();
 			view.selectPlace();//HERE THE RECEIVED FROM A SERVER OBJECT SHOULD BE USED
-        }, 500)
+        }, 1500)
     };
 
 }
