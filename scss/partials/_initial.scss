@@ -50,7 +50,8 @@
   &__container {
     background: white;
     padding: 10px 15px;
-    border: 1px solid $frameBackgroundColor;
+    //border: 1px solid $frameBackgroundColor;
+    box-shadow: $shadow;
     transition: .35s;
 
     &.scale-down {

@@ -36,7 +36,10 @@
 .initial-login__container {
   background: white;
   padding: 10px 15px;
-  border: 1px solid #eeeeee; }
+  border: 1px solid #eeeeee;
+  transition: .35s; }
+  .initial-login__container.scale-down {
+    transform: scale(0.75); }
 
 .initial-login__logo {
   font-family: "Dancing Script", cursive, sans-serif;

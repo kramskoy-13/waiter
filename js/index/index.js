@@ -1,21 +1,15 @@
 //TODO: SERVER SHOULD HANDLE SIGN IN AND SIGN UP ROUTES TO INDEX.HTML PAGE
-const model      = new Model();
+const model      = new Model(),
+      view       = new View(),
+      controller = new Controller(),
 
-const view       = new View();
-
-const controller = new Controller();
-
-document.addEventListener("DOMContentLoaded", function() {
-
-    const index = {
-
-        progressBar   : document.getElementById('progressBar'),
-        percentage    : document.getElementById('progress-bar__percentage'),
-        wrapper       : document.getElementById('wrapper'),
-        textContainer : document.getElementById('textContainer'),
-        width         : 7.5
-
-    };
+      index = {
+          progressBar  : document.getElementById('progressBar'),
+          percentage   : document.getElementById('progress-bar__percentage'),
+          wrapper      : document.getElementById('wrapper'),
+          textContainer: document.getElementById('textContainer'),
+          width        : 7.5
+      };
 
     setTimeout(function() {
         index.textContainer.parentNode.classList.remove('initial');
@@ -66,27 +60,42 @@ document.addEventListener("DOMContentLoaded", function() {
     //////////////////////////////////////////////
     ////// CHANGE SIGN IN && SIGN UP LOGIC //////
     ////////////////////////////////////////////
-    window.addEventListener('popstate', function(event) {
-        controller.getLoginHTML(event.state);
-    });
+    // window.addEventListener('popstate', function(event) {
+    //     controller.getLoginHTML(event.state);
+    // });
 
-    document.addEventListener('click', function (event) {
+    document.addEventListener('click', toggleLoginMarkup);
+
+    function toggleLoginMarkup(event){
+        console.log('clikced toggleLoginMarkup')
         if(!event.target.id) return;
         if(event.target.id !== 'signUp' && event.target.id !== 'signIn') return;
         // event.target.parentNode.classList.add('bounce-animate');
-
         event.target.parentElement.previousElementSibling.classList.add('scale-down');
-
-        history.pushState(loginHTML[event.target.id], '', event.target.id);
-
+        // history.pushState(loginHTML[event.target.id], '', event.target.id);
         setTimeout(function () {
             controller.getLoginHTML(loginHTML[event.target.id]);
         }, 500);
-    });
+    }
+
+    document.addEventListener('click', toggleErrorTab);
+
+    function toggleErrorTab(event) {
+        console.log('clikced toggleErrorTab')
+        if(!event.target.classList.contains('initial-login__notification')) {
+            let elem = document.querySelectorAll('.initial-login__notification');
+            if(elem.length > 0) { elem.forEach(function(elem) {
+                elem.classList.remove('opened');
+            })
+            }
+            return
+        }
+        event.target.classList.toggle('opened');
+    }
 
     const userSignIn = {
-        email        : '',
-        password     : ''
+        email    : '',
+        password : ''
     };
 
     document.addEventListener('input', function(event) {
@@ -108,5 +117,5 @@ document.addEventListener("DOMContentLoaded", function() {
         controller.validateUserInfo(userSignIn);
     });
 
-});
+
 

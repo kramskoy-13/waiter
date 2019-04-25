@@ -52,7 +52,7 @@
 				transform: scale(1);
 				max-height: 200px;
 				overflow: auto;
-				border: .5px solid $frameBackgroundColor;
+				box-shadow: $shadow;
 				border-radius: 8px;
 			}
 			

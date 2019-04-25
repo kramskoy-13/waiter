@@ -1,8 +1,8 @@
 function View() {
 
-    const wrapper         = document.querySelector('#wrapper');
+    const wrapper         = document.querySelector('#wrapper'),
+          shadowContainer = document.createElement('div');
 
-    const shadowContainer = document.createElement('div');
           shadowContainer.className = 'shadow-container__wrapper';
           shadowContainer.innerHTML = `
                     <h1 class="shadow-container__logo initial-login__logo logo-margin">Waiter</h1>
@@ -13,35 +13,25 @@ function View() {
                     </div>  
     `;
 
-    this.removeDocumentEvListener = (listener, func) => {
-        document.removeEventListener(listener, this[func]);
+    this.removeDocumentEvListener = (listener, functions) => {
+        functions.forEach( func => {
+            if(typeof window[func] === 'function') {
+                document.removeEventListener(listener, window[func]);
+            }
+        });
     };
     //////////////////////////////////////////////
     ///////// OPEN AND CLOSE ERROR TAB //////////
     ////////////////////////////////////////////
     this.showFormErrors = (errors) => {
-
-       document.addEventListener('click', this.toggleErrorTab);
-
-       errors.forEach( elem => {
-            let notification = document.createElement('div');
-                notification.innerText = elem.message;
-			window[elem.id].nextElementSibling.classList.add('error');
-            window[elem.id].nextElementSibling.appendChild(notification);
+        errors.forEach(elem => {
+            let notification = document.createElement('div'),
+                parent       = window[elem.id].nextElementSibling;
+            notification.innerText = elem.message;
+            parent.classList.add('error');
+            parent.classList.add('opened');
+            parent.appendChild(notification);
         });
-
-    };
-
-    this.toggleErrorTab = (event) => {
-        if(!event.target.classList.contains('initial-login__notification')) {
-            let elem = document.querySelectorAll('.initial-login__notification');
-            if(elem.length > 0) { elem.forEach(function(elem) {
-                elem.classList.remove('opened');
-            })
-            }
-            return
-        }
-        event.target.classList.toggle('opened');
     };
 
     this.setLoading = () => {

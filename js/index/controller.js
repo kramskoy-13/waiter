@@ -10,7 +10,7 @@
 
        view.setLoading();
 
-       view.removeDocumentEvListener('click', 'toggleErrorTab');
+       view.removeDocumentEvListener('click', ['toggleErrorTab', 'toggleLoginMarkup']);
        //IMITATE SERVER RESPONSE DELAY
         setTimeout(function(){
             view.removeLoading();
