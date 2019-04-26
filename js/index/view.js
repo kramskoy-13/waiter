@@ -1,5 +1,5 @@
-function View() {
-
+function View(loginParamsObj, userInputObj, documentListeners) {
+	
     const wrapper         = document.querySelector('#wrapper'),
           shadowContainer = document.createElement('div');
 
@@ -26,11 +26,11 @@ function View() {
     this.showFormErrors = (errors) => {
         errors.forEach(elem => {
             let notification = document.createElement('div'),
-                parent       = window[elem.id].nextElementSibling;
+                parentEl       = window[elem.id].nextElementSibling;
             notification.innerText = elem.message;
-            parent.classList.add('error');
-            parent.classList.add('opened');
-            parent.appendChild(notification);
+            parentEl.classList.add('error');
+            parentEl.classList.add('opened');
+            parentEl.appendChild(notification);
         });
     };
 
@@ -43,30 +43,36 @@ function View() {
     };
 	
 	this.selectPlace = () => {
-			
+		
+		userInputObj.email    = '';
+		userInputObj.password = '';
+		
 		wrapper.innerHTML = `
 			<h1 class="initial-login__logo">Waiter</h1>
 			<div class="select-place__wrapper">
 				<div class="select-place__container">
                     <div class="select-place__container_select">
-                    	<p>We have found several places near you. Please, select one in which you want to be served.
+                    	<p>We have found several places near you. Please, choose one in which you want to be served.
                     		<span class="button">Ok</span>
-                    	</p>	
+                    	</p>
+						<h4 class="h4">Please, choose a place in which you want to be served.</h4>	
                         <ul class="select-place__container_list"></ul> 
                     </div>
+					<button class="select-place__container_button button" id="back">Back</button>
 					<button class="select-place__container_button button">Select</button>
                 </div>
 			</div>
 		`;
 		
-		setTimeout(function(){
+		setTimeout(() => {
 			let arr       = ['MC', 'KFC', 'Cafe', 'Place to Eat', 'Restaurant', 'Burger Shop', 'Beer Pab'], //THE REAL ARRAY SHOULD COME FROM A SERVER
 				arrLength = arr.length,
 				fragment  = document.createDocumentFragment(),
 				ul 		  = document.querySelector('.select-place__container_list'),
 				li,
 				i = 0,
-                liList;
+                liList,
+				self = this;
 			
 			for(; i < arrLength; i++) {
 				li = document.createElement('li');
@@ -86,19 +92,31 @@ function View() {
 			function showList() {
 				let ul = document.querySelector('.select-place__container');
 					ul.classList.add('opened');
-					document.removeEventListener('click', showList)
+					document.removeEventListener('click', showList);
 			}
-			
-			document.addEventListener('click', showList)
+			function showBackToLogin(event) {
+				if(!event.target.id || event.target.id !== 'back') return;
+				
+				document.removeEventListener('click', showBackToLogin);
+				
+				document.addEventListener('click', documentListeners.loginChecker);
+				document.addEventListener('click', documentListeners.loginToggler);
+				document.addEventListener('submit', documentListeners.loginSubmitter);
+				
+				self.getLoginHTML(loginParamsObj.signUp)
+			}
+			document.addEventListener('click', showList);
+			document.addEventListener('click', showBackToLogin);
 		},0);
 	};
 
-    this.getLoginHTML = (text) => {
+    this.getLoginHTML = (params) => {
         wrapper.innerHTML = `
            <div class="login__wrapper">
 			<div class="initial-login__wrapper">
 				<div class="initial-login__container scale-down">
 					<h1 class="initial-login__logo">Waiter</h1>
+					<h4 class="h4">${params.txt_h4}</h4>
 					<form id="signInForm" class="initial-login">
 						<div class="initial-login__container_inner">
 							<div class="initial-login__input-wrapper">
@@ -117,7 +135,7 @@ function View() {
 						</div>
 					</form>
 				</div>
-				<div class="initial-login__change-option">${text}</div></div>
+				<div class="initial-login__change-option">${params.txt_btn}</div></div>
 			</div>
 		</div>
         `;

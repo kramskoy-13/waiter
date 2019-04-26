@@ -1,7 +1,7 @@
   function Controller() {
 
-    this.getLoginHTML = (text) => {
-        view.getLoginHTML(text);
+    this.getLoginHTML = (params) => {
+        view.getLoginHTML(params);
     };
 
     this.validateUserInfo = (obj) => {

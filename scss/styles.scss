@@ -37,7 +37,7 @@ body {
   width: 100%;
   min-height: 100%;
   background: $wrapperBackgroundColor;
-  max-width: 500px;
+  max-width: 410px;
   margin: 24px auto;
   position: relative;
 }
@@ -58,6 +58,38 @@ body {
     color: white;
     text-transform: uppercase;
     margin-bottom: 20px;
+}
+.h4 {
+	width: 60%;
+	margin-top: 0;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	margin-top: 0;
+	color: $headersColorMain;
+	position: relative;
+		&:after {
+			content: '';
+			display: block;
+			height: 3px;
+			width: 25%;
+			position: absolute;
+			left:105%;
+			top: calc(50% - 1.5px);
+			background: $leftAndRightBorder;
+			border-radius: 10px;
+		}
+		&:before {
+			content: '';
+			display: block;
+			height: 3px;
+			width: 25%;
+			position: absolute;
+			right:105%;
+			top: calc(50% - 1.5px);
+			background: $leftAndRightBorder;
+			border-radius: 10px;
+		}
 }
 @keyframes bounce-up-down {
   0%   { transform: translateY(0); }

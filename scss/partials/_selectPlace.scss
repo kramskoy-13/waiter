@@ -15,6 +15,7 @@
 				padding: 5px 15px;
 			}
 		}
+		
 	}
 	
 	&__container {
@@ -37,13 +38,19 @@
 			}
 		}
 		
+		h4 {
+			max-height: 0;
+			transform: scale(0);
+			transition: .3s;
+		}
+		
 		&_button {
 			transform: scale(0);
-			width: 100%;
+			width: 44%;
 			border: 1px solid $primaryColor;
 			position: relative;
 			transition-delay: .25s;
-
+			margin: 25px 2.5%;
 		}
 		
 		&.opened {
@@ -52,7 +59,8 @@
 				transform: scale(1);
 				max-height: 200px;
 				overflow: auto;
-				box-shadow: $shadow;
+				//box-shadow: $shadow;
+				border: 1px solid $frameBackgroundColor;
 				border-radius: 8px;
 			}
 			
@@ -63,7 +71,11 @@
 
 			p {
 				display: none;
-
+			}
+			
+			h4 {
+				max-height: 1000px;
+				transform: scale(1);
 			}
 		}
 	}

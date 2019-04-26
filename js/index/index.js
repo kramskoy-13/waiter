@@ -1,15 +1,31 @@
 //TODO: SERVER SHOULD HANDLE SIGN IN AND SIGN UP ROUTES TO INDEX.HTML PAGE
-const model      = new Model(),
-      view       = new View(),
-      controller = new Controller(),
+const loginHTML = {
+		signUp : {
+			txt_btn: 'Have Already <span class="color-main">Waiter</span> Account? <div id="signIn" class="sing-up-link">Sign In.',
+			txt_h4: 'Welcome to Waiter! Please, sign up in order to be served.'
+			},
+		signIn : {
+			txt_btn: 'New to <span class="color-main">Waiter</span>? <div id="signUp" class="sing-up-link">Sign Up.',
+			txt_h4: 'Nice to meet you again! Please, sign in to be served.'
+		} 
+	},
 
-      index = {
-          progressBar  : document.getElementById('progressBar'),
-          percentage   : document.getElementById('progress-bar__percentage'),
-          wrapper      : document.getElementById('wrapper'),
-          textContainer: document.getElementById('textContainer'),
-          width        : 7.5
-      };
+	userSignIn = {
+        email    : '',
+        password : ''
+    },
+
+	model      = new Model(),
+    view       = new View(loginHTML, userSignIn, { loginChecker : toggleErrorTab, loginToggler : toggleLoginMarkup, loginSubmitter : submitLogin }),
+    controller = new Controller(),
+
+    index = {
+        progressBar  : document.getElementById('progressBar'),
+        percentage   : document.getElementById('progress-bar__percentage'),
+        wrapper      : document.getElementById('wrapper'),
+        textContainer: document.getElementById('textContainer'),
+        width        : 7.5
+    };
 
     setTimeout(function() {
         index.textContainer.parentNode.classList.remove('initial');
@@ -22,11 +38,6 @@ const model      = new Model(),
     //////////////////////////////////////////////
     //// SHOW PROGRESS BAR AT THE BEGINNING /////
     ////////////////////////////////////////////
-
-    const loginHTML = {
-        signUp : 'Have Already <span class="color-main">Waiter</span> Account? <div id="signIn" class="sing-up-link">Sign In.',
-        signIn : 'New to <span class="color-main">Waiter</span>? <div id="signUp" class="sing-up-link">Sign Up.'
-    };
 
     /// LOADING BAR START /////
     index.showProgress = function(width) {
@@ -93,29 +104,21 @@ const model      = new Model(),
         event.target.classList.toggle('opened');
     }
 
-    const userSignIn = {
-        email    : '',
-        password : ''
-    };
-
     document.addEventListener('input', function(event) {
         if(event.target.tagName.toUpperCase() !== 'INPUT' || !event.target.id) return;
         userSignIn[event.target.id] = event.target.value;
     });
+	
+    document.addEventListener('submit', submitLogin);
 
-    document.addEventListener('submit', function(event) {
-
-        event.preventDefault();
-
-        for(let key in userSignIn) {
+	function submitLogin(event) {
+		event.preventDefault();
+		for(let key in userSignIn) {
             if(userSignIn.hasOwnProperty(key)) {
                 window[key].nextElementSibling.classList.remove('error');
                 window[key].nextElementSibling.innerHTML = '!';
             }
         }
-
         controller.validateUserInfo(userSignIn);
-    });
-
-
+	}
 

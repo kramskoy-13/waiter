@@ -117,7 +117,7 @@
     font-size: 16px;
     font-family: "Quicksand", sans-serif; }
     .initial-login__input-wrapper input:focus {
-      border: 1px solid #eeeeee; }
+      border: 1px solid lightgray; }
 
 .initial-login__change-option {
   margin-top: 15px;
@@ -274,23 +274,31 @@
       position: relative; }
       .select-place__container_list > li.selected {
         background: #eeeeee; }
+  .select-place__container h4 {
+    max-height: 0;
+    transform: scale(0);
+    transition: .3s; }
   .select-place__container_button {
     transform: scale(0);
-    width: 100%;
+    width: 44%;
     border: 1px solid #ff4d4d;
     position: relative;
-    transition-delay: .25s; }
+    transition-delay: .25s;
+    margin: 25px 2.5%; }
   .select-place__container.opened .select-place__container_list {
     transform: scale(1);
     max-height: 200px;
     overflow: auto;
-    border: 0.5px solid #eeeeee;
+    border: 1px solid #eeeeee;
     border-radius: 8px; }
   .select-place__container.opened .select-place__container_button {
     transform: scale(1);
     animation: .5s bounce-up-down; }
   .select-place__container.opened p {
     display: none; }
+  .select-place__container.opened h4 {
+    max-height: 1000px;
+    transform: scale(1); }
 
 .select-place__logo {
   width: 100%;
@@ -326,7 +334,7 @@ body {
   width: 100%;
   min-height: 100%;
   background: #f9f9f9;
-  max-width: 500px;
+  max-width: 410px;
   margin: 24px auto;
   position: relative; }
 
@@ -347,6 +355,36 @@ body {
   color: white;
   text-transform: uppercase;
   margin-bottom: 20px; }
+
+.h4 {
+  width: 60%;
+  margin-top: 0;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  margin-top: 0;
+  color: #979797;
+  position: relative; }
+  .h4:after {
+    content: '';
+    display: block;
+    height: 3px;
+    width: 25%;
+    position: absolute;
+    left: 105%;
+    top: calc(50% - 1.5px);
+    background: lightgray;
+    border-radius: 10px; }
+  .h4:before {
+    content: '';
+    display: block;
+    height: 3px;
+    width: 25%;
+    position: absolute;
+    right: 105%;
+    top: calc(50% - 1.5px);
+    background: lightgray;
+    border-radius: 10px; }
 
 @keyframes bounce-up-down {
   0% {
