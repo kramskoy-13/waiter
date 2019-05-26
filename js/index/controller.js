@@ -20,5 +20,5 @@
 
 }
 
-
+module.exports = new Controller();
 

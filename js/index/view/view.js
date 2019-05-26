@@ -1,3 +1,5 @@
+const LogIn = require('./logInHTML');
+
 function View(loginParamsObj, userInputObj, documentListeners) {
 	
     const wrapper         = document.querySelector('#wrapper'),
@@ -11,7 +13,18 @@ function View(loginParamsObj, userInputObj, documentListeners) {
                             <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
                         </div>
                     </div>  
-    `;
+	`;
+	
+	this.signInForm = new LogIn(
+		wrapper,
+		'Nice to meet you again! Please, sign in to be served.',
+		'New to <span class="color-main">Waiter</span>? <div id="signUp" class="sing-up-link">Sign Up.'
+	);
+	this.signUpForm = new LogIn(
+		wrapper,
+		'Welcome to Waiter! Please, sign up in order to be served.',
+		'Have Already <span class="color-main">Waiter</span> Account? <div id="signIn" class="sing-up-link">Sign In.'
+	);
 
     this.removeDocumentEvListener = (listener, functions) => {
         functions.forEach( func => {
@@ -110,39 +123,39 @@ function View(loginParamsObj, userInputObj, documentListeners) {
 		},0);
 	};
 
-    this.getLoginHTML = (params) => {
-        wrapper.innerHTML = `
-           <div class="login__wrapper">
-			<div class="initial-login__wrapper">
-				<div class="initial-login__container scale-down">
-					<h1 class="initial-login__logo">Waiter</h1>
-					<h4 class="h4">${params.txt_h4}</h4>
-					<form id="signInForm" class="initial-login">
-						<div class="initial-login__container_inner">
-							<div class="initial-login__input-wrapper">
-								<label class="initial-login__label" for="email">Your Login (email/username)</label>
-								<input type="text" name="email" id="email" autocomplete="current-password"/>
-								<div class="initial-login__notification" id="notify-email">!</div>
-							</div>
-							<div class="initial-login__input-wrapper">
-								<label class="initial-login__label" for="password">Your Password</label>
-								<input type="password" name="password" id="password" autocomplete="current-password"/>
-								<div class="initial-login__notification" id="notify-password">!</div>
-							</div>
-							<div class="initial-login__submit">
-								<input type="submit" class="btn btn-submit" value="LogIn"/>
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="initial-login__change-option">${params.txt_btn}</div></div>
-			</div>
-		</div>
-        `;
-        setTimeout(function(){
-            let container = document.querySelector('.initial-login__container');
-            container.classList.remove('scale-down');
-        },300);
-    };
+    // this.getLoginHTML = (params) => {
+    //     wrapper.innerHTML = `
+    //        <div class="login__wrapper">
+	// 		<div class="initial-login__wrapper">
+	// 			<div class="initial-login__container scale-down">
+	// 				<h1 class="initial-login__logo">Waiter</h1>
+	// 				<h4 class="h4">${params.txt_h4}</h4>
+	// 				<form id="signInForm" class="initial-login">
+	// 					<div class="initial-login__container_inner">
+	// 						<div class="initial-login__input-wrapper">
+	// 							<label class="initial-login__label" for="email">Your Login (email/username)</label>
+	// 							<input type="text" name="email" id="email" autocomplete="current-password"/>
+	// 							<div class="initial-login__notification" id="notify-email">!</div>
+	// 						</div>
+	// 						<div class="initial-login__input-wrapper">
+	// 							<label class="initial-login__label" for="password">Your Password</label>
+	// 							<input type="password" name="password" id="password" autocomplete="current-password"/>
+	// 							<div class="initial-login__notification" id="notify-password">!</div>
+	// 						</div>
+	// 						<div class="initial-login__submit">
+	// 							<input type="submit" class="btn btn-submit" value="LogIn"/>
+	// 						</div>
+	// 					</div>
+	// 				</form>
+	// 			</div>
+	// 			<div class="initial-login__change-option">${params.txt_btn}</div></div>
+	// 		</div>
+	// 	</div>
+    //     `;
+    //     setTimeout(function(){
+    //         let container = document.querySelector('.initial-login__container');
+    //         container.classList.remove('scale-down');
+    //     },300);
+    // };
 
 }

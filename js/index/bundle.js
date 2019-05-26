@@ -1,7 +1,34 @@
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+  function Controller() {
+
+    this.getLoginHTML = (params) => {
+        view.getLoginHTML(params);
+    };
+
+    this.validateUserInfo = (obj) => {
+       let formInfo = model.validateUserInfo(obj);
+       if(formInfo.length > 0 ) { return view.showFormErrors(formInfo) }
+
+       view.setLoading();
+
+       view.removeDocumentEvListener('click', ['toggleErrorTab', 'toggleLoginMarkup']);
+       //IMITATE SERVER RESPONSE DELAY
+        setTimeout(function(){
+            view.removeLoading();
+			view.selectPlace();//HERE THE RECEIVED FROM A SERVER OBJECT SHOULD BE USED
+        }, 1500)
+    };
+
+}
+
+module.exports = new Controller();
+
+
+},{}],2:[function(require,module,exports){
 //TODO: SERVER SHOULD HANDLE SIGN IN AND SIGN UP ROUTES TO INDEX.HTML PAGE
-const WTR          = {};
-    WTR.loginData  = require('./loginData');
-    WTR.controller = require('./controller');
+const WTR        = {},
+      loginData  = require('./loginData'),
+      controller = require('./controller');
 
 // WTR.loginData = {};
 
@@ -129,3 +156,25 @@ WTR.index = {
         controller.validateUserInfo(userSignIn);
 	}
 
+
+},{"./controller":1,"./loginData":3}],3:[function(require,module,exports){
+const loginData = {};
+
+loginData.loginHTML = {
+	signUp : {
+		txt_btn: 'Have Already <span class="color-main">Waiter</span> Account? <div id="signIn" class="sing-up-link">Sign In.',
+		txt_h4: 'Welcome to Waiter! Please, sign up in order to be served.'
+	},
+	signIn : {
+		txt_btn: 'New to <span class="color-main">Waiter</span>? <div id="signUp" class="sing-up-link">Sign Up.',
+		txt_h4: 'Nice to meet you again! Please, sign in to be served.'
+	} 
+};
+
+loginData.userSignIn = {
+    email    : '',
+    password : ''
+};
+
+module.exports = loginData;
+},{}]},{},[2]);
