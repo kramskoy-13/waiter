@@ -1,7 +1,4 @@
 //TODO: SERVER SHOULD HANDLE SIGN IN AND SIGN UP ROUTES TO INDEX.HTML PAGE
-const WTR          = {};
-    WTR.loginData  = require('./loginData');
-    WTR.controller = require('./controller');
 
 // WTR.loginData = {};
 
@@ -20,20 +17,28 @@ const WTR          = {};
 //     password : ''
 // };
 
-
+//   WTR.loginData  = require('./loginData');
 // WTR.globals.model      = new Model();
 // WTR.globals.view       = new View();
 // WTR.globals.view       = new View(loginHTML, userSignIn, { loginChecker : toggleErrorTab, loginToggler : toggleLoginMarkup, loginSubmitter : submitLogin });
 // WTR.globals.controller = new Controller();
+import { Controller } from './controller/Controller.js';
 
-WTR.index = {
+const WTR            = {};
+    //   WTR.controller = require('./controller/Controller');
+      WTR.controller = Controller;
+      WTR.index      = {
         progressBar  : document.getElementById('progressBar'),
         percentage   : document.getElementById('progress-bar__percentage'),
         wrapper      : document.getElementById('wrapper'),
         textContainer: document.getElementById('textContainer'),
         width        : 7.5
-    };
-
+      };
+    //   WTR.loginData = {};
+    //   WTR.loginData.userSignIn = {
+    //     email    : '',
+    //     password : ''
+    //   };
     setTimeout( () => {
         WTR.index.textContainer.parentNode.classList.remove('initial');
     }, 250);
@@ -45,21 +50,17 @@ WTR.index = {
     //////////////////////////////////////////////
     //// SHOW PROGRESS BAR AT THE BEGINNING /////
     ////////////////////////////////////////////
-
-    /// LOADING BAR START /////
     WTR.index.showProgress = function(width) {
         if(this.width >= 100) {
-
             this.progressBar.style.width = '100%';
             this.percentage.innerText    = '100';
             this.textContainer.parentNode.classList.add('completed');
 
             setTimeout( () => {
-                controller.getLoginHTML(loginData.loginHTML.signUp);
+                WTR.Controller.getSignInHTML();
             }, 1000)
         }
         else {
-
             this.progressBar.style.width = this.width + '%';
             this.percentage.innerText    = this.width;
             this.width += Math.floor(Math.random() * (10 - 1)) + 1;
@@ -73,7 +74,9 @@ WTR.index = {
     setTimeout(function() {
         return WTR.index.showProgress(WTR.index.width);
     }, 1500);
+    /////////////////////////
     /// LOADING BAR END /////
+    ////////////////////////
 
     //////////////////////////////////////////////
     ////// CHANGE SIGN IN && SIGN UP LOGIC //////
@@ -82,50 +85,50 @@ WTR.index = {
     //     controller.getLoginHTML(event.state);
     // });
 
-    document.addEventListener('click', toggleLoginMarkup);
+    // document.addEventListener('click', toggleLoginMarkup);
 
-    function toggleLoginMarkup(event){
-        console.log('clikced toggleLoginMarkup')
-        if(!event.target.id) return;
-        if(event.target.id !== 'signUp' && event.target.id !== 'signIn') return;
-        // event.target.parentNode.classList.add('bounce-animate');
-        event.target.parentElement.previousElementSibling.classList.add('scale-down');
-        // history.pushState(loginHTML[event.target.id], '', event.target.id);
-        setTimeout(function () {
-            controller.getLoginHTML(loginHTML[event.target.id]);
-        }, 500);
-    }
+    // function toggleLoginMarkup(event){
+    //     console.log('clikced toggleLoginMarkup')
+    //     if(!event.target.id) return;
+    //     if(event.target.id !== 'signUp' && event.target.id !== 'signIn') return;
+    //     // event.target.parentNode.classList.add('bounce-animate');
+    //     event.target.parentElement.previousElementSibling.classList.add('scale-down');
+    //     // history.pushState(loginHTML[event.target.id], '', event.target.id);
+    //     setTimeout(function () {
+    //         controller.getLoginHTML(loginHTML[event.target.id]);
+    //     }, 500);
+    // }
 
-    document.addEventListener('click', toggleErrorTab);
+    // document.addEventListener('click', toggleErrorTab);
 
-    function toggleErrorTab(event) {
-        console.log('clikced toggleErrorTab')
-        if(!event.target.classList.contains('initial-login__notification')) {
-            let elem = document.querySelectorAll('.initial-login__notification');
-            if(elem.length > 0) { elem.forEach(function(elem) {
-                elem.classList.remove('opened');
-            })
-            }
-            return
-        }
-        event.target.classList.toggle('opened');
-    }
+    // function toggleErrorTab(event) {
+    //     console.log('clikced toggleErrorTab')
+    //     if(!event.target.classList.contains('initial-login__notification')) {
+    //         let elem = document.querySelectorAll('.initial-login__notification');
+    //         if(elem.length > 0) { elem.forEach(function(elem) {
+    //             elem.classList.remove('opened');
+    //         })
+    //         }
+    //         return
+    //     }
+    //     event.target.classList.toggle('opened');
+    // }
 
-    document.addEventListener('input', function(event) {
-        if(event.target.tagName.toUpperCase() !== 'INPUT' || !event.target.id) return;
-        userSignIn[event.target.id] = event.target.value;
-    });
+    // document.addEventListener('input', function(event) {
+    //     if(event.target.tagName.toUpperCase() !== 'INPUT' || !event.target.id) return;
+    //     userSignIn[event.target.id] = event.target.value;
+    // });
 	
-    document.addEventListener('submit', submitLogin);
+    // document.addEventListener('submit', submitLogin);
 
-	function submitLogin(event) {
-		event.preventDefault();
-		for(let key in userSignIn) {
-            if(userSignIn.hasOwnProperty(key)) {
-                window[key].nextElementSibling.classList.remove('error');
-                window[key].nextElementSibling.innerHTML = '!';
-            }
-        }
-        controller.validateUserInfo(userSignIn);
-	}
+	// function submitLogin(event) {
+	// 	event.preventDefault();
+	// 	for(let key in userSignIn) {
+    //         if(userSignIn.hasOwnProperty(key)) {
+    //             window[key].nextElementSibling.classList.remove('error');
+    //             window[key].nextElementSibling.innerHTML = '!';
+    //         }
+    //     }
+    //     controller.validateUserInfo(userSignIn);
+	// }
 

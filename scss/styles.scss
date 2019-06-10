@@ -24,7 +24,7 @@ body {
   margin: 0;
   //height: 100vh;
   height: 100%;
-  width: 100vw;
+  // width: 100vw;
 
 }
 .wrapper {
@@ -90,6 +90,10 @@ body {
 			background: $leftAndRightBorder;
 			border-radius: 10px;
 		}
+}
+.scale-down {
+  transform: scale(.75);
+  transition: .3s;
 }
 @keyframes bounce-up-down {
   0%   { transform: translateY(0); }

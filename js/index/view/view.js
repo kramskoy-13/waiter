@@ -1,32 +1,98 @@
-const LogIn = require('./logInHTML');
+////////////////////////////////
+// OUTER MODULES PART STARTS //
+//////////////////////////////
+// const Controller  = require('../controller/Controller'),
+const LoginTemplate = require('./templates/LoginTemplate');
+////////////////////////////////
+// OUTER MODULES PART ENDS ////
+//////////////////////////////
 
-function View(loginParamsObj, userInputObj, documentListeners) {
-	
-    const wrapper         = document.querySelector('#wrapper'),
-          shadowContainer = document.createElement('div');
+class View {	
+	constructor() {
+		this.wrapper         = document.getElementById('wrapper');
+		this.shadowContainer = document.createElement('div');
+		//////////////////////////
+		/// LOGIN PART STARTS ///
+		////////////////////////
+		this.loginSignInTemplate = new LoginTemplate(
+			this.wrapper,
+			'Nice to meet you again! Please, sign in to be served.',
+			'New to <span class="color-main">Waiter</span>? <div id="signUp" class="sing-up-link">Sign Up.'
+		);
+		this.loginSignInTemplate.initListener(".btn.btn-submit", "click", this.submitLoginForm.bind(this));
+		this.loginSignInTemplate.initListener("#signUp", "click", this.getSignUpTemplate.bind(this));
 
-          shadowContainer.className = 'shadow-container__wrapper';
-          shadowContainer.innerHTML = `
-                    <h1 class="shadow-container__logo initial-login__logo logo-margin">Waiter</h1>
-                    <div class="shadow-container__loading">
-                        <div class="shadow-container__dots">
-                            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
-                        </div>
-                    </div>  
-	`;
-	
-	this.signInForm = new LogIn(
-		wrapper,
-		'Nice to meet you again! Please, sign in to be served.',
-		'New to <span class="color-main">Waiter</span>? <div id="signUp" class="sing-up-link">Sign Up.'
-	);
-	this.signUpForm = new LogIn(
-		wrapper,
-		'Welcome to Waiter! Please, sign up in order to be served.',
-		'Have Already <span class="color-main">Waiter</span> Account? <div id="signIn" class="sing-up-link">Sign In.'
-	);
+		this.loginSignUpTemplate = new LoginTemplate(
+			this.wrapper,
+			'Welcome to Waiter! Please, sign up in order to be served.',
+			'Have Already <span class="color-main">Waiter</span> Account? <div id="signIn" class="sing-up-link">Sign In.'
+		);
+		this.loginSignUpTemplate.initListener(".btn.btn-submit", "click", this.submitLoginForm.bind(this));
+		this.loginSignUpTemplate.initListener("#signIn", "click", this.getSignInTemplate.bind(this));
 
-    this.removeDocumentEvListener = (listener, functions) => {
+		//////////////////////////
+		/// LOGIN PART ENDS /////
+		////////////////////////
+
+// 		shadowContainer.className = 'shadow-container__wrapper';
+// 		shadowContainer.innerHTML = `
+// 				  <h1 class="shadow-container__logo initial-login__logo logo-margin">Waiter</h1>
+// 				  <div class="shadow-container__loading">
+// 					  <div class="shadow-container__dots">
+// 						  <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+// 					  </div>
+// 				  </div>  
+//   `;
+	}
+
+	addClassbeforeFire(selector, classToAdd) {
+		let element = document.querySelector(selector)
+		if(element) {
+			element.classList.add(classToAdd);
+		}
+	}
+
+	getSignInTemplate() {
+		console.log(`getSignInTemplate function fired on ${this}`);
+		this.addClassbeforeFire(".initial-login__container", "scale-down");
+		setTimeout( () => {
+			this.loginSignInTemplate.create()
+		}, 500 )
+	};
+	getSignUpTemplate() {
+		console.log(`getSignUpTemplate function fired on ${this}`);
+		this.addClassbeforeFire(".initial-login__container", "scale-down");
+		setTimeout( () => {
+			this.loginSignUpTemplate.create()
+		}, 500 )
+	};
+	submitLoginForm(event) {
+		event.preventDefault();
+		console.log(`submitLoginForm function fired on ${this}`);
+		const dataObj = {},
+			inputArray = document.querySelectorAll("input:not([type='submit'])")
+		for(let input of inputArray) {
+			dataObj[input.id] = input.value;
+
+			input.nextElementSibling.classList.remove('error');
+			input.nextElementSibling.innerHTML = '!';
+		}
+		controller.validateUserInfo(dataObj)
+		// Controller.validateUserInfo(dataObj);
+		// for(let key in userSignIn) {
+		// 	if(userSignIn.hasOwnProperty(key)) {
+		// 		window[key].nextElementSibling.classList.remove('error');
+		// 		window[key].nextElementSibling.innerHTML = '!';
+		// 	}
+		// }
+		// controller.validateUserInfo(userSignIn);
+	};
+	fillLoginDataObject(event) {
+		console.log(`fillLoginDataObject function fired on ${this}`);
+		if(event.target.tagName.toUpperCase() !== 'INPUT' || !event.target.id) return;
+		// userSignIn[event.target.id] = event.target.value;
+	}
+    removeDocumentEvListener = (listener, functions) => {
         functions.forEach( func => {
             if(typeof window[func] === 'function') {
                 document.removeEventListener(listener, window[func]);
@@ -36,7 +102,7 @@ function View(loginParamsObj, userInputObj, documentListeners) {
     //////////////////////////////////////////////
     ///////// OPEN AND CLOSE ERROR TAB //////////
     ////////////////////////////////////////////
-    this.showFormErrors = (errors) => {
+    showFormErrors = (errors) => {
         errors.forEach(elem => {
             let notification = document.createElement('div'),
                 parentEl       = window[elem.id].nextElementSibling;
@@ -47,15 +113,15 @@ function View(loginParamsObj, userInputObj, documentListeners) {
         });
     };
 
-    this.setLoading = () => {
+    setLoading = () => {
         wrapper.appendChild(shadowContainer);
     };
 
-    this.removeLoading = () => {
+    removeLoading = () => {
         wrapper.removeChild(shadowContainer);
     };
 	
-	this.selectPlace = () => {
+	selectPlace = () => {
 		
 		userInputObj.email    = '';
 		userInputObj.password = '';
@@ -159,3 +225,9 @@ function View(loginParamsObj, userInputObj, documentListeners) {
     // };
 
 }
+
+const View = new View()
+
+export { View };
+
+// module.exports = view;
