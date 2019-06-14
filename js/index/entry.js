@@ -22,11 +22,11 @@
 // WTR.globals.view       = new View();
 // WTR.globals.view       = new View(loginHTML, userSignIn, { loginChecker : toggleErrorTab, loginToggler : toggleLoginMarkup, loginSubmitter : submitLogin });
 // WTR.globals.controller = new Controller();
-import { Controller } from './controller/Controller.js';
+import { controller } from './controller/Controller.js';
 
 const WTR            = {};
     //   WTR.controller = require('./controller/Controller');
-      WTR.controller = Controller;
+      WTR.Controller = controller;
       WTR.index      = {
         progressBar  : document.getElementById('progressBar'),
         percentage   : document.getElementById('progress-bar__percentage'),

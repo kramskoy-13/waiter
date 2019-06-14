@@ -2,7 +2,9 @@
 // OUTER MODULES PART STARTS //
 //////////////////////////////
 // const Controller  = require('../controller/Controller'),
-const LoginTemplate = require('./templates/LoginTemplate');
+//const LoginTemplate = require('./templates/LoginTemplate');
+import LoginTemplate from "./templates/LoginTemplate.js";
+import { controller } from "../controller/Controller.js";
 ////////////////////////////////
 // OUTER MODULES PART ENDS ////
 //////////////////////////////
@@ -17,19 +19,18 @@ class View {
 		this.loginSignInTemplate = new LoginTemplate(
 			this.wrapper,
 			'Nice to meet you again! Please, sign in to be served.',
-			'New to <span class="color-main">Waiter</span>? <div id="signUp" class="sing-up-link">Sign Up.'
+			'New to <span class="color-main txt-bold">Waiter</span>? <div id="signUp" class="sing-up-link">Sign Up.'
 		);
 		this.loginSignInTemplate.initListener(".btn.btn-submit", "click", this.submitLoginForm.bind(this));
-		this.loginSignInTemplate.initListener("#signUp", "click", this.getSignUpTemplate.bind(this));
+		this.loginSignInTemplate.initListener("#signUp", "click", this.getLoginSignUpTemplate.bind(this));
 
 		this.loginSignUpTemplate = new LoginTemplate(
 			this.wrapper,
 			'Welcome to Waiter! Please, sign up in order to be served.',
-			'Have Already <span class="color-main">Waiter</span> Account? <div id="signIn" class="sing-up-link">Sign In.'
+			'Have Already <span class="color-main txt-bold">Waiter</span> Account? <div id="signIn" class="sing-up-link">Sign In.'
 		);
 		this.loginSignUpTemplate.initListener(".btn.btn-submit", "click", this.submitLoginForm.bind(this));
-		this.loginSignUpTemplate.initListener("#signIn", "click", this.getSignInTemplate.bind(this));
-
+		this.loginSignUpTemplate.initListener("#signIn", "click", this.getLoginSignInTemplate.bind(this));
 		//////////////////////////
 		/// LOGIN PART ENDS /////
 		////////////////////////
@@ -50,68 +51,66 @@ class View {
 		if(element) {
 			element.classList.add(classToAdd);
 		}
-	}
+    };
 
-	getSignInTemplate() {
-		console.log(`getSignInTemplate function fired on ${this}`);
+	getLoginSignInTemplate() {
+		console.log(`getSignInTemplate function fired`);
 		this.addClassbeforeFire(".initial-login__container", "scale-down");
 		setTimeout( () => {
 			this.loginSignInTemplate.create()
 		}, 500 )
-	};
-	getSignUpTemplate() {
-		console.log(`getSignUpTemplate function fired on ${this}`);
+    };
+
+	getLoginSignUpTemplate() {
+		console.log(`getSignUpTemplate function fired`);
 		this.addClassbeforeFire(".initial-login__container", "scale-down");
 		setTimeout( () => {
 			this.loginSignUpTemplate.create()
 		}, 500 )
-	};
+    };
+
 	submitLoginForm(event) {
 		event.preventDefault();
-		console.log(`submitLoginForm function fired on ${this}`);
+		console.log(`submitLoginForm function fired`);
 		const dataObj = {},
 			inputArray = document.querySelectorAll("input:not([type='submit'])")
 		for(let input of inputArray) {
 			dataObj[input.id] = input.value;
-
 			input.nextElementSibling.classList.remove('error');
 			input.nextElementSibling.innerHTML = '!';
 		}
 		controller.validateUserInfo(dataObj)
-		// Controller.validateUserInfo(dataObj);
-		// for(let key in userSignIn) {
-		// 	if(userSignIn.hasOwnProperty(key)) {
-		// 		window[key].nextElementSibling.classList.remove('error');
-		// 		window[key].nextElementSibling.innerHTML = '!';
-		// 	}
-		// }
-		// controller.validateUserInfo(userSignIn);
-	};
+    };
+
 	fillLoginDataObject(event) {
-		console.log(`fillLoginDataObject function fired on ${this}`);
+		console.log(`fillLoginDataObject function fired`);
 		if(event.target.tagName.toUpperCase() !== 'INPUT' || !event.target.id) return;
 		// userSignIn[event.target.id] = event.target.value;
-	}
-    removeDocumentEvListener = (listener, functions) => {
-        functions.forEach( func => {
-            if(typeof window[func] === 'function') {
-                document.removeEventListener(listener, window[func]);
-            }
+    };
+
+    showLoginFormErrors(errors) {
+        errors.forEach(elem => {
+            //let notification = document.createElement('div');
+            //let elemToPaste = document.getElementById(elem.id).nextElementSibling;
+            let selector = document.getElementById(elem.id).nextElementSibling;
+            this.loginSignInTemplate.appendElement("div", selector, elem.message);
+            this.loginSignInTemplate.handleClass(selector, "error", "add").handleClass(selector, "opened", "add");
+
+            //notification.innerText = elem.message;
+            //elemToPaste.classList.add('error');
+            //elemToPaste.classList.add('opened');
+            //let notification = document.createElement('div'),
+            //    parentEl = window[elem.id].nextElementSibling;
+            //notification.innerText = elem.message;
+            //parentEl.classList.add('error');
+            //parentEl.classList.add('opened');
+            //parentEl.appendChild(notification);
         });
     };
     //////////////////////////////////////////////
     ///////// OPEN AND CLOSE ERROR TAB //////////
     ////////////////////////////////////////////
-    showFormErrors = (errors) => {
-        errors.forEach(elem => {
-            let notification = document.createElement('div'),
-                parentEl       = window[elem.id].nextElementSibling;
-            notification.innerText = elem.message;
-            parentEl.classList.add('error');
-            parentEl.classList.add('opened');
-            parentEl.appendChild(notification);
-        });
-    };
+
 
     setLoading = () => {
         wrapper.appendChild(shadowContainer);
@@ -188,46 +187,8 @@ class View {
 			document.addEventListener('click', showBackToLogin);
 		},0);
 	};
-
-    // this.getLoginHTML = (params) => {
-    //     wrapper.innerHTML = `
-    //        <div class="login__wrapper">
-	// 		<div class="initial-login__wrapper">
-	// 			<div class="initial-login__container scale-down">
-	// 				<h1 class="initial-login__logo">Waiter</h1>
-	// 				<h4 class="h4">${params.txt_h4}</h4>
-	// 				<form id="signInForm" class="initial-login">
-	// 					<div class="initial-login__container_inner">
-	// 						<div class="initial-login__input-wrapper">
-	// 							<label class="initial-login__label" for="email">Your Login (email/username)</label>
-	// 							<input type="text" name="email" id="email" autocomplete="current-password"/>
-	// 							<div class="initial-login__notification" id="notify-email">!</div>
-	// 						</div>
-	// 						<div class="initial-login__input-wrapper">
-	// 							<label class="initial-login__label" for="password">Your Password</label>
-	// 							<input type="password" name="password" id="password" autocomplete="current-password"/>
-	// 							<div class="initial-login__notification" id="notify-password">!</div>
-	// 						</div>
-	// 						<div class="initial-login__submit">
-	// 							<input type="submit" class="btn btn-submit" value="LogIn"/>
-	// 						</div>
-	// 					</div>
-	// 				</form>
-	// 			</div>
-	// 			<div class="initial-login__change-option">${params.txt_btn}</div></div>
-	// 		</div>
-	// 	</div>
-    //     `;
-    //     setTimeout(function(){
-    //         let container = document.querySelector('.initial-login__container');
-    //         container.classList.remove('scale-down');
-    //     },300);
-    // };
-
 }
 
-const View = new View()
-
-export { View };
+export const view = new View();
 
 // module.exports = view;

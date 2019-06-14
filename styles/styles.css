@@ -3,7 +3,7 @@
   justify-content: center;
   flex-direction: column;
   flex-wrap: wrap;
-  width: 90%;
+  width: 70%;
   height: 255px;
   border-radius: 8px;
   border: 1px solid #eeeeee;
@@ -331,7 +331,7 @@ body {
   width: 100%;
   min-height: 100%;
   background: #f9f9f9;
-  max-width: 410px;
+  max-width: 375px;
   margin: 24px auto;
   position: relative; }
 
@@ -341,6 +341,9 @@ body {
 .logo-margin {
   margin-top: 200px;
   margin-bottom: 50px; }
+
+.txt-bold {
+  font-weight: 900; }
 
 .button {
   background: #ff4d4d;

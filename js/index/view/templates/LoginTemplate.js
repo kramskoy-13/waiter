@@ -1,6 +1,8 @@
-const Template = require('./Template');
+//const Template = require('./Template');
 
-class LoginTemplate extends Template {
+import Template from "./Template.js";
+ 
+export default class LoginTemplate extends Template {
     constructor(parent, txt_header, txt_btn){
         super(parent);
         this.txt_header = txt_header;
@@ -54,4 +56,4 @@ class LoginTemplate extends Template {
     };
 }
 
-module.exports = LoginTemplate;
+//module.exports = LoginTemplate;
