@@ -1,15 +1,10 @@
-.select-place {
+.popup {
 	
 	&__wrapper {
 		width: 100%;
 		font-family: "Quicksand", cursive, sans-serif;
 		
-		& p {
-			text-align: center;
-			border: 1px solid #eeeeee;
-			padding: 15px 15px 0;
-			line-height: 25px;
-			background: white;
+		p {
 			& > span {
 				display: block;
 				padding: 5px 15px;
@@ -22,16 +17,37 @@
 	
 		width: 75%;
 		margin: 0 auto;
+		background: white;
+    	border-radius: 10px;
+    	border: 1px solid #eeeeee;
 		
+		& .hidden {
+
+			transform: scale(0);
+			max-height: 0;
+			margin: 0;
+			padding: 0;
+
+		}
+
+		&_select {
+			text-align: center;
+			padding: 15px 15px 0;
+			line-height: 25px;
+		}
+
 		&_list {
 			background: white;
-			max-height: 0;
-			transform: scale(0);
+			max-height: 200px;
+			overflow: auto;
+			border: 1px solid $frameBackgroundColor;
+			border-radius: 8px;
 			transition: .3s;
 
 			& > li {
 				padding: 10px 15px;
 				position: relative;
+				cursor: pointer;
 				&.selected {
 					background: #eeeeee;
 				}
@@ -39,43 +55,18 @@
 		}
 		
 		h4 {
-			max-height: 0;
-			transform: scale(0);
 			transition: .3s;
 		}
 		
 		&_button {
-			transform: scale(0);
+			max-height: 200px;
 			width: 44%;
 			border: 1px solid $primaryColor;
 			position: relative;
 			transition-delay: .25s;
 			margin: 25px 2.5%;
-		}
-		
-		&.opened {
-		
-			.select-place__container_list {
-				transform: scale(1);
-				max-height: 200px;
-				overflow: auto;
-				//box-shadow: $shadow;
-				border: 1px solid $frameBackgroundColor;
-				border-radius: 8px;
-			}
-			
-			.select-place__container_button {
-				transform: scale(1);
+			&.bounce {
 				animation: .5s bounce-up-down;
-			}
-
-			p {
-				display: none;
-			}
-			
-			h4 {
-				max-height: 1000px;
-				transform: scale(1);
 			}
 		}
 	}

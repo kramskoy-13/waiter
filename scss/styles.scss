@@ -2,8 +2,8 @@
 @import './partials/_initial.scss';
 @import './partials/_login.scss';
 @import './partials/_progressBar.scss';
-@import './partials/_shadowLoading.scss';
-@import './partials/_selectPlace.scss';
+@import './partials/_popup.scss';
+@import './partials/_popupLoading.scss';
 
 html {
   height: 100%;
@@ -45,8 +45,8 @@ body {
   color: $primaryColor;
 }
 .logo-margin {
-	margin-top: 200px;
-    margin-bottom: 50px;
+	// margin-top: 200px;
+  margin-bottom: 50px;
 }
 .txt-bold {
     font-weight: 900;
@@ -97,6 +97,9 @@ body {
 .scale-down {
   transform: scale(.75);
   transition: .3s;
+}
+.blur {
+  filter: blur(5px);
 }
 @keyframes bounce-up-down {
   0%   { transform: translateY(0); }

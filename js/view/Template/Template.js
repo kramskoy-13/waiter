@@ -1,33 +1,35 @@
 export default class Template {
-    constructor(parent) {
+    constructor(parent, template) {
         this.parent = parent;
+        this.template = template;
         this.listeners = [];
     }
 
     create() {
-        Function.prototype
-    }
+        Function.prototype()
+    };
 
     initListener(selector, listener, callback) {
         this.listeners.push({
             selector, listener, callback
         })
-    }
-
-    addListener(selector, listener, callback) {
-        const slct = document.querySelector(selector);
-        if(!slct){
-            console.log(`selector ${selector} wasn't found.`); return;
-        }
-        slct.addEventListener(listener, callback)
+        return this
     };
 
-    removeListener(selector, listener, callback) {
+    handleListener({selector, listener, callback, action}) {
+        if (action != "add" && action != "remove") {
+            console.error("action type has not been defined at handleListener [Template class]");
+            return;
+        }
         const slct = document.querySelector(selector);
         if(!slct){
-            console.log(`selector ${selector} wasn't found.`); return;
+            console.error(`selector ${selector} wasn't found.`); return;
         }
-        slct.removeEventListener(listener, callback)
+        switch(action) {
+            case "add"    : slct.addEventListener(listener, callback); break;
+            case "remove" : slct.removeEventListener(listener, callback); break;
+            default       : return;
+        }   
     };
 
     appendElement(tag, parentSelector, txt) {
@@ -44,13 +46,14 @@ export default class Template {
 
         notification.innerText = txt;
         parent.appendChild(notification);
+        return this;
     };
-
-    handleClass(selector, _class, action) {
-        if (action != "add" && action != "remove") {
-            console.error("action type has not been defined at handleClass [Template class]"); return;
+    
+    handleClass({selector, _class, action}) {
+        if (action != "add" && action != "remove" && action != "toggle") {
+            console.error("action type has not been defined at handleClass [Template class]");
+            return;
         }
-
         let elem;
         if (typeof selector == "object") {
             elem = selector;
@@ -59,10 +62,13 @@ export default class Template {
             elem = document.querySelector(selector);
         }
         else { console.error("impossible to define selector type at handleClass function [Template class]"); return; }
-        action == "add" ? elem.classList.add(_class) : elem.classList.remove(_class);
+        switch(action) {
+            case "add"    : elem.classList.add(_class); break;
+            case "remove" : elem.classList.remove(_class); break;
+            default       : elem.classList.toggle(_class);
+        }
         return this;
     };
 
 }
 
-//module.exports = Template;
