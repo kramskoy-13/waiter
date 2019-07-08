@@ -1,4 +1,7 @@
-export const CONFIRMATION_TEMPLATE = (text = "...") => {
+export const CONFIRMATION_TEMPLATE = (text) => {
+    if(!text) {
+        text = "Unfortunately, there is an error occured. Please, try to reload the Waiter to be served."
+    }
     return `
     <div>
         <h1 class="initial-login__logo">Waiter</h1>

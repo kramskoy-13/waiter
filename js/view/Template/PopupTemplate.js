@@ -20,13 +20,16 @@ class PopupTemplate extends Template {
         element.innerHTML = this.message ? this.template(this.message) : this.template();
         
         this.parent.appendChild(element);
-        this.parent.firstElementChild.classList.add("blur");
+        // this.parent.firstElementChild.classList.add("blur");
+        [...this.parent.children].forEach( child => {
+            if(child.className !== "shadow-container__wrapper") {child.classList.add("blur")}
+        });
 
         if(this.listeners.length > 0) {
             this.listeners.forEach( elem => {
-                const selector = document.querySelector(elem.selector)
-                if(!selector) {  console.error(`selector ${selector} wasn't found at [Popup class].`); return }
-                selector.addEventListener(elem.listener, elem.callback)
+                const selector = document.querySelectorAll(elem.selector)
+                if(!selector.length) {  console.error(`selector ${selector} wasn't found at [Popup class].`); return }
+                selector.forEach( _elem => _elem.addEventListener(elem.listener, elem.callback))
             })
         }
         return this

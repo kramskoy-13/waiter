@@ -1,8 +1,11 @@
 import PopupTemplate from "./PopupTemplate.js";
 
 class PopupSPTemplate extends PopupTemplate {
-    
-	selectPlace(places) {
+    constructor(parent, template, flag) {
+        super(parent, template);
+        this.flag = flag || null;
+    }
+	showList(places) {
 			let arr        = places,
 				arr_length = arr.length,
 				fragment   = document.createDocumentFragment(),
@@ -13,13 +16,15 @@ class PopupSPTemplate extends PopupTemplate {
 			
 			for(; i < arr_length; i++) {
 				li = document.createElement('li');
-				li.innerHTML = arr[i];
+                li.innerHTML = arr[i];
+                li.id = arr[i].replace(/ /, "_").toLowerCase();
 				li.addEventListener('click', (event) => {
-                    console.log("click listener fires at selectPlace")
+                    console.log("showList click listener", this.selectedPlace)
                     liList = document.querySelectorAll('li');
                     liList.forEach(li => li.className = '');
                     if(!event.target.className) {
                         event.target.className = 'selected';
+                        this.selectedPlace = event.target.id;
 					}
 				});
 				fragment.appendChild(li);
@@ -39,6 +44,8 @@ class PopupSPTemplate extends PopupTemplate {
                 button.forEach( elem => elem.classList.add("bounce"));
                 paragraph.classList.add("hidden")
             }, {once: true});
+            if(this.flag) { setTimeout( ()=> showList["click"].call(showList), 0) }
+            return this
     };
 
     // getBackToLogin(event) {

@@ -20,8 +20,8 @@ class View {
 			btn:INSERT_TEXT.signInBtnText,
 			template:LOGIN_TEMPLATE
 		});
-		this.loginSignInTemplate.initListener(".btn.btn-submit", "click", this.submitLoginForm.bind(this));
-		this.loginSignInTemplate.initListener("#signUp", "click", this.getLoginSignUpTemplate.bind(this));
+		this.loginSignInTemplate.initListener({selector:".btn.btn-submit", listener:"click", callback:this.submitLoginForm.bind(this)});
+		this.loginSignInTemplate.initListener({selector:"#signUp", listener:"click", callback:this.getLoginSignUpTemplate.bind(this)});
 
 		this.loginSignUpTemplate = new LoginTemplate({
 			parent:this.wrapper,
@@ -29,8 +29,8 @@ class View {
 			btn:INSERT_TEXT.signUpBtnText,
 			template:LOGIN_TEMPLATE
 		});
-		this.loginSignUpTemplate.initListener(".btn.btn-submit", "click", this.submitLoginForm.bind(this));
-		this.loginSignUpTemplate.initListener("#signIn", "click", this.getLoginSignInTemplate.bind(this));
+		this.loginSignUpTemplate.initListener({selector:".btn.btn-submit", listener:"click", callback:this.submitLoginForm.bind(this)});
+		this.loginSignUpTemplate.initListener({selector:"#signIn", listener:"click", callback:this.getLoginSignInTemplate.bind(this)});
 		this.loginCurrentTemplate = null;
 		//////////////////////////
 		/// LOGIN PART ENDS /////
@@ -41,8 +41,8 @@ class View {
 		//////////////////////
 		this.loadingPopup = new PopupTemplate(this.wrapper, LOADING_TEMPLATE);
 		this.currenPopup = null;
-		this.selectPlacePopup = null;
-		this.confirmationPopup = null;
+
+		this.selectedPlace = null;
 	}
 
 	addClassBeforeFire(selector, classToAdd) {
@@ -57,7 +57,7 @@ class View {
 		this.addClassBeforeFire(".initial-login__container", "scale-down");
 		this.loginCurrentTemplate = this.loginSignInTemplate;
 		setTimeout( () => {
-			this.loginSignInTemplate.create()
+			this.loginCurrentTemplate.create()
 		}, 500 )
     };
 
@@ -66,7 +66,7 @@ class View {
 		this.addClassBeforeFire(".initial-login__container", "scale-down");
 		this.loginCurrentTemplate = this.loginSignUpTemplate;
 		setTimeout( () => {
-			this.loginSignUpTemplate.create()
+			this.loginCurrentTemplate.create()
 		}, 500 )
     };
 
@@ -97,25 +97,52 @@ class View {
         this.loadingPopup.destroy();
 	};
 	
-	selectPlaceToBeServed(places) {
+	selectPlaceToBeServed(places, flag) {
 		console.log("selectPlaceToBeServed fires")
-		this.currenPopup = new PopupSPTemplate(this.wrapper, SELECT_PLACES_TEMPLATE);
+		this.currenPopup = new PopupSPTemplate(this.wrapper, SELECT_PLACES_TEMPLATE, flag);
 		this.currenPopup
-		.initListener("#back", "click", this.showConfirmationMessage.bind(this, 
-			INSERT_TEXT.saveDataNotification,
-			this.getLoginSignUpTemplate.bind(this),
-			this.selectPlaceToBeServed.bind(this, places)))
-		.initListener("#select", "click", this.showMainPage.bind(this)).create().selectPlace(places);
+		.initListener({selector:"#select", listener:"click", callback:this.getMenuTemplate.bind(this)})
+		.initListener({selector:"#back", listener:"click", callback:this.showConfirmationMessage.bind(this, 
+			{
+				message:INSERT_TEXT.saveDataNotification,
+				confirm:() => {
+					this.refreshUserData.bind(this)();
+					this.getLoginSignInTemplate.bind(this)();
+					this.currenPopup.destroy();
+				},
+				cancel:this.selectPlaceToBeServed.bind(this, places, true)
+			})
+		})
+		.create()
+		.showList(places)
+		.handleListener({selector:".popup__container_list > li", listener: "click", callback: this.selectPlace.bind(this), action: "add"})
 	};
 
-	showConfirmationMessage(message, confirm = Function.prototype, cancel = Function.prototype) {
-		console.log("showConfirmationMessage fires")
+	showConfirmationMessage({message, confirm = Function.prototype, cancel = Function.prototype}) {
+		console.log("showConfirmationMessage")
 		this.currenPopup = new PopupTemplate(this.wrapper, CONFIRMATION_TEMPLATE, message);
-		this.currenPopup.initListener("#confirm", "click", confirm).initListener("#refuse", "click", cancel).create();
+		this.currenPopup.initListener({selector:"#confirm", listener:"click", callback:confirm}).initListener({selector:"#refuse",listener:"click", callback:cancel}).create();
 	};
 
-	showMainPage(place) {
-		console.log("showMainPage fires", place)
+	selectPlace() {
+		console.log("selectPlace")
+		if(!event.target || !event.target.id) {
+			return this.showErrorNotification.bind(this)()
+		} 
+		this.selectedPlace = event.target.id;
+	};
+
+	showErrorNotification() {
+		console.error("There is an error occured.")
+	}
+
+	getMenuTemplate(place) {
+		console.log("getMenuTemplate");
+
+	};
+
+	refreshUserData() {
+		Controller.refreshUserData()
 	};
 }
 

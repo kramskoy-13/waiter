@@ -5,7 +5,12 @@ import Validator from "./validator/Validator.js";
 class Controller {
 
     getSignInHTML() {
-        View.getLoginSignInTemplate();
+        if(!Model.checkIfUserLoggedIn()) {
+            View.getLoginSignInTemplate();
+        }
+        else {
+            this.getCurrentLocationPlaces()
+        }
     };
 
     getSignUpHTML() {
@@ -45,14 +50,27 @@ class Controller {
         View.setLoading();
         Model.getCurrentLocationPlaces().then( response => {
             response = ['McDonald’s', 'KFC', 'SomeCafe', 'Place to Eat', 'Another Restaurant', 'Burger Shop', 'Beer Pab'];
-            View.removeLoading();
             if(response.length > 1) {
-               return View.selectPlaceToBeServed(response);
+                View.removeLoading();
+                return View.selectPlaceToBeServed(response);
             }
-            View.showMainPage(response);
+
+            response = 'SomeCafe';  // <-- shoud be a real place
+            this.getMenu(response)
         })
     };
 
+    getMenu(response) {
+        Model.getMenu(response).then( response => {
+            View.removeLoading();
+            response = 'SomeCafe';  // <-- shoud be a real place
+            View.getMenuTemplate(response);
+        })
+    };
+
+    refreshUserData(){
+        Model.refreshUserData()
+    };
 }
 
 export const controller = new Controller();

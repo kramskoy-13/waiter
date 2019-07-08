@@ -4,7 +4,8 @@ class Model {
     constructor() {
         this.userEmail = null;
         this.userPassword = null;
-        this.userLoggedIn = false;
+        this.userLoggedIn = true; // <-- should be false
+        this.place = null;
     }
 
     checkIfUserLoggedIn() {
@@ -26,6 +27,17 @@ class Model {
         })
     };
 
+    refreshUserData() {
+        this.userEmail = null;
+        this.userPassword = null;
+        this.userLoggedIn = false;
+    };
+
+    getMenu() {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => resolve("result"), 3000);
+        })
+    }
 }
 
 export const model = new Model();

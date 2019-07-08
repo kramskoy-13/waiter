@@ -39,7 +39,7 @@ class LoginTemplate extends Template {
     showLoginErrors(errors) {
         errors.forEach( elem => {
             let selector = document.getElementById(elem.id).nextElementSibling;
-            this.appendElement("div", selector, elem.message)
+            this.appendElement({tag:"div", parentSelector:selector, text:elem.message})
 				.handleClass({selector, _class:"error", action:"add"})
 				.handleClass({selector, _class:"opened", action:"add"});
         });	

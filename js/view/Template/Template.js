@@ -9,7 +9,7 @@ export default class Template {
         Function.prototype()
     };
 
-    initListener(selector, listener, callback) {
+    initListener({selector, listener, callback}) {
         this.listeners.push({
             selector, listener, callback
         })
@@ -32,7 +32,7 @@ export default class Template {
         }   
     };
 
-    appendElement(tag, parentSelector, txt) {
+    appendElement({tag, parentSelector, text}) {
         let notification = document.createElement(tag),
             parent;
 
@@ -44,7 +44,7 @@ export default class Template {
         }
         else { console.error("impossible to define parent type at appendElement function [Template class]"); return; }
 
-        notification.innerText = txt;
+        notification.innerText = text;
         parent.appendChild(notification);
         return this;
     };
