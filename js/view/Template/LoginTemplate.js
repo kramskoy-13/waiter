@@ -1,25 +1,26 @@
 import Template from "./Template.js";
  
 class LoginTemplate extends Template {
-    constructor({parent, header, btn, template}){
-        super(parent, template);
+    constructor({ parent, header, button, template}){
+        super({ parent, template });
         this.header = header;
-        this.btn = btn;
+        this.button = button;
     }
     create() {
-        if(!this.parent) { 
-            console.error(`parent selector wasn't found at ${this.constructor.name}`); return;
-        }; 
+        //if(!this.parent) { 
+        //    console.error(`parent selector wasn't found at ${this.constructor.name}`); return;
+        //}; 
 
-        this.parent.innerHTML = this.template(this.header, this.btn);
+        //this.parent.innerHTML = this.template(this.header, this.btn);
 
-        this.listeners.forEach( obj => {
-            const selector = document.querySelector(obj.selector)
-            if(!selector) { 
-                console.error(`selector ${selector} wasn't found.`); return;
-             }
-            selector.addEventListener(obj.listener, obj.callback)
-        });
+        //this.listeners.forEach( obj => {
+        //    const selector = document.querySelector(obj.selector)
+        //    if(!selector) { 
+        //        console.error(`selector ${selector} wasn't found.`); return;
+        //     }
+        //    selector.addEventListener(obj.listener, obj.callback)
+        //});
+        super.create({ header: this.header, button: this.button }); 
         setTimeout( () => {
             let container = document.querySelector('.initial-login__container');
             container.classList.remove('scale-down');

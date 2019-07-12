@@ -5,7 +5,7 @@
      justify-content: center;
      flex-direction: column;
      flex-wrap: wrap;
-     width: 70%;
+     width: 255px;
      height: 255px;
      border-radius: 8px;
      border: 1px solid $frameBackgroundColor;
@@ -56,11 +56,8 @@
 
   }
 
-  &__logo {
-    font-family: $primaryFont;
-    font-size: 46px;
-    text-align: center;
-    color: $primaryColor;
+  &__label {
+      font-size: 14px;
   }
 
   &__notification {

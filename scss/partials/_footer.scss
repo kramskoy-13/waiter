@@ -1,0 +1,59 @@
+.footer {
+    &__container {
+        bottom: 0;
+        box-shadow: 1px 4px 10px 0 rgba(0, 0, 0, 0.36);
+    }
+
+    &__display {
+        display: flex;
+
+        &_row {
+            margin: 0 5px;
+            width: 34px;
+            height: 34px;
+            border: 1.5px solid $frameBackgroundColor;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            & span {
+                background: $footerNotSelectedBackground;
+            }
+
+            & > div {
+                display: flex;
+            }
+
+            &.row {
+                &_1 span {
+                    width: 10px;
+                    height: 10px;
+                    margin: 1px;
+                }
+
+                &_2 span {
+                    width: 10px;
+                    height: 10px;
+                    margin: 2px;
+                    display: inline-block;
+                }
+
+                &_3 span {
+                    width: 7px;
+                    height: 7px;
+                    margin: 1px;
+                }
+            }
+        }
+    }
+
+    &__cart {
+        width: 28px;
+
+        & > svg {
+            fill: $footerNotSelectedBackground;
+        }
+    }
+}

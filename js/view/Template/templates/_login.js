@@ -1,10 +1,10 @@
-export const LOGIN_TEMPLATE = (txt_header, txt_btn) => {
+export const LOGIN_TEMPLATE = ({ header, button }) => {
     return `
-    <div class="login__wrapper">
+    <div class="waiter__wrapper">
      <div class="initial-login__wrapper">
          <div class="initial-login__container scale-down">
-             <h1 class="initial-login__logo">Waiter</h1>
-             <h4 class="h4">${txt_header}</h4>
+             <h1 class="initial-login__logo logo">Waiter</h1>
+             <h4 class="h4">${header}</h4>
              <form id="signInForm" class="initial-login">
                  <div class="initial-login__container_inner">
                      <div class="initial-login__input-wrapper">
@@ -23,7 +23,7 @@ export const LOGIN_TEMPLATE = (txt_header, txt_btn) => {
                  </div>
              </form>
          </div>
-         <div class="initial-login__change-option">${txt_btn}</div></div>
+         <div class="initial-login__change-option">${button}</div></div>
      </div>
  </div>
  `

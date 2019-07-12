@@ -6,6 +6,7 @@ class Model {
         this.userPassword = null;
         this.userLoggedIn = true; // <-- should be false
         this.place = null;
+        this.placeData = null;
     }
 
     checkIfUserLoggedIn() {
@@ -33,11 +34,55 @@ class Model {
         this.userLoggedIn = false;
     };
 
-    getMenu() {
+    getSelectedPlaceData(place) {
+        if (this.place == place && this.placeData) {
+            return this.placeData
+        }
         return new Promise((resolve, reject) => {
-            setTimeout(() => resolve("result"), 3000);
+            this.place = place; // <-- should be reall id
+            this.placeData = menu; // <-- should be reall data
+            setTimeout(() => resolve( this.placeData ), 3000);
         })
-    }
+    };
+
 }
+
+const menu = [
+        {
+            "name": "cocktails (alc)",
+            "category": 1,
+            "dishes": []
+        },
+        {
+            "name": "cocktails (alc free)",
+            "category": 2,
+            "dishes": []
+        },
+        {
+            "name": "desserts",
+            "category": 3,
+            "dishes": []
+        },
+        {
+            "name": "first courses",
+            "category": 4,
+            "dishes": []
+        },
+        {
+            "name": "fish dishes",
+            "category": 5,
+            "dishes": []
+        },
+        {
+            "name": "meat dishes",
+            "category": 6,
+            "dishes": []
+        },
+        {
+            "name": "salads",
+            "category": 0,
+            "dishes": []
+        }
+    ];
 
 export const model = new Model();

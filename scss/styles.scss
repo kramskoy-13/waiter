@@ -1,9 +1,11 @@
-@import './partials/_variables.scss';
-@import './partials/_initial.scss';
-@import './partials/_login.scss';
-@import './partials/_progressBar.scss';
-@import './partials/_popup.scss';
-@import './partials/_popupLoading.scss';
+@import './partials/variables';
+@import './partials/initial';
+@import './partials/progressBar';
+@import './partials/popup';
+@import './partials/popupLoading';
+@import './partials/navigation';
+@import './partials/footer';
+@import './partials/categories';
 
 html {
   height: 100%;
@@ -19,27 +21,68 @@ li {
 	list-style: none;
 }
 body {
-  background: $frameBackgroundColor;
-  padding: 12px;
-  margin: 0;
-  //height: 100vh;
-  height: 100%;
-  // width: 100vw;
-
+    background: $frameBackgroundColor;
+    padding: 12px;
+    margin: 0;
+    //height: 100vh;
+    height: 100%;
+    // width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  border-radius: 8px;
-  overflow: hidden;
-  width: 100%;
-  min-height: 100%;
-  background: $wrapperBackgroundColor;
-  max-width: 375px;
-  margin: 24px auto;
-  position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    /* min-height: 640px; */
+    max-height: 640px;
+    background: $wrapperBackgroundColor;
+    max-width: 375px;
+    min-width: 320px;
+    margin: 24px auto;
+    position: relative;
+}
+
+.waiter {
+    &__wrapper {
+        width: 95%;
+        overflow: auto;
+        max-width: 400px;
+        margin: 60px auto 60px;
+        font-size: 16px;
+        font-family: "Quicksand", sans-serif;
+        z-index: 8;
+
+        & input[type='submit'] {
+            width: 100%;
+            background: $primaryColor;
+            margin-top: 15px;
+            padding: 7.5px;
+            border: 1px solid transparent;
+            border-radius: 5px;
+            font-family: $secondaryFont;
+            color: white;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+    }
+}
+.logo {
+    font-family: $primaryFont;
+    font-size: 46px;
+    text-align: center;
+    color: $primaryColor;
+
+    &.small {
+        text-align: left;
+        font-size: 32px;
+    }
 }
 .color-main {
   color: $primaryColor;
@@ -71,6 +114,7 @@ body {
 	margin-top: 0;
 	color: $headersColorMain;
 	position: relative;
+
 		&:after {
 			content: '';
 			display: block;
@@ -101,10 +145,38 @@ body {
 .blur {
   filter: blur(5px);
 }
+
+.sing-up-link {
+    color: dodgerblue;
+    padding: 0 16px;
+    display: inline-block;
+    text-decoration: underline;
+}
+.aside {
+     position: absolute; 
+     left: 0; 
+     right: 0; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 25px;
+    background: white;
+    z-index: 10;
+    /* margin-bottom: 40px; */
+    width: 100%;
+}
 @keyframes bounce-up-down {
-  0%   { transform: translateY(0); }
-  50%  { transform: translateY(-50px); }
-  100% { transform: translateY(0); }
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-50px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
 }
 @keyframes bounce-scale {
   0% { transform: scale(.9); }

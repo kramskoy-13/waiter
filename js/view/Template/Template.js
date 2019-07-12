@@ -1,39 +1,78 @@
 export default class Template {
-    constructor(parent, template) {
+    constructor({ parent, template }) {
         this.parent = parent;
         this.template = template;
         this.listeners = [];
+        this.children = [];
     }
 
-    create() {
-        Function.prototype()
+    create(args = {}) {
+        if (!this.parent) {
+            console.error(`parent selector wasn't found at ${this.constructor.name}`); return;
+        }
+        if (typeof this.parent === "object") {
+            this.parent.innerHTML = this.template(args); // <-- name of object inside create function should be equal to the corresponding arguments inside template
+        }
+        else if (typeof this.parent === "string") {
+            let parent = document.getElementById(this.parent)
+            parent.innerHTML = this.template(args);
+        }
+        
+        if (this.listeners.length) {
+            this.listeners.forEach(obj => {
+                const selector = document.querySelector(obj.selector)
+                if (!selector) {
+                    console.error(`selector ${selector} wasn't found.`); return;
+                }
+                selector.addEventListener(obj.listener, obj.callback)
+            });
+        }
+
     };
 
-    initListener({selector, listener, callback}) {
+    initListener({ selector, listener, callback }) {
         this.listeners.push({
             selector, listener, callback
         })
         return this
     };
 
-    handleListener({selector, listener, callback, action}) {
+    createChildren() {
+        if (this.children.length) {
+            this.children.forEach(childCreateFunc => {
+                if (typeof childCreateFunc === "function") {
+                    childCreateFunc()
+                }
+                else {
+                    console.error(childCreateFunc, "is not a function")
+                }
+            })
+        }
+    };
+
+    addChild(child) {
+        this.children.push(child)
+        return this
+    };
+
+    handleListener({ selector, listener, callback, action }) {
         if (action != "add" && action != "remove") {
             console.error("action type has not been defined at handleListener [Template class]");
             return;
         }
-        const slct = document.querySelector(selector);
-        if(!slct){
+        const slct = document.querySelectorAll(selector);
+        if(!slct.length){
             console.error(`selector ${selector} wasn't found.`); return;
         }
         switch(action) {
-            case "add"    : slct.addEventListener(listener, callback); break;
-            case "remove" : slct.removeEventListener(listener, callback); break;
+            case "add"    : slct.forEach(s => s.addEventListener(listener, callback) ); break;
+            case "remove" : slct.forEach(s => s.removeEventListener(listener, callback) ); break;
             default       : return;
         }   
     };
 
     appendElement({tag, parentSelector, text}) {
-        let notification = document.createElement(tag),
+        let elem = document.createElement(tag),
             parent;
 
         if (typeof parentSelector == "object") {
@@ -44,12 +83,21 @@ export default class Template {
         }
         else { console.error("impossible to define parent type at appendElement function [Template class]"); return; }
 
-        notification.innerText = text;
-        parent.appendChild(notification);
+        elem.innerText = text;
+        parent.appendChild(elem);
         return this;
     };
-    
-    handleClass({selector, _class, action}) {
+
+    appendTemplate({template, parentSelector }) {
+        if (typeof parentSelector == "object") {
+            parent = parentSelector;
+        }
+        else if (typeof parentSelector == "string") {
+            parent = document.querySelector(parentSelector);
+        }
+    };
+
+    handleClass({selector, _class, action }) {
         if (action != "add" && action != "remove" && action != "toggle") {
             console.error("action type has not been defined at handleClass [Template class]");
             return;

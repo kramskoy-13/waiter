@@ -1,8 +1,8 @@
 import Template from "./Template.js";
 
 class PopupTemplate extends Template {
-    constructor(parent, template, message) {
-        super(parent, template)
+    constructor({ parent, template, message }) {
+        super({ parent, template })
         this.message = message || null;
     }
 
@@ -16,7 +16,9 @@ class PopupTemplate extends Template {
             element = document.createElement("div");
             element.className = "shadow-container__wrapper";
         }
-        
+
+        if (typeof this.template === "undefined") { console.error("template is undefined at PopupTemplate"); return }
+
         element.innerHTML = this.message ? this.template(this.message) : this.template();
         
         this.parent.appendChild(element);
@@ -36,7 +38,10 @@ class PopupTemplate extends Template {
     };
 
     destroy() {
-        this.parent.firstElementChild.classList.remove("blur");
+        //this.parent.firstElementChild.classList.remove("blur");
+        [...this.parent.children].forEach(child => {
+            if (child.className !== "shadow-container__wrapper") { child.classList.remove("blur") }
+        });
         document.querySelector(".shadow-container__wrapper").remove();
     };
 }
