@@ -1,79 +1,78 @@
 .popup {
-	
-	&__wrapper {
-		width: 100%;
-		font-family: "Quicksand", cursive, sans-serif;
-		
-		p {
-			& > span {
-				display: block;
-				padding: 5px 15px;
-			}
-		}
-		
-	}
-	
-	&__container {
-	
-		width: 85%;
-		margin: 0 auto;
-		background: white;
-    	border-radius: 10px;
-    	border: 1px solid #eeeeee;
-		
-		& .hidden {
 
-			transform: scale(0);
-			max-height: 0;
-			margin: 0;
-			padding: 0;
+    &__wrapper {
+        width: 100%;
+        font-family: "Quicksand", cursive, sans-serif;
 
-		}
+        p {
+            & > span {
+                display: block;
+                padding: 5px 15px;
+            }
+        }
+    }
 
-		&_select {
-			text-align: center;
-			padding: 15px 15px 0;
-			line-height: 25px;
-		}
+    &__container {
+        width: 85%;
+        margin: 0 auto;
+        background: white;
+        border-radius: 10px;
+        border: 1px solid #eeeeee;
 
-		&_list {
-			background: white;
-			max-height: 200px;
-			overflow: auto;
-			border: 1px solid $frameBackgroundColor;
-			border-radius: 8px;
-			transition: .3s;
+        & .hidden {
+            transform: scale(0);
+            max-height: 0;
+            margin: 0;
+            padding: 0;
+        }
 
-			& > li {
-				padding: 10px 15px;
-				position: relative;
-				cursor: pointer;
-				&.selected {
-					background: #eeeeee;
-				}
-			}
-		}
-		
-		h4 {
-			transition: .3s;
-		}
-		
-		&_button {
-			max-height: 200px;
-			width: 44%;
-			border: 1px solid $primaryColor;
-			position: relative;
-			transition-delay: .25s;
-			margin: 25px 2.5%;
-			&.bounce {
-				animation: .5s bounce-up-down;
-			}
-		}
-	}
-	
-	&__logo {
-		width: 100%;
-		margin-top: -20%;
-	}
-	
+        &_select {
+            text-align: center;
+            padding: 15px 15px 0;
+            line-height: 25px;
+            background: #f9f9f9;
+            border-radius: 10px;
+        }
+
+        &_list {
+            background: white;
+            max-height: 200px;
+            overflow: auto;
+            border: 1px solid $frameBackgroundColor;
+            border-radius: 8px;
+            transition: .3s;
+
+            & > li {
+                padding: 10px 15px;
+                position: relative;
+                cursor: pointer;
+
+                &.selected {
+                    background: #eeeeee;
+                }
+            }
+        }
+
+        h4 {
+            transition: .3s;
+        }
+
+        &_button {
+            max-height: 200px;
+            width: 44%;
+            border: 1px solid $primaryColor;
+            position: relative;
+            transition-delay: .25s;
+            margin: 25px 2.5%;
+
+            &.bounce {
+                animation: .5s bounce-up-down;
+            }
+        }
+    }
+
+    &__logo {
+        width: 100%;
+        margin-top: -20%;
+    }
 }

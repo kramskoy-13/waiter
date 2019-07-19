@@ -234,10 +234,31 @@ class View {
         const categories = this.selectedPlaceData.map(item => {
             return {
                 name: item.name,
-                icon: config[item.category]
+                icon: config[item.category],
+                id: item.id
             }
         })
         this.currentMainTemplate = new Template({ parent: "main", template: CATEGORIES_TEMPLATE });
+        this.currentMainTemplate.initListener({
+            selector: ".categories__container_item", listener: "click", callback: (event) => {
+                let items = document.querySelectorAll(".categories__container_item");
+                items.forEach(e => e.classList.remove("aim"));
+
+                let target = event.target.closest(".categories__container_item");
+                target.scrollIntoView({ block: "center", behavior: "smooth" })
+                target.classList.add("aim");
+            }
+        })
+        this.currentMainTemplate.initListener({
+            selector: ".select", listener: "click", callback: (event) => {
+                let target = event.target.className == "categories__container_item aim" ? event.target.id : event.target.closest(".categories__container_item.aim").id;
+                let category;
+                this.selectedPlaceData.forEach(c => {
+                    if (c.id && c.id == target) { category = c }
+                })
+                console.log(category)
+            }
+        })
         this.currentMainTemplate.create({ categories })
     };
 

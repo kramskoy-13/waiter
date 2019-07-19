@@ -2,12 +2,11 @@ export const CATEGORIES_TEMPLATE = ({ categories }) => {
     let insert = '';
     categories.forEach(category => { 
         const icon = category.icon();
-        const id = category.name.replace(/ /g, '_');
         insert += `
-        <div class="categories__container_item" id="${id}">
+        <div class="categories__container_item" id="${category.id}">
             ${icon}
             <div class="name">${category.name}</div>
-            <div class="select hidden">Select</div>
+            <div class="select">Select</div>
         </div>
         `
     })

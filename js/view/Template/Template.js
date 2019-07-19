@@ -20,11 +20,11 @@ export default class Template {
         
         if (this.listeners.length) {
             this.listeners.forEach(obj => {
-                const selector = document.querySelector(obj.selector)
-                if (!selector) {
+                const selector = document.querySelectorAll(obj.selector)
+                if (!selector.length) {
                     console.error(`selector ${selector} wasn't found.`); return;
                 }
-                selector.addEventListener(obj.listener, obj.callback)
+                selector.forEach(e => e.addEventListener(obj.listener, obj.callback))
             });
         }
 
