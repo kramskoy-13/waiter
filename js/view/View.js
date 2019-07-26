@@ -23,6 +23,7 @@ import { NAVIGATION_TEMPLATE } from "./Template/templates/_navigation.js";
 import { FOOTER_TEMPLATE } from "./Template/templates/_footer.js";
 import { SHOPPING_CHART_TEMPLATE } from "./Template/templates/_shopping-cart.js";
 import { CATEGORIES_TEMPLATE } from "./Template/templates/_categories.js";
+import { DISHES_TEMPLATE } from "./Template/templates/_dishes.js";
 
 ///////////////////////
 /////// ICONS ////////
@@ -237,30 +238,47 @@ class View {
                 icon: config[item.category],
                 id: item.id
             }
-        })
-        this.currentMainTemplate = new Template({ parent: "main", template: CATEGORIES_TEMPLATE });
-        this.currentMainTemplate.initListener({
-            selector: ".categories__container_item", listener: "click", callback: (event) => {
-                let items = document.querySelectorAll(".categories__container_item");
-                items.forEach(e => e.classList.remove("aim"));
+        });
+        const selector = ".main__container_item";
 
-                let target = event.target.closest(".categories__container_item");
-                target.scrollIntoView({ block: "center", behavior: "smooth" })
-                target.classList.add("aim");
-            }
-        })
-        this.currentMainTemplate.initListener({
+        this.currentMainTemplate = new Template({ parent: "main", template: CATEGORIES_TEMPLATE });
+        this.currentMainTemplate
+        .initListener({ selector, listener: "click", callback: this.selectItem.bind(this, selector) })
+        .initListener({
             selector: ".select", listener: "click", callback: (event) => {
-                let target = event.target.className == "categories__container_item aim" ? event.target.id : event.target.closest(".categories__container_item.aim").id;
+                let target = event.target.className == "main__container_item aim" ? event.target.id : event.target.closest(".main__container_item.aim").id;
                 let category;
                 this.selectedPlaceData.forEach(c => {
                     if (c.id && c.id == target) { category = c }
                 })
-                console.log(category)
+                if (category && category.dishes) {
+                    this.getDishesTemplate(category.name, category.dishes)
+                }
             }
         })
-        this.currentMainTemplate.create({ categories })
+        .create({ categories })
     };
+
+    selectItem(selector) {
+        console.log("selectItem fires")
+        let items = document.querySelectorAll(selector);
+            items.forEach(e => e.classList.remove("aim"));
+
+        let target = event.target.closest(selector);
+        target.scrollIntoView({ block: "center", behavior: "smooth" })
+        target.classList.add("aim");
+    };
+
+    getDishesTemplate(name, dishes) {
+        const selector = ".main__container_item";
+
+        this.currentMainTemplate = new Template({ parent: "main", template: DISHES_TEMPLATE });
+        this.currentMainTemplate
+            .initListener({ selector: "#categories", listener: "click", callback: this.getCategoriesTemplate.bind(this) })
+            .initListener({ selector, listener: "click", callback: this.selectItem.bind(this, selector) })
+        .create({ name, dishes });
+        document.querySelector(".navigation__sub-menu").scrollIntoView({ block: "center", behavior: "smooth" })
+    }
 
     toggleMenuPopup() {
         console.log("toggleMenuPopup")

@@ -5,7 +5,7 @@
 @import './partials/popupLoading';
 @import './partials/navigation';
 @import './partials/footer';
-@import './partials/categories';
+@import './partials/main';
 
 html {
   height: 100%;
@@ -52,12 +52,14 @@ body {
 .waiter {
     &__wrapper {
         width: 95%;
-        overflow: auto;
+        overflow-y: auto;
+        overflow-x: hidden;
         max-width: 400px;
         margin: 60px auto 60px;
         font-size: 16px;
         font-family: "Quicksand", sans-serif;
         z-index: 8;
+        height: 100%;
 
         & input[type='submit'] {
             width: 100%;
@@ -84,8 +86,11 @@ body {
         font-size: 32px;
     }
 }
+.mt-30 {
+    margin-top: 30px;
+}
 .color-main {
-  color: $primaryColor;
+    color: $primaryColor;
 }
 .logo-margin {
 	// margin-top: 200px;
@@ -114,6 +119,10 @@ body {
 	margin-top: 0;
 	color: $headersColorMain;
 	position: relative;
+        
+        &.big {
+            font-size: 22px;
+        }
 
 		&:after {
 			content: '';

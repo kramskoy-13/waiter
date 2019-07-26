@@ -9,14 +9,14 @@
     &__menu {
         position: relative;
         width: 34px;
-        height: 26px;
+        height: 20px;
 
         & > span {
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-            width: 6px;
-            height: 6px;
+            width: 5px;
+            height: 5px;
             border-radius: 50%;
             background: $headersColorMain;
             transition: .3s;
@@ -37,6 +37,35 @@
             & > span {
                 background: $primaryColor;
             }
+        }
+    }
+
+    &__sub-menu {
+        color: $headersColorMain;
+        display: flex;
+        font-size: 12px;
+        text-transform: uppercase;
+        width: 100%;
+
+        & > div {
+            margin-left: 15px;
+            position: relative;
+
+            &:after {
+                content: '';
+                display: block;
+                width: 2.5px;
+                height: 2.5px;
+                position: absolute;
+                top: 50%;
+                right: 110%;
+                transform: translateY(-50%);
+                background-color: $headersColorMain;
+            }
+        }
+
+        & .current {
+            color: $primaryColor;
         }
     }
 }

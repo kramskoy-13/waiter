@@ -1,15 +1,16 @@
 @mixin parent($element) {
-    .categories__container_#{$element} {
+    .main__container_#{$element} {
         @content;
     }
 }
 
 
-.categories {
+.main {
 
     &__container {
         display: flex;
         flex-wrap: wrap;
+        justify-content: flex-start;
 
         &_item {
             flex-shrink: 0;
@@ -19,6 +20,7 @@
             align-items: center;
             flex-direction: column;
             position: relative;
+            overflow: hidden;
 
             & .name {
                 color: $categoriesColorMain;
@@ -52,17 +54,63 @@
                 }
             }
         }
-        // & > svg {
-        //     width: 100%;
-        //     height: 100%;
-        // }
+    }
+}
+
+.dishes {
+    @include parent("item") {
+        border: 1px solid rgb(238, 238, 238);
+        border-radius: 5px;
+        margin: 10px !important;
+        padding: 0;
+
+        & .image {
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            padding-top: 100%;
+        }
+
+        & .select {
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            border-radius: 5px;
+        }
+
+        & .name {
+            height: auto;
+            width: 100%;
+            color: black;
+            font-size: 13px;
+            background: white;
+        }
+    }
+
+    &.one {
+        @include parent("item") {
+            width: calc(100% - 20px);
+        }
+    }
+
+    &.two {
+        @include parent("item") {
+            width: calc(50% - 20px);
+        }
+    }
+
+    &.three {
+        @include parent("item") {
+            width: calc(33% - 10px);
+            margin: 5px !important;
+        }
     }
 }
 
 .one {
     @include parent("item") {
         width: calc(100% - 1.25px);
-        /*padding-top: 100%;*/
         margin-left: 1.25px;
         margin-right: 1.25px;
     }
@@ -71,7 +119,6 @@
 .two {
     @include parent("item") {
         width: calc(50% - 3.75px);
-        /*padding-top: 50%;*/
         &:nth-of-type(1) {
             margin-left: 2.5px;
             margin-right: 1.25px;
@@ -84,10 +131,9 @@
     }
 }
 
-.tree {
+.three {
     @include parent("item") {
         width: calc(33% - 3.75px);
-        /*padding-top: 33%;*/
         &:nth-of-type(1) {
             margin-left: 2.5px;
             margin-right: 1.25px;
