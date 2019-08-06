@@ -56,13 +56,12 @@ class View {
 		/////// MAIN PARTS //////////
 		////////////////////////////
         this.mainLayoutTemplate = null; // <== consists of navigation bar, footer and placeholder for main content
-        ///  NAVIGATION  ////
-        this.navigationTemplate = new Template({ parent: "nav", template: NAVIGATION_TEMPLATE });
-        ///  FOOTER  ////
-        this.footerTemplate = new Template({ parent: "footer", template: FOOTER_TEMPLATE });    // <-- footer id set into main template
+        this.navigationTemplate = null;// <-- navigation id set into main template 
+        this.footerTemplate = null; // <-- footer id set into main template 
         this.shoppingChart = new Template({ parent: "shopping-cart", template: SHOPPING_CHART_TEMPLATE });
 
         this.currentMainTemplate = null;
+        this.currentMainTemplateMark = null;
 	}
 
 	addClassBeforeFire(selector, classToAdd) {
@@ -187,6 +186,7 @@ class View {
     getMainLayoutTemplate() {
         console.log("getMainLayout");
         this.mainLayoutTemplate = new Template({ parent: this.wrapper, template: MAIN_TEMPLATE });
+        this.shoppingChart.initListener({ selector: ".footer__display", listener: "click", callback: this.changeNumberOfItemsToShow.bind(this) })
         this.mainLayoutTemplate.create();
         this.mainLayoutTemplate
             .addChild(this.getNavigationTemplate.bind(this))
@@ -197,18 +197,23 @@ class View {
 
     getCurrentMainTemplate() {
         console.log("getCurrentMainTemplate");
-        if (typeof this.currentMainTemplate === "function") { this.currentMainTemplate() }
-        else { console.error(this.currentMainTemplate, "is not a function") }
+        if (typeof this.currentMainTemplate !== "function") {
+            console.error(this.currentMainTemplate, "currentMainTemplate should be a function");
+            return
+        }
+        this.currentMainTemplate()
     };
 
     getNavigationTemplate() {
         console.log("getNavigationTemplate");
+        this.navigationTemplate = new Template({ parent: "nav", template: NAVIGATION_TEMPLATE });
         this.navigationTemplate.initListener({ selector: "#nav", listener: "click", callback: this.toggleMenuPopup.bind(this) })
         this.navigationTemplate.create()
     };
 
     getFooterTemplate() {
         console.log("getFooterTemplate");
+        this.footerTemplate = new Template({ parent: "footer", template: FOOTER_TEMPLATE });  
         this.footerTemplate.create();
         this.footerTemplate
             .addChild(this.getShoppingChartTemplate.bind(this))
@@ -223,6 +228,7 @@ class View {
 
     getCategoriesTemplate() {
         console.log("getCategoriesTemplate");
+        this.currentMainTemplateMark = "categories";
         const config = {
             0: salads,
             1: cocktails_alc,
@@ -271,12 +277,13 @@ class View {
 
     getDishesTemplate(name, dishes) {
         const selector = ".main__container_item";
+        this.currentMainTemplateMark = "dishes";
 
         this.currentMainTemplate = new Template({ parent: "main", template: DISHES_TEMPLATE });
         this.currentMainTemplate
             .initListener({ selector: "#categories", listener: "click", callback: this.getCategoriesTemplate.bind(this) })
             .initListener({ selector, listener: "click", callback: this.selectItem.bind(this, selector) })
-        .create({ name, dishes });
+            .create({ name, dishes });
         document.querySelector(".navigation__sub-menu").scrollIntoView({ block: "center", behavior: "smooth" })
     }
 
@@ -287,6 +294,16 @@ class View {
     getShoppingChartInfo() {
         console.log("getShoppingChartInfo")
     };
+
+    changeNumberOfItemsToShow() {
+        if ( !event.target ||  this.currentMainTemplateMark !== "dishes" ) { return }
+        let target = event.target.closest(".footer__display_row");
+        if (!target || !target.id) { return }
+        let number = target.id;
+        let container = document.querySelector(".main__container");
+            container.className = "main__container dishes"; // <-- refresh container from previous styles
+            container.classList.add(number)
+    }
 
 	refreshUserData() {
 		Controller.refreshUserData()

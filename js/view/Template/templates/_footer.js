@@ -1,11 +1,11 @@
 export const FOOTER_TEMPLATE = () => {
     return `
         <div class="footer__display">
-            <div class="footer__display_row row_1">
+            <div class="footer__display_row row_1" id="one">
                 <span></span>
                 <span></span>
 	        </div>
-            <div class="footer__display_row row_2">
+            <div class="footer__display_row row_2" id="two">
                 <div>
                     <span></span>
                     <span></span>
@@ -15,7 +15,7 @@ export const FOOTER_TEMPLATE = () => {
                     <span></span>
 	            </div>   
             </div>
-            <div class="footer__display_row row_3">
+            <div class="footer__display_row row_3" id="three">
                 <div>
                     <span></span>
                     <span></span>

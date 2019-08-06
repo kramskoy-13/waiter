@@ -315,12 +315,12 @@
     .navigation__sub-menu > div:after {
       content: '';
       display: block;
-      width: 2px;
-      height: 2px;
+      width: 2.5px;
+      height: 2.5px;
       position: absolute;
-      left: 50%;
       top: 50%;
-      transform: translate(-50%, -50%);
+      left: -7px;
+      transform: translateY(-50%);
       background-color: #979797; }
   .navigation__sub-menu .current {
     color: #ff4d4d; }
@@ -406,7 +406,8 @@
   border: 1px solid #eeeeee;
   border-radius: 5px;
   margin: 10px !important;
-  padding: 0; }
+  padding: 0;
+  background-color: white; }
   .dishes .main__container_item .image {
     background-size: cover;
     background-position: center;
@@ -423,7 +424,9 @@
     width: 100%;
     color: black;
     font-size: 13px;
-    background: white; }
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis; }
 
 .dishes.one .main__container_item {
   width: calc(100% - 20px); }
