@@ -44,7 +44,7 @@ class Controller {
                 return View.selectPlaceToBeServed(response);
             }
 
-            response = 'SomeCafe';  // <== shoud be a real place
+            response = response[0];  // <== shoud be a real place
             this.getSelectedPlaceData(response)
         })
     };

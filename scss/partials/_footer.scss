@@ -18,6 +18,12 @@
             align-items: center;
             justify-content: center;
 
+            &.selected {
+                & span {
+                    background: $primaryColor;
+                }
+            }
+
             & span {
                 background: $footerNotSelectedBackground;
             }

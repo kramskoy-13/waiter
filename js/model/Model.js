@@ -259,49 +259,65 @@ const menu = [
                     name: "fish dishes 1",
                     price: 12.1,
                     id: "fish_dishes_1",
-                    img: "/img/fish/fish1.jpg"
+                    img: "/img/fish/fish1.jpg",
+                    description: "Some description should be here. Some description should be here. Some description should be here.",
+                    ingredients: ["salt", "fish", "onion", "garlic", "lemon"]
                 },
                 {
                     name: "fish 2",
                     price: 6.3,
                     id: "fish_dishes_2",
-                    img: "/img/fish/fish2.jpg"
+                    img: "/img/fish/fish2.jpg",
+                    description: "Some description should be here. Some description should be here. Some description should be here.",
+                    ingredients: ["salt", "fish", "onion", "garlic", "lemon"]
                 },
                 {
                     name: "fish 3",
                     price: 44.2,
                     id: "fish_dishes_3",
-                    img: "/img/fish/fish3.jpg"
+                    img: "/img/fish/fish3.jpg",
+                    description: null,
+                    ingredients: ["salt", "fish", "onion", "garlic", "lemon"]
                 },
                 {
                     name: "fish 4",
                     price: 12.5,
                     id: "fish_dishes_4",
-                    img: "/img/fish/fish4.jpg"
+                    img: "/img/fish/fish4.jpg",
+                    description: "Some description should be here.",
+                    ingredients: ["salt", "fish", "onion", "garlic", "lemon"]
                 },
                 {
                     name: "fish 5",
                     price: 12.5,
                     id: "fish_dishes_5",
-                    img: "/img/fish/fish5.jpg"
+                    img: "/img/fish/fish5.jpg",
+                    description: "Some description should be here. Some description should be here.",
+                    ingredients: ["salt", "fish", "onion", "garlic", "lemon"]
                 },
                 {
                     name: "fish 6",
                     price: 12.5,
                     id: "fish_dishes_6",
-                    img: "/img/fish/fish6.jpg"
+                    img: "/img/fish/fish6.jpg",
+                    description: "Some description should be here. Some description should be here. Some description should be here.",
+                    ingredients: ["salt", "fish", "onion", "garlic", "lemon"]
                 },
                 {
                     name: "fish 7",
                     price: 12.5,
                     id: "fish_dishes_7",
-                    img: "/img/fish/fish7.jpg"
+                    img: "/img/fish/fish7.jpg",
+                    description: "Some description should be here.",
+                    ingredients: ["salt", "fish", "onion", "garlic", "lemon"]
                 },
                 {
                     name: "fish 8",
                     price: 12.5,
                     id: "fish_dishes_8",
-                    img: "/img/fish/fish8.jpg"
+                    img: "/img/fish/fish8.jpg",
+                    description: "Some description should be here. Some description should be here. Some description should be here.",
+                    ingredients: ["salt", "fish", "onion", "garlic", "lemon"]
                 }
             ]
         },

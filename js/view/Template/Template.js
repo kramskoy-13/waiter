@@ -97,7 +97,7 @@ export default class Template {
         }
     };
 
-    handleClass({selector, _class, action }) {
+    handleClass({selector, _class, action}) {
         if (action != "add" && action != "remove" && action != "toggle") {
             console.error("action type has not been defined at handleClass [Template class]");
             return;

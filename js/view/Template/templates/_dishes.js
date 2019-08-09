@@ -11,7 +11,7 @@ export const DISHES_TEMPLATE = ({ name, dishes }) => {
         `
     })
     return `
-    <div class="main__container two dishes">
+    <div class="main__container dishes">
         <h4 class="navigation__sub-menu">
             <div id="categories">Categories</div>
             <div class="current">${name}</div>

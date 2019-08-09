@@ -24,6 +24,7 @@ import { FOOTER_TEMPLATE } from "./Template/templates/_footer.js";
 import { SHOPPING_CHART_TEMPLATE } from "./Template/templates/_shopping-cart.js";
 import { CATEGORIES_TEMPLATE } from "./Template/templates/_categories.js";
 import { DISHES_TEMPLATE } from "./Template/templates/_dishes.js";
+import { SELECTED_DISH_TEMPLATE } from "./Template/templates/_selectedDish.js";
 
 ///////////////////////
 /////// ICONS ////////
@@ -45,6 +46,7 @@ class View {
 
         this.selectedPlace = null;
         this.selectedPlaceData = null;
+        this.selectedCategory = null;
 
 		////////////////////////
 		/////// POPUPS ////////
@@ -58,11 +60,20 @@ class View {
         this.mainLayoutTemplate = null; // <== consists of navigation bar, footer and placeholder for main content
         this.navigationTemplate = null;// <-- navigation id set into main template 
         this.footerTemplate = null; // <-- footer id set into main template 
+        this.highlightedSpanNum = "two"; // two dishes are shown in row
         this.shoppingChart = new Template({ parent: "shopping-cart", template: SHOPPING_CHART_TEMPLATE });
 
         this.currentMainTemplate = null;
         this.currentMainTemplateMark = null;
 	}
+
+    setLoading() {
+        this.loadingPopup.create();
+    };
+
+    removeLoading() {
+        this.loadingPopup.destroy();
+    };
 
 	addClassBeforeFire(selector, classToAdd) {
 		let element = document.querySelectorAll(selector)
@@ -126,14 +137,6 @@ class View {
 		this.loginCurrentTemplate.showLoginErrors(errors);	
 	};
 
-    setLoading() {
-        this.loadingPopup.create();
-    };
-
-    removeLoading() {
-        this.loadingPopup.destroy();
-	};
-	
 	selectPlaceToBeServed(places, flag) {
         console.log("selectPlaceToBeServed fires");
         this.selectedPlace = places[0]; // <-- corresponding the first element is set at PopupSPTemplate
@@ -249,20 +252,25 @@ class View {
 
         this.currentMainTemplate = new Template({ parent: "main", template: CATEGORIES_TEMPLATE });
         this.currentMainTemplate
-        .initListener({ selector, listener: "click", callback: this.selectItem.bind(this, selector) })
-        .initListener({
-            selector: ".select", listener: "click", callback: (event) => {
-                let target = event.target.className == "main__container_item aim" ? event.target.id : event.target.closest(".main__container_item.aim").id;
-                let category;
-                this.selectedPlaceData.forEach(c => {
-                    if (c.id && c.id == target) { category = c }
-                })
-                if (category && category.dishes) {
-                    this.getDishesTemplate(category.name, category.dishes)
+            .initListener({ selector, listener: "click", callback: this.selectItem.bind(this, selector) })
+            .initListener({
+                selector: ".select", listener: "click", callback: (event) => {
+                    let target = event.target.className == "main__container_item aim" ? event.target.id : event.target.closest(".main__container_item.aim").id;
+                    //let category;
+                    this.selectedPlaceData.forEach(c => {
+                        if (c.id && c.id == target) {
+                            //category = c
+                            this.selectedCategory = c
+                        }
+                    })
+                    if (this.selectedCategory && this.selectedCategory.dishes) {
+                        this.getDishesTemplate(this.selectedCategory.name, this.selectedCategory.dishes)
+                    }
                 }
-            }
-        })
-        .create({ categories })
+            })
+            .create({ categories });
+        // REMOVE HIGHLIGHTED SPAN FROM FOOTER ///
+        this.removeSelectedClass();
     };
 
     selectItem(selector) {
@@ -277,15 +285,32 @@ class View {
 
     getDishesTemplate(name, dishes) {
         const selector = ".main__container_item";
-        this.currentMainTemplateMark = "dishes";
+
+        this.currentMainTemplateMark = "dishes"; // to highlight
 
         this.currentMainTemplate = new Template({ parent: "main", template: DISHES_TEMPLATE });
         this.currentMainTemplate
-            .initListener({ selector: "#categories", listener: "click", callback: this.getCategoriesTemplate.bind(this) })
-            .initListener({ selector, listener: "click", callback: this.selectItem.bind(this, selector) })
+            .initListener({ selector: "#categories", listener: "click", callback: this.getCategoriesTemplate.bind(this) }) 
+            .initListener({ selector, listener: "click", callback: this.selectItem.bind(this, selector) }) // show select item
+            .initListener({ selector: ".select", listener: "click", callback: this.handleSelectedDish.bind(this)  }) // handle selected item
+            .initListener({ selector: ".footer__display_row", listener: "click", callback: this.changeNumberOfItemsToShow.bind(this) })
             .create({ name, dishes });
+        this.currentMainTemplate
+            .handleClass({ selector: `#${this.highlightedSpanNum}`, _class: "selected", action: "add" })
+            .handleClass({ selector: ".main__container", _class: this.highlightedSpanNum, action: "add" })
+
         document.querySelector(".navigation__sub-menu").scrollIntoView({ block: "center", behavior: "smooth" })
-    }
+    };
+
+    // USER SELECT AN ITEM //
+    handleSelectedDish(event) {
+        let target = event.target.closest(".aim");
+        if (!target || !target.id) return;
+        let dish = this.selectedCategory.dishes.filter( d => d.id === target.id )[0];
+        console.log("dish", dish)
+        this.currentMainTemplate = new Template({ parent: "main", template: SELECTED_DISH_TEMPLATE });
+        this.currentMainTemplate.create(dish)
+    };
 
     toggleMenuPopup() {
         console.log("toggleMenuPopup")
@@ -299,11 +324,22 @@ class View {
         if ( !event.target ||  this.currentMainTemplateMark !== "dishes" ) { return }
         let target = event.target.closest(".footer__display_row");
         if (!target || !target.id) { return }
-        let number = target.id;
+
+        this.removeSelectedClass();
+
+        target.classList.add("selected");
+
+        this.highlightedSpanNum = target.id;
         let container = document.querySelector(".main__container");
             container.className = "main__container dishes"; // <-- refresh container from previous styles
-            container.classList.add(number)
+            container.classList.add(this.highlightedSpanNum);
     }
+
+    removeSelectedClass() {
+        // METHOD AIMED TO DELETE HIGHLIGHTED SPAN FROM FOOTER
+        let notTargets = document.querySelectorAll(".footer__display_row")
+            notTargets.forEach(t => t.classList.remove("selected"));
+    };
 
 	refreshUserData() {
 		Controller.refreshUserData()
