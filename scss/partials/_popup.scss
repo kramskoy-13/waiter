@@ -12,6 +12,24 @@
         }
     }
 
+    &__close {
+        width: 100%;
+
+        & .navigation {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    &_image {
+        background-size: cover;
+        background-position: center;
+        width: 100%;
+        padding-top: 75%;
+        border-radius: 5px;
+        margin-bottom: 5px;
+    }
+
     &__container {
         width: 85%;
         margin: 0 auto;
@@ -32,6 +50,13 @@
             line-height: 25px;
             background: #f9f9f9;
             border-radius: 10px;
+            position: relative;
+
+            &.flex {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
         }
 
         &_list {
@@ -67,6 +92,69 @@
 
             &.bounce {
                 animation: .5s bounce-up-down;
+            }
+        }
+    }
+
+    &__panel {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 20px 0;
+
+        &_button {
+
+            &.button {
+                width: 36px;
+                height: 36px;
+                margin: 0 5%;
+                background-color: transparent;
+                position: relative;
+                outline: none;
+                cursor: pointer;
+            }
+
+            &.subtract:after {
+                width: 15px;
+                height: 1px;
+            }
+
+            &.add:after {
+                width: 15px;
+                height: 1px;
+            }
+
+            &.add:before {
+                width: 1px;
+                height: 15px;
+            }
+
+            &:after, &:before {
+                content: "";
+                display: block;
+                @extend .abs-cntr;
+                background-color: $primaryColor;
+            }
+        }
+
+        & input {
+            width: 33%;
+            height: 30px;
+            line-height: 19px;
+            box-sizing: border-box;
+            text-align: center;
+            padding: 5px;
+            border: 1px solid $frameBackgroundColor;
+            border-radius: 5px;
+            font-size: 15px;
+            resize: none;
+            //caret-color: #00a046;
+            color: $inputColor;
+            outline: none;
+            cursor: pointer;
+
+            &:focus {
+                outline: 1px solid $frameBackgroundColor;
             }
         }
     }

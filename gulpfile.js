@@ -3,25 +3,25 @@ const { task, src, dest, series, watch } = require('gulp');
 const _sass = require('gulp-sass');
 const _autoprefixer = require('gulp-autoprefixer');
 const _cleanCSS = require('gulp-clean-css');
-const _browserSync = require('browser-sync').create();
-const _babel = require('gulp-babel');
-const _uglify = require('gulp-uglify');
-const _pipeline = require('readable-stream').pipeline;
-const _eslint = require("gulp-eslint");
+//const _browserSync = require('browser-sync').create();
+//const _babel = require('gulp-babel');
+//const _uglify = require('gulp-uglify');
+//const _pipeline = require('readable-stream').pipeline;
+//const _eslint = require("gulp-eslint");
 const _through2 = require('through2').obj;
 const File = require('vinyl');
 
 //// SERVER ////
 
-function server() {
-    return _browserSync.init({
-        server: {
-            baseDir: "./"
-        },
-        //open: false,
-        port: 8080
-    });
-};
+//function server() {
+//    return _browserSync.init({
+//        server: {
+//            baseDir: "./"
+//        },
+//        //open: false,
+//        port: 8080
+//    });
+//};
 
 /// STYLES ///
 
@@ -34,9 +34,9 @@ function sass() {
         .pipe(dest('build/styles/'))
 }
 
-task('sass_watch', function () {
-    watch('scss/**/*.scss', series(style));
-});
+function sass_watch() {
+    return watch('scss/**/*.scss', series(sass) )
+}
 
 /// JS ///
 
@@ -58,83 +58,8 @@ function uglifyJs() {
 
 task('compress', series(processJs, uglifyJs));
 
-/// ESLINT ///
-
-function eslint() {
-
-    let cache = {};
-
-    let cacheDirectory = process.cwd() + "/eslintCache.json"
-
-    return src("js/**/*.js")
-        .pipe(_eslint({
-            rules: {
-                'strict': 2
-            },
-            globals: [
-                'WTR'
-            ],
-            envs: [
-                'browser',
-                'es6'
-            ],
-            parserOptions: {
-                "sourceType": "module"
-            }
-        }))
-        .pipe(_through2(function (file, encode, callback) {
-
-            let key = file.relative;
-
-            if (!cache.key) {
-
-                cache[key] = {
-                    eslint: file.eslint,
-                    mtime: file.stat.mtime
-                }
-
-            }
-
-            for (let key in cache) {
-                if (cache[key].eslint.messages.length) {
-                    console.log(cache[key].eslint.messages)
-                }
-            }
-
-            callback()
-        },
-            function (callback) {
-
-                let cacheFile = new File({
-                    base: process.cwd(),
-                    path: cacheDirectory,
-                    contents: new Buffer( JSON.stringify(cache) )
-                })
-
-                cache.isCache = true;
-
-                this.push(cacheFile)
-
-                callback()
-            }
-        )
-        )
-        .pipe(_eslint.format())
-        .pipe(dest(function (file) {
-            if (file.isCache) {
-                return process.cwd();
-            }
-            else {
-                return "build";
-            }
-        })).on("end", () => {
-            console.log('There will be no more data.');
-        })
-
-}
-
 /// EXPORT ///
 
-exports.default = server;
+//exports.default = server;
 exports.sass = sass;
-exports.eslint = eslint;
+exports.sass_watch = sass_watch;

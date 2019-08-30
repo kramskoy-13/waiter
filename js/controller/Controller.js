@@ -4,6 +4,14 @@ import Validator from "./validator/Validator.js";
 
 class Controller {
 
+    checkIfAppAlreadyLoaded() {
+        return Model.checkIfAppAlreadyLoaded()
+    };
+
+    setAppStateToLoaded() {
+        Model.setAppStateToLoaded();
+    }
+       
     getSignInHTML() {
         if(!Model.checkIfUserLoggedIn()) {
             View.getLoginSignInTemplate();
@@ -35,7 +43,7 @@ class Controller {
         this.getCurrentLocationPlaces();
     };
 
-    getCurrentLocationPlaces(){
+    getCurrentLocationPlaces() {
         View.setLoading();
         Model.getCurrentLocationPlaces().then( response => {
             response = ['McDonald’s', 'KFC', 'SomeCafe', 'Place to Eat', 'Another Restaurant', 'Burger Shop', 'Beer Pab'];
@@ -45,21 +53,48 @@ class Controller {
             }
 
             response = response[0];  // <== shoud be a real place
-            this.getSelectedPlaceData(response)
+            this.fetchSelectedPlaceData(response)
         })
     };
 
-    getSelectedPlaceData(place) {
-        console.log("getSelectedPlaceData")
-        Model.getSelectedPlaceData(place)
-        .then(response => {
-            View.removeLoading();
-            View.setSelectedPlaceData(response);
-            View.getMainLayoutTemplate();
+    fetchSelectedPlaceData(place) {
+        console.log("fetchSelectedPlaceData")
+        Model.fetchSelectedPlaceData(place) /// place arg is needed for the first time and in case a user logged out
+            .then(() => {
+                View.removeLoading();
+                //View.setSelectedPlaceData(response);
+                View.getMainLayoutTemplate();
             })
             .catch(error => {
                 View.showErrorNotification(error)
             })
+    };
+
+    getSelectedPlaceData() {
+        let data = Model.getCurrentPlaceData();
+        if (!data) {
+            return View.showErrorNotification("There is no data provided for the current place.")
+        }
+        return data;
+    };
+
+    getCurrentCategory() {
+        return Model.getCurrentCategory()
+    };
+
+    setCurrentCategory(category) {
+        Model.setCurrentCategory(category)
+    };
+
+    /// CART ///
+
+    addItemToCart(dish, num) {
+        if (!dish.id) { return View.showErrorNotification("No dish has been provided.") }
+        Model.addItemToCart(dish, +num);
+    };
+
+    checkDishInCart(id) {
+        return Model.checkDishInCart(id);
     };
 
     refreshUserData(){

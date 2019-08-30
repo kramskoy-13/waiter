@@ -12,6 +12,10 @@
         flex-wrap: wrap;
         justify-content: flex-start;
 
+        & nav {
+            width: 100%;
+        }
+
         &_item {
             flex-shrink: 0;
             padding: 25px;
@@ -65,11 +69,21 @@
         padding: 0;
         background-color: white;
 
+        & button {
+            width: 90%;
+        }
+
         & .image {
             background-size: cover;
             background-position: center;
             width: 100%;
             padding-top: 100%;
+
+            &.item {
+                width: 90%;
+                margin-top: 5%;
+                border-radius: 5px;
+            }
         }
 
         & .select {
@@ -95,8 +109,9 @@
         &.item {
             @include parent("item") {
                 margin: 20px !important;
+                margin-top: 0 !important;
                 width: calc(100% - 40px);
-                padding-bottom: 25px;
+                //padding-bottom: 25px;
             }
         }
 
@@ -164,7 +179,7 @@
 .dots {
     display: flex;
     flex-wrap: nowrap;
-    align-items: baseline;
+    align-items: flex-end;
     justify-content: space-between;
     width: 90%;
     padding: 5px 0;
@@ -176,12 +191,31 @@
         white-space: initial;
         text-overflow: initial;
         text-align: left;
-        padding: 0;
-        font-size: 16px;
+        //padding: 0;
+        font-size: 14px;
+        line-height: 14px;
+        //font-size: 16px;
+        &.sum {
+            min-width: 70px;
+            padding: 0 10px;
+            height: 26px;
+            font-size: 16px;
+            line-height: 26px;
+            text-align: center;
+            background: $primaryColor;
+            border-radius: 5px;
+            color: white;
+            font-weight: 900;
+
+            &:after {
+                content: ' UAH';
+                font-size: 14px;
+            }
+        }
     }
 
     &-holder {
-        border-bottom: 1.5px dotted rgb(121,121,121);
+        border-bottom: 1.2px dotted $dotsDishesBorderColor;
         width: 100% !important;
         margin: 0 5px;
         flex-shrink: initial !important;
@@ -191,17 +225,27 @@
 
     &-menu.open + .sub-item {
         max-height: 200px;
+        transform: scale(1);
         opacity: 1;
-        width: 90%;
-        border: 1px solid #eee;
-        border-radius: 5px;
+        transition: .3s;
         padding: 10px;
-        font-size: 14px;
-        line-height: 22px;
 
         &.ingredients {
             text-align: center;
         }
+    }
+
+
+    &-item {
+        font-size: 14px;
+        width: 90%;
+        border: 1px solid #eee;
+        border-radius: 5px;
+        line-height: 22px;
+        max-height: 0;
+        transform: scale(0);
+        opacity: 0;
+        transition: opacity .3s, max-height .3s, transform .3s;
 
         & li {
             display: inline-block;
@@ -209,14 +253,8 @@
         }
     }
 
-
-    &-item {
-        max-height: 0;
-        opacity: 0;
-        transition: .3s;
-    }
-
     &-pointer {
         color: $primaryColor;
+        font-size: 18px;
     }
 }

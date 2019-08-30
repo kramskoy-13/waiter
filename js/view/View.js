@@ -25,6 +25,7 @@ import { SHOPPING_CHART_TEMPLATE } from "./Template/templates/_shopping-cart.js"
 import { CATEGORIES_TEMPLATE } from "./Template/templates/_categories.js";
 import { DISHES_TEMPLATE } from "./Template/templates/_dishes.js";
 import { SELECTED_DISH_TEMPLATE } from "./Template/templates/_selectedDish.js";
+import { CURRENT_PURCHASE_TEMPLATE } from "./Template/templates/_current-purchase.js";
 
 ///////////////////////
 /////// ICONS ////////
@@ -44,15 +45,11 @@ class View {
 
         this.loginCurrentTemplate = null;
 
-        this.selectedPlace = null;
-        this.selectedPlaceData = null;
-        this.selectedCategory = null;
-
 		////////////////////////
 		/////// POPUPS ////////
 		//////////////////////
         this.loadingPopup = new PopupTemplate({ parent: this.wrapper, template:LOADING_TEMPLATE });
-        this.currenPopup = null;
+        this.currentPopup = null;
 
         //////////////////////////////
 		/////// MAIN PARTS //////////
@@ -139,10 +136,16 @@ class View {
 
 	selectPlaceToBeServed(places, flag) {
         console.log("selectPlaceToBeServed fires");
-        this.selectedPlace = places[0]; // <-- corresponding the first element is set at PopupSPTemplate
-        this.currenPopup = new PopupSPTemplate({ parent: this.wrapper, template:SELECT_PLACES_TEMPLATE, flag });
-		this.currenPopup
-            .initListener({selector: "#select", listener: "click", callback: this.getSelectedPlaceData.bind(this)})
+        //this.selectedPlace = places[0]; // <-- corresponding the first element is set at PopupSPTemplate
+        this.currentPopup = new PopupSPTemplate({ parent: this.wrapper, template:SELECT_PLACES_TEMPLATE, flag });
+		this.currentPopup
+            .initListener({
+                selector: "#select", listener: "click", callback: () => {
+                    let selectedLI = document.querySelector(".selected");
+                    if (!selectedLI || !selectedLI.id) return this.showErrorNotification();
+                    this.fetchSelectedPlaceData.bind(this, selectedLI.id)();
+                }
+            })
             .initListener({
                 selector: "#back", listener: "click", callback: this.showConfirmationMessage.bind(this,
                     {
@@ -150,40 +153,38 @@ class View {
                         confirm: () => {
                             this.refreshUserData.bind(this)();
                             this.getLoginSignInTemplate.bind(this)();
-                            this.currenPopup.destroy();
+                            this.currentPopup.destroy();
                         },
                         cancel: this.selectPlaceToBeServed.bind(this, places, true)
                     })
             })
             .create()
             .showList(places)
-            .handleListener({ selector: ".popup__container_list > li", listener: "click", callback: this.selectPlace.bind(this), action: "add" })
+            //.handleListener({ selector: ".popup__container_list > li", listener: "click", callback: this.selectPlace.bind(this), action: "add" })
 	};
 
-    selectPlace() {
-        console.log("View selectPlace")
-        if (!event.target || !event.target.id) {
-            return this.showErrorNotification()
-        }
-        this.selectedPlace = event.target.id;
+    fetchSelectedPlaceData(place) {
+        console.log("fetchSelectedPlaceData");
+        this.setLoading();
+        this.currentMainTemplate = this.getCategoriesTemplate;
+        //Controller.getSelectedPlaceData(place);
+        Controller.fetchSelectedPlaceData(place);
     };
 
     getSelectedPlaceData() {
-        console.log("getCategoriesData");
-        this.setLoading();
-        this.currentMainTemplate = this.getCategoriesTemplate;
-        Controller.getSelectedPlaceData(this.selectedPlace);
+        return Controller.getSelectedPlaceData() /// { data: placeData, place: place }
     };
 
-    setSelectedPlaceData(data) {
-        console.log("setSelectedPlaceData");
-        this.selectedPlaceData = data;
+    getCurrentCategory() {
+        return Controller.getCurrentCategory()
     };
 
 	showConfirmationMessage({message, confirm = Function.prototype, cancel = Function.prototype}) {
 		console.log("showConfirmationMessage")
-        this.currenPopup = new PopupTemplate({ parent: this.wrapper, template:CONFIRMATION_TEMPLATE, message });
-		this.currenPopup.initListener({selector:"#confirm", listener:"click", callback:confirm}).initListener({selector:"#refuse",listener:"click", callback:cancel}).create();
+        this.currentPopup = new PopupTemplate({ parent: this.wrapper, template:CONFIRMATION_TEMPLATE, message });
+        this.currentPopup
+            .initListener({ selector: "#confirm", listener: "click", callback: confirm }).initListener({ selector: "#refuse", listener: "click", callback: cancel })
+            .create();
 	};
 
     getMainLayoutTemplate() {
@@ -225,7 +226,7 @@ class View {
 
     getShoppingChartTemplate() {
         console.log("getShoppingChartTemplate");
-        this.shoppingChart.initListener({ selector: "#shopping-cart", listener: "click", callback: this.getShoppingChartInfo.bind(this) })
+        this.shoppingChart.initListener({ selector: ".shopping-cart", listener: "click", callback: this.getShoppingChartInfo.bind(this) })
         this.shoppingChart.create()
     };
 
@@ -241,35 +242,34 @@ class View {
             5: fish,
             6: meat
         }
-        const categories = this.selectedPlaceData.map(item => {
-            return {
-                name: item.name,
-                icon: config[item.category],
-                id: item.id
-            }
-        });
+        let categories = this.getSelectedPlaceData();
+        if (!categories || !categories.data) return showErrorNotification("No categories data has been provided");
+            categories = categories.data.map(item => {
+                return {
+                    name: item.name,
+                    icon: config[item.category],
+                    id: item.id
+                }
+            });
         const selector = ".main__container_item";
 
         this.currentMainTemplate = new Template({ parent: "main", template: CATEGORIES_TEMPLATE });
         this.currentMainTemplate
             .initListener({ selector, listener: "click", callback: this.selectItem.bind(this, selector) })
             .initListener({
-                selector: ".select", listener: "click", callback: (event) => {
+                selector: ".select", listener: "click", callback: event => {
                     let target = event.target.className == "main__container_item aim" ? event.target.id : event.target.closest(".main__container_item.aim").id;
-                    //let category;
-                    this.selectedPlaceData.forEach(c => {
-                        if (c.id && c.id == target) {
-                            //category = c
-                            this.selectedCategory = c
-                        }
+                    this.getSelectedPlaceData().data.forEach(c => {
+                        if (c.id && c.id == target) return Controller.setCurrentCategory(c);
                     })
-                    if (this.selectedCategory && this.selectedCategory.dishes) {
-                        this.getDishesTemplate(this.selectedCategory.name, this.selectedCategory.dishes)
+                    let category = this.getCurrentCategory();
+                    if (category && category.dishes) {
+                        this.getDishesTemplate(category.name, category.dishes)
                     }
                 }
             })
             .create({ categories });
-        // REMOVE HIGHLIGHTED SPAN FROM FOOTER ///
+        /// REMOVE HIGHLIGHTED SPAN FROM FOOTER ///
         this.removeSelectedClass();
     };
 
@@ -303,21 +303,113 @@ class View {
     };
 
     // USER SELECT AN ITEM //
-    handleSelectedDish(event) {
-        let target = event.target.closest(".aim");
-        if (!target || !target.id) return;
-        let dish = this.selectedCategory.dishes.filter( d => d.id === target.id )[0];
-        console.log("dish", dish)
+    handleSelectedDish(e) {
+        let target = e;
+        if (typeof e !== "string") {
+            target = e.target.closest(".aim");
+            if (!target || !target.id) return;
+            target = target.id
+        }
+        
+        /// REMOVE HIGHLIGHTED SPAN FROM FOOTER ///
+        this.currentMainTemplateMark = "dish";
+        this.removeSelectedClass();
+
+        let category = this.getCurrentCategory();
+
+        let dish = category.dishes.filter(d => d.id === target)[0];
+
+        let alreadyInCart = Controller.checkDishInCart(dish.id);
+        let cartCallback = alreadyInCart ? this.getShoppingChartInfo.bind(this) : this.getCurrentPurchasePopup.bind(this, dish, target);
+
+        /// check if the dish is already at the cart
+        /// if yes, show link to the basket instead
+        /// showing of 'add to chart' button
+
         this.currentMainTemplate = new Template({ parent: "main", template: SELECTED_DISH_TEMPLATE });
-        this.currentMainTemplate.create(dish)
+        this.currentMainTemplate
+            .initListener({
+                selector: ".sub-pointer", listener: "click", callback: event => {
+                    let { target } = event;
+                    let closest = target.closest(".sub-menu")
+                    if (closest) { closest.classList.toggle("open") }
+                }
+            }) 
+            .initListener({ selector: "#categories", listener: "click", callback: this.getCategoriesTemplate.bind(this) }) 
+            .initListener({ selector: "#dishes", listener: "click", callback: this.getDishesTemplate.bind(this, category.name, category.dishes) }) 
+            .initListener({ selector: "#cart", listener: "click", callback: cartCallback }) 
+            .create({ dish, flag : alreadyInCart }) /// <-- create new if statement at template
     };
 
-    toggleMenuPopup() {
-        console.log("toggleMenuPopup")
+    getCurrentPurchasePopup(dish, id) {
+        let category = this.getCurrentCategory();
+
+        this.currentPopup = new PopupTemplate({ parent: this.wrapper, template: CURRENT_PURCHASE_TEMPLATE });
+        this.currentPopup
+            .initListener({
+                selector: "#close", listener: "click", callback: () => {
+                    this.currentPopup.destroy.bind(this.currentPopup)();
+                    this.handleSelectedDish.bind(this, id)();
+                } 
+            })
+            .initListener({
+                selector: "#categories", listener: "click", callback: () => {
+                    this.currentPopup.destroy.bind(this.currentPopup)();
+                    this.getCategoriesTemplate.bind(this)();
+                }
+            })
+            .initListener({
+                selector: "#dishes", listener: "click", callback: () => {
+                    this.currentPopup.destroy.bind(this.currentPopup)();
+                    this.getDishesTemplate.bind(this, category.name, category.dishes)();
+                }
+            })
+            .create(dish);
+        let sumUAH = document.getElementById("sum");
+        let cartInput = document.getElementById("cart-input");
+        this.currentPopup
+            .handleListener({ selector: ".popup__panel_button", listener: "click", callback: this.handleNumbClick.bind(this, cartInput, sumUAH, dish), action: "add" })
+            .handleListener({ selector: "#cart-input", listener: "input", callback: this.handleNumbInput.bind(this, cartInput, sumUAH, dish), action: "add" });
+        this.addItemToCart(dish, cartInput);
     };
+
+    handleNumbClick(cartInput, sumUAH, dish) {
+        if (!event.target || !event.target.id) return;
+        switch (event.target.id) {
+            case "add": {
+                if (+cartInput.value === 40) return;
+                ++cartInput.value;
+                break
+            } 
+            case "subtract": {
+                if (+cartInput.value === 1) return;
+                --cartInput.value;
+                break
+            }
+            default: return
+        }
+        sumUAH.innerHTML = (cartInput.value * dish.price).toFixed(2);
+        this.addItemToCart.bind(this, dish, cartInput)();
+    };
+
+    handleNumbInput(cartInput, sumUAH, dish) {
+        let reg = /\D+/g;
+        let e = event.target;
+            e.value = e.value.replace(reg, "");
+        if (+e.value > 40) { e.value = 40 }
+        if (+e.value <= 0) { e.value = 1 }
+        sumUAH.innerHTML = (e.value * dish.price).toFixed(2);
+        this.addItemToCart.bind(this, dish, cartInput)();
+    };
+
+    /// CART ///
 
     getShoppingChartInfo() {
         console.log("getShoppingChartInfo")
+    };
+
+    addItemToCart(dish, cartInput) {
+        if (cartInput && dish) Controller.addItemToCart(dish, cartInput.value); 
     };
 
     changeNumberOfItemsToShow() {
@@ -341,13 +433,17 @@ class View {
             notTargets.forEach(t => t.classList.remove("selected"));
     };
 
+    toggleMenuPopup() {
+        console.log("toggleMenuPopup")
+    };
+
 	refreshUserData() {
 		Controller.refreshUserData()
     };
 
     showErrorNotification(error) {
-        console.log(error)
         debugger
+        console.log(error.stack)
     };
 }
 

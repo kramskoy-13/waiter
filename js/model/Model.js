@@ -2,12 +2,70 @@ import { controller as Controller } from "../controller/Controller.js";
 
 class Model {
     constructor() {
+        this.WTRLoaded = true; // <-- should be false
         this.userEmail = null;
         this.userPassword = null;
         this.userLoggedIn = true; // <-- should be false
         this.place = null;
         this.placeData = null;
+        this.selectedCategory = null;
+        this.cart = {
+            dishes: {},
+            totalPrice: 0,
+            totalCount: 0
+        }
+        /* 
+          dishes: {
+            id: {
+                    number: 1,
+                    price: 22UAH
+                    img: ///
+                    divided: false
+                }
+          }
+         */
     }
+
+    /// APP ///
+
+    checkIfAppAlreadyLoaded() {
+        return this.WTRLoaded
+    };
+
+    setAppStateToLoaded() {
+        this.WTRLoaded = true;
+    };
+
+    /// CART ///
+
+    checkDishInCart(id) {
+        return typeof this.cart.dishes[id] !== 'undefined'
+    };
+
+    addItemToCart(dish, num) {
+        let id = dish.id;
+        let dishes = this.cart.dishes;
+        if (!dishes[id]) {
+
+            dishes[id] = {};
+
+            for (let key in dish) {
+                
+                if ( dish.hasOwnProperty(key) ) {
+                    dishes[id][key] = dish[key]
+                }
+
+            }
+            dishes.totalCount += 1
+        }
+
+        dishes[id].number = num
+
+        console.log("new item in the cart", dishes[id])
+        console.log("in number", dishes[id].number)
+    };
+
+    /// LOGIN ///
 
     checkIfUserLoggedIn() {
         console.log("checkIfUserLoggedIn fires")
@@ -21,6 +79,16 @@ class Model {
         console.log('fillLoginDataFields fires:', this)
     };
 
+    /// CURRENT PLACE ///
+
+    fetchSelectedPlaceData(place) {
+        return new Promise(resolve => {
+            this.place = place; // <-- should be a reall id
+            this.placeData = menu; // <-- should be reall data
+            setTimeout(() => resolve(this.placeData), 3000);
+        })
+    };
+
     getCurrentLocationPlaces() {
         /// HERE A REAL REQUEST TO THE DATA BASE SHOULD BE USED///
         return new Promise((resolve, reject) => {
@@ -28,22 +96,30 @@ class Model {
         })
     };
 
+    getCurrentPlaceData() {
+        if (this.placeData && this.place) return { data: this.placeData, place: this.place };
+        return null;
+    };
+
+    /// CATEGORIES ///
+
+    getCurrentCategory() {
+        return this.selectedCategory
+    };
+
+    setCurrentCategory(category) {
+        this.selectedCategory = category;
+    };
+
+    /// REFRESH DATA ///
+
     refreshUserData() {
         this.userEmail = null;
         this.userPassword = null;
         this.userLoggedIn = false;
-    };
-
-    getSelectedPlaceData(place) {
-        if (this.place == place && this.placeData) {
-            return this.placeData
-        }
-        return new Promise((resolve, reject) => {
-            this.place = place; // <-- should be reall id
-            this.placeData = menu; // <-- should be reall data
-            setTimeout(() => resolve( this.placeData ), 3000);
-        })
-    };
+        this.place = null;
+        this.placeData = null;
+    };   
 
 }
 

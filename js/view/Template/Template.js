@@ -7,6 +7,7 @@ export default class Template {
     }
 
     create(args = {}) {
+        /// AS A PARENT EITHER ID OR NODE SHOULD BE PASSED ///
         if (!this.parent) {
             console.error(`parent selector wasn't found at ${this.constructor.name}`); return;
         }
@@ -15,6 +16,9 @@ export default class Template {
         }
         else if (typeof this.parent === "string") {
             let parent = document.getElementById(this.parent)
+            if (!parent) {
+                throw new Error("Only id ore html node should be passed as a parent.")
+            }
             parent.innerHTML = this.template(args);
         }
         
@@ -29,7 +33,7 @@ export default class Template {
         }
 
     };
-
+    /// ADD LISTENERS WHEN CREATING HTML MARKUP ///
     initListener({ selector, listener, callback }) {
         this.listeners.push({
             selector, listener, callback
@@ -55,6 +59,8 @@ export default class Template {
         return this
     };
 
+    /// ADD LISTENERS AFTER HTML MARKUP HAS BEEM CREATED ///
+
     handleListener({ selector, listener, callback, action }) {
         if (action != "add" && action != "remove") {
             console.error("action type has not been defined at handleListener [Template class]");
@@ -69,6 +75,7 @@ export default class Template {
             case "remove" : slct.forEach(s => s.removeEventListener(listener, callback) ); break;
             default       : return;
         }   
+        return this
     };
 
     appendElement({tag, parentSelector, text}) {

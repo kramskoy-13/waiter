@@ -2,10 +2,17 @@
 @import './partials/initial';
 @import './partials/progressBar';
 @import './partials/popup';
-@import './partials/popupLoading';
+@import './partials/popup-shadow';
 @import './partials/navigation';
 @import './partials/footer';
 @import './partials/main';
+
+.abs-cntr {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
 
 html {
   height: 100%;
@@ -80,11 +87,41 @@ body {
     font-size: 46px;
     text-align: center;
     color: $primaryColor;
+    margin-top: 0;
 
     &.small {
         text-align: left;
         font-size: 32px;
     }
+}
+.close {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background-color: $frameBackgroundColorFocused;
+    position: relative;
+    transform: rotate(45deg);
+
+    &:after, &:before {
+        content: "";
+        display: block;
+        width: 22px;
+        height: 2px;
+        border-radius: 5px;
+        background: white;
+        transform-origin: center;
+        @extend .abs-cntr;
+    }
+
+    &:before {
+        transform-origin: 0 0;
+        transform: rotate(90deg) translate(-50%,-50%);
+    }
+}
+
+.pt-0 {
+    padding-top: 0;
 }
 .mt-30 {
     margin-top: 30px;
@@ -109,6 +146,26 @@ body {
     color: white;
     text-transform: uppercase;
     margin-bottom: 20px;
+
+    /*& span {
+        margin-left: 10px;
+    }*/
+
+    & svg {
+        margin-right: 10px;
+        width: 20px;
+        fill: white;
+    }
+
+    &.visited {
+        background: white;
+        color: $primaryColor;
+        border: 1px solid $primaryColor;
+
+        & svg {
+            fill: $primaryColor;
+        }
+    }
 }
 .h4 {
 	width: 60%;
@@ -175,6 +232,11 @@ body {
     z-index: 10;
     /* margin-bottom: 40px; */
     width: 100%;
+}
+.flex-ctr {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 @keyframes bounce-up-down {
     0% {

@@ -1,30 +1,35 @@
-export const SELECTED_DISH_TEMPLATE = ({ ingredients, id, img, price, name, description }) => {
+import { SHOPPING_CHART_TEMPLATE } from "./_shopping-cart.js";
+
+export const SELECTED_DISH_TEMPLATE = ({ dish, flag }) => {
+
     let insert = '';
    
-    if (ingredients) {
-        ingredients.forEach(ing => insert += `<li>${ing}</li>`)
+    if (dish.ingredients) {
+        dish.ingredients.forEach(ing => insert += `<li>${ing}</li>`)
     }
 
     return `
     <div class="main__container one item dishes">
-
-        <nav class="navigation__sub-menu">
-            <div id="categories">Categories</div>
-            <div id="dishes">Dishes</div>
-            <div class="current">${name}</div>
+        
+        <nav>
+            <h4 class="navigation__sub-menu">
+                <div id="categories">Categories</div>
+                <div id="dishes">Dishes</div>
+                <div class="current">${dish.name}</div>
+            </h4>
         </nav>
 
-        <div class="main__container_item" id="${id}">
-            <div class="image" style="background-image: url('${img}')"></div>
+        <div class="main__container_item" id="${dish.id}">
+            <div class="image item" style="background-image: url('${dish.img}')"></div>
             <div class="dots">
                 <div>Name</div>
                 <div class="dots-holder"></div>
-                <div>${name}</div>
+                <div>${dish.name}</div>
             </div>
             <div class="dots">
                 <div>Price</div>
                 <div class="dots-holder"></div>
-                <div>${price} UAH</div>
+                <div>${dish.price} UAH</div>
             </div>
             <div class="dots sub-menu">
                 <div>Ingredients</div>
@@ -37,8 +42,13 @@ export const SELECTED_DISH_TEMPLATE = ({ ingredients, id, img, price, name, desc
                 <div class="dots-holder"></div>
                 <div class="sub-pointer">+</div>
             </div>
-            <div class="sub-item description">${description}</div>
+            <div class="sub-item description">${dish.description}</div>
+              <button class="button flex-ctr ${flag ? 'visited shopping-cart' : ''}" id="cart">
+                ${ SHOPPING_CHART_TEMPLATE() }
+                ${flag ? 'Already in Chart' : 'Add to Chart'}
+            </button>
         </div>
+        
 
     </div>
  `

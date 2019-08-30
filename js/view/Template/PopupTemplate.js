@@ -6,7 +6,7 @@ class PopupTemplate extends Template {
         this.message = message || null;
     }
 
-    create() {
+    create(args) {
         let element;
         if(document.querySelector(".shadow-container__wrapper")) {
             element = document.querySelector(".shadow-container__wrapper");
@@ -19,7 +19,7 @@ class PopupTemplate extends Template {
 
         if (typeof this.template === "undefined") { console.error("template is undefined at PopupTemplate"); return }
 
-        element.innerHTML = this.message ? this.template(this.message) : this.template();
+        element.innerHTML = this.message ? this.template(this.message, args) : this.template(args);
         
         this.parent.appendChild(element);
         // this.parent.firstElementChild.classList.add("blur");
@@ -42,7 +42,10 @@ class PopupTemplate extends Template {
         [...this.parent.children].forEach(child => {
             if (child.className !== "shadow-container__wrapper") { child.classList.remove("blur") }
         });
-        document.querySelector(".shadow-container__wrapper").remove();
+        let shadow = document.querySelector(".shadow-container__wrapper");
+        if (shadow) {
+            shadow.remove()
+        }
     };
 }
 export default PopupTemplate;

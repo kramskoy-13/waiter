@@ -10,7 +10,7 @@ const WTR            = {};
         wrapper      : document.getElementById('wrapper'),
         textContainer: document.getElementById('textContainer'),
         width        : 7.5
-      };
+};
 
     setTimeout( () => {
         WTR.index.textContainer.parentNode.classList.remove('initial');
@@ -23,32 +23,35 @@ const WTR            = {};
     //////////////////////////////////////////////
     //// SHOW PROGRESS BAR AT THE BEGINNING /////
     ////////////////////////////////////////////
-    WTR.index.showProgress = function(width) {
-        if(this.width >= 100) {
-            this.progressBar.style.width = '100%';
-            this.percentage.innerText    = '100';
-            this.textContainer.parentNode.classList.add('completed');
+WTR.index.showProgress = function (width) {
+    if (this.width >= 100) {
+        this.progressBar.style.width = '100%';
+        this.percentage.innerText = '100';
+        this.textContainer.parentNode.classList.add('completed');
 
-            setTimeout( () => {
-                WTR.Controller.getSignInHTML();
-            }, 1000)
-        }
-        else {
-            this.progressBar.style.width = this.width + '%';
-            this.percentage.innerText    = this.width;
-            this.width += Math.floor(Math.random() * (10 - 1)) + 1;
+        setTimeout(() => {
+            WTR.Controller.setAppStateToLoaded();
+            WTR.Controller.getSignInHTML();
+        }, 1000)
+    }
+    else {
+        this.progressBar.style.width = this.width + '%';
+        this.percentage.innerText = this.width;
+        this.width += Math.floor(Math.random() * (10 - 1)) + 1;
 
-            setTimeout( () => {
-                this.showProgress(this.width);
-            }, Math.floor(Math.random() * (100 - 50)) + 50)
-        }
-    };
+        setTimeout(() => {
+            this.showProgress(this.width);
+        }, Math.floor(Math.random() * (100 - 50)) + 50)
+    }
+};
 
-    setTimeout(function() {
-        return WTR.index.showProgress(WTR.index.width);
-    }, 1500);
-    /////////////////////////
-    /// LOADING BAR END /////
-    ////////////////////////
+setTimeout(function () {
+    if (WTR.Controller.checkIfAppAlreadyLoaded()) {
+        WTR.index.width = 100;
+        return WTR.index.showProgress()
+    }
+    return WTR.index.showProgress(WTR.index.width);
+}, 1500);
+
 
 
