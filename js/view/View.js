@@ -42,24 +42,22 @@ import { salads } from "./svg/salads.js";
 class View {	
 	constructor() {
         this.wrapper = document.getElementById('wrapper');
-
         this.loginCurrentTemplate = null;
-
 		////////////////////////
 		/////// POPUPS ////////
 		//////////////////////
         this.loadingPopup = new PopupTemplate({ parent: this.wrapper, template:LOADING_TEMPLATE });
         this.currentPopup = null;
-
         //////////////////////////////
 		/////// MAIN PARTS //////////
 		////////////////////////////
         this.mainLayoutTemplate = null; // <== consists of navigation bar, footer and placeholder for main content
         this.navigationTemplate = null;// <-- navigation id set into main template 
         this.footerTemplate = null; // <-- footer id set into main template 
+        
         this.highlightedSpanNum = "two"; // two dishes are shown in row
-        this.shoppingChart = new Template({ parent: "shopping-cart", template: SHOPPING_CHART_TEMPLATE });
-
+        this.shoppingCart = new Template({ parent: "cartHolder", template: SHOPPING_CHART_TEMPLATE });
+        /////// CURRENT TEMPLATE //////////
         this.currentMainTemplate = null;
         this.currentMainTemplateMark = null;
 	}
@@ -190,7 +188,7 @@ class View {
     getMainLayoutTemplate() {
         console.log("getMainLayout");
         this.mainLayoutTemplate = new Template({ parent: this.wrapper, template: MAIN_TEMPLATE });
-        this.shoppingChart.initListener({ selector: ".footer__display", listener: "click", callback: this.changeNumberOfItemsToShow.bind(this) })
+        this.shoppingCart.initListener({ selector: ".footer__display", listener: "click", callback: this.changeNumberOfItemsToShow.bind(this) })
         this.mainLayoutTemplate.create();
         this.mainLayoutTemplate
             .addChild(this.getNavigationTemplate.bind(this))
@@ -220,14 +218,14 @@ class View {
         this.footerTemplate = new Template({ parent: "footer", template: FOOTER_TEMPLATE });  
         this.footerTemplate.create();
         this.footerTemplate
-            .addChild(this.getShoppingChartTemplate.bind(this))
+            .addChild(this.getShoppingCartTemplate.bind(this))
             .createChildren()
     };
 
-    getShoppingChartTemplate() {
-        console.log("getShoppingChartTemplate");
-        this.shoppingChart.initListener({ selector: ".shopping-cart", listener: "click", callback: this.getShoppingChartInfo.bind(this) })
-        this.shoppingChart.create()
+    getShoppingCartTemplate() {
+        console.log("getShoppingCartTemplate");
+        this.shoppingCart.initListener({ selector: ".shopping-cart", listener: "click", callback: this.getShoppingCartnfo.bind(this) })
+        this.shoppingCart.create(0); /// <- 0 means number of dishes to show, initially the cart is empty
     };
 
     getCategoriesTemplate() {
@@ -320,10 +318,10 @@ class View {
         let dish = category.dishes.filter(d => d.id === target)[0];
 
         let alreadyInCart = Controller.checkDishInCart(dish.id);
-        let cartCallback = alreadyInCart ? this.getShoppingChartInfo.bind(this) : this.getCurrentPurchasePopup.bind(this, dish, target);
+        let cartCallback = alreadyInCart ? this.getShoppingCartnfo.bind(this) : this.getCurrentPurchasePopup.bind(this, dish, target);
 
         /// check if the dish is already at the cart
-        /// if yes, show link to the basket instead
+        /// if yes, show link to the cart instead
         /// showing of 'add to chart' button
 
         this.currentMainTemplate = new Template({ parent: "main", template: SELECTED_DISH_TEMPLATE });
@@ -402,16 +400,33 @@ class View {
         this.addItemToCart.bind(this, dish, cartInput)();
     };
 
-    /// CART ///
+    /// CART START ///
 
-    getShoppingChartInfo() {
-        console.log("getShoppingChartInfo")
+    getShoppingCartnfo() {
+        console.log("getShoppingCartnfo")
     };
 
     addItemToCart(dish, cartInput) {
         if (cartInput && dish) Controller.addItemToCart(dish, cartInput.value); 
     };
 
+    showFilledCart(num) {
+        let cart = document.getElementById("shopping-cart");
+            cart.classList.add("filled");
+        let cartCount = document.getElementById("cartCount");
+        if(!cartCount) {
+            cartCount = new Template({ parent: cart, template: () => { return `<span class="footer__count" id="cartCount">${num}</span>` } });
+            cartCount.create();
+        }
+        cartCount.innerHTML = num
+    };
+
+    showEmptyCart() {
+        let cart = document.getElementById("shopping-cart");
+            cart.classList.remove("filled");
+    };
+
+    /// CART END ///
     changeNumberOfItemsToShow() {
         if ( !event.target ||  this.currentMainTemplateMark !== "dishes" ) { return }
         let target = event.target.closest(".footer__display_row");

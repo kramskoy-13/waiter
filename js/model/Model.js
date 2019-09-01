@@ -56,10 +56,12 @@ class Model {
                 }
 
             }
-            dishes.totalCount += 1
+            ++dishes.totalCount
         }
 
         dishes[id].number = num
+        
+        Controller.updateCartIcon(this.cart.totalCount)
 
         console.log("new item in the cart", dishes[id])
         console.log("in number", dishes[id].number)

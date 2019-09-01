@@ -34,8 +34,8 @@ export const FOOTER_TEMPLATE = () => {
             </div>
         </div>
 
-        <div class="footer__cart shopping-cart" id="shopping-cart">
-            
+        <div class="footer__cart" id="cartHolder">
+
         </div>
  `
 }

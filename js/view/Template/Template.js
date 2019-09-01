@@ -17,7 +17,7 @@ export default class Template {
         else if (typeof this.parent === "string") {
             let parent = document.getElementById(this.parent)
             if (!parent) {
-                throw new Error("Only id ore html node should be passed as a parent.")
+                throw new Error("Only id or html node should be passed as a parent.")
             }
             parent.innerHTML = this.template(args);
         }

@@ -44,7 +44,7 @@ export const SELECTED_DISH_TEMPLATE = ({ dish, flag }) => {
             </div>
             <div class="sub-item description">${dish.description}</div>
               <button class="button flex-ctr ${flag ? 'visited shopping-cart' : ''}" id="cart">
-                ${ SHOPPING_CHART_TEMPLATE() }
+                ${ SHOPPING_CHART_TEMPLATE(0) }
                 ${flag ? 'Already in Chart' : 'Add to Chart'}
             </button>
         </div>

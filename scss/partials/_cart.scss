@@ -1,0 +1,36 @@
+.shopping-cart {
+
+    width: 28px;
+    position: relative;
+
+    svg {
+
+        fill: $footerNotSelectedBackground;
+
+    }
+
+    &.filled {
+
+        svg {
+            fill: $footerSelectedBackground;
+        }
+
+    }
+
+    &__count {
+        display: block;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        position: absolute;
+        bottom: 0px;
+        left: -5px;
+        background: $primaryColor;
+        color: white;
+        font-size: 12px;
+        font-family: $secondaryFont;
+        text-align: center;
+        line-height: 18px;
+    }
+
+}

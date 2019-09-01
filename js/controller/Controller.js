@@ -97,6 +97,12 @@ class Controller {
         return Model.checkDishInCart(id);
     };
 
+    updateCartIcon(number) {
+        View.updateCartIcon(number)
+    };
+
+    /// REFRESH ///
+
     refreshUserData(){
         Model.refreshUserData()
     };
