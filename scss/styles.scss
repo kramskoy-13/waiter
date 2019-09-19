@@ -118,6 +118,7 @@ body {
     &:before {
         transform-origin: 0 0;
         transform: rotate(90deg) translate(-50%,-50%);
+        height: 1.5px;
     }
 }
 

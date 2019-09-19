@@ -1,8 +1,8 @@
 import PopupTemplate from "./PopupTemplate.js";
 
 class PopupSPTemplate extends PopupTemplate {
-    constructor({ parent, template, flag }) {
-        super({ parent, template });
+    constructor({ wrapper, template, flag }) {
+        super({ wrapper, template });
         this.flag = flag || null;
     }
 	showList(places) {

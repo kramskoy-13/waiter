@@ -1,4 +1,4 @@
-import { SHOPPING_CHART_TEMPLATE } from "./_shopping-cart.js";
+import { SHOPPING_CART_TEMPLATE } from "./_shopping-cart.js";
 
 export const SELECTED_DISH_TEMPLATE = ({ dish, flag }) => {
 
@@ -43,8 +43,8 @@ export const SELECTED_DISH_TEMPLATE = ({ dish, flag }) => {
                 <div class="sub-pointer">+</div>
             </div>
             <div class="sub-item description">${dish.description}</div>
-              <button class="button flex-ctr ${flag ? 'visited shopping-cart' : ''}" id="cart">
-                ${ SHOPPING_CHART_TEMPLATE(0) }
+              <button class="button flex-ctr ${flag ? 'visited shopping-cart' : ''}" id="cart-button">
+                ${ SHOPPING_CART_TEMPLATE && SHOPPING_CART_TEMPLATE(0) }
                 ${flag ? 'Already in Chart' : 'Add to Chart'}
             </button>
         </div>

@@ -32,6 +32,9 @@
   padding: 20px;
   color: #ff4d4d; }
 
+.initial-login__wrapper {
+  padding-bottom: 20px; }
+
 .initial-login__container {
   background: white;
   padding: 10px 15px;
@@ -729,7 +732,8 @@ body {
     transform-origin: center; }
   .close:before {
     transform-origin: 0 0;
-    transform: rotate(90deg) translate(-50%, -50%); }
+    transform: rotate(90deg) translate(-50%, -50%);
+    height: 1.5px; }
 
 .pt-0 {
   padding-top: 0; }

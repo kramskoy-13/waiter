@@ -31,7 +31,7 @@ WTR.index.showProgress = function (width) {
 
         setTimeout(() => {
             WTR.Controller.setAppStateToLoaded();
-            WTR.Controller.getSignInHTML();
+            WTR.Controller.getSignUpHTML();
         }, 1000)
     }
     else {

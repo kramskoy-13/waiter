@@ -1,6 +1,6 @@
 export default class Template {
-    constructor({ parent, template }) {
-        this.parent = parent;
+    constructor({ wrapper, template }) {
+        this.wrapper = wrapper;
         this.template = template;
         this.listeners = [];
         this.children = [];
@@ -8,18 +8,18 @@ export default class Template {
 
     create(args = {}) {
         /// AS A PARENT EITHER ID OR NODE SHOULD BE PASSED ///
-        if (!this.parent) {
-            console.error(`parent selector wasn't found at ${this.constructor.name}`); return;
+        if (!this.wrapper) {
+            console.error(`wrapper selector wasn't found at ${this.constructor.name}`);
+            return
         }
-        if (typeof this.parent === "object") {
-            this.parent.innerHTML = this.template(args); // <-- name of object inside create function should be equal to the corresponding arguments inside template
-        }
-        else if (typeof this.parent === "string") {
-            let parent = document.getElementById(this.parent)
-            if (!parent) {
-                throw new Error("Only id or html node should be passed as a parent.")
+        if (typeof this.wrapper === "object") this.wrapper.innerHTML = this.template(args); // <-- name of object inside create function should be equal to the corresponding arguments inside template
+        
+        else if (typeof this.wrapper === "string") {
+            let wrapper = document.getElementById(this.wrapper)
+            if (!wrapper) {
+                throw new Error("Only id or html node should be passed as a wrapper.")
             }
-            parent.innerHTML = this.template(args);
+            wrapper.innerHTML = this.template(args);
         }
         
         if (this.listeners.length) {

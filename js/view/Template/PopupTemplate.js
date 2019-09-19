@@ -1,8 +1,8 @@
 import Template from "./Template.js";
 
 class PopupTemplate extends Template {
-    constructor({ parent, template, message }) {
-        super({ parent, template })
+    constructor({ wrapper, template, message }) {
+        super({ wrapper, template })
         this.message = message || null;
     }
 
@@ -21,9 +21,9 @@ class PopupTemplate extends Template {
 
         element.innerHTML = this.message ? this.template(this.message, args) : this.template(args);
         
-        this.parent.appendChild(element);
-        // this.parent.firstElementChild.classList.add("blur");
-        [...this.parent.children].forEach( child => {
+        this.wrapper.appendChild(element);
+        // this.wrapper.firstElementChild.classList.add("blur");
+        [...this.wrapper.children].forEach( child => {
             if(child.className !== "shadow-container__wrapper") {child.classList.add("blur")}
         });
 
@@ -38,8 +38,8 @@ class PopupTemplate extends Template {
     };
 
     destroy() {
-        //this.parent.firstElementChild.classList.remove("blur");
-        [...this.parent.children].forEach(child => {
+        //this.wrapper.firstElementChild.classList.remove("blur");
+        [...this.wrapper.children].forEach(child => {
             if (child.className !== "shadow-container__wrapper") { child.classList.remove("blur") }
         });
         let shadow = document.querySelector(".shadow-container__wrapper");

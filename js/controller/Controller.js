@@ -4,6 +4,8 @@ import Validator from "./validator/Validator.js";
 
 class Controller {
 
+    /// SET UP ///
+
     checkIfAppAlreadyLoaded() {
         return Model.checkIfAppAlreadyLoaded()
     };
@@ -11,18 +13,21 @@ class Controller {
     setAppStateToLoaded() {
         Model.setAppStateToLoaded();
     }
-       
+
+    /// LOGIN ///
+
     getSignInHTML() {
         if(!Model.checkIfUserLoggedIn()) {
-            View.getLoginSignInTemplate();
+            return View.getLoginSignInTemplate();
         }
-        else {
-            this.getCurrentLocationPlaces()
-        }
+        this.getCurrentLocationPlaces()
     };
 
     getSignUpHTML() {
-        View.getLoginSignInTemplate();
+        if(!Model.checkIfUserLoggedIn()) {
+            return View.getLoginSignUpTemplate();
+        }
+        this.getCurrentLocationPlaces()
     };
 
     submitUserForm(loginDataObj) {
@@ -42,6 +47,8 @@ class Controller {
         Model.fillLoginDataFields(loginDataObj)
         this.getCurrentLocationPlaces();
     };
+
+    /// CURRENT PLACE ///
 
     getCurrentLocationPlaces() {
         View.setLoading();
@@ -72,14 +79,14 @@ class Controller {
 
     getSelectedPlaceData() {
         let data = Model.getCurrentPlaceData();
-        if (!data) {
-            return View.showErrorNotification("There is no data provided for the current place.")
-        }
+        if (typeof data !== "object") return View.showErrorNotification("There is no data provided for the current place.");
         return data;
     };
 
     getCurrentCategory() {
-        return Model.getCurrentCategory()
+        let category = Model.getCurrentCategory();
+        if(typeof category !== "object") return View.showErrorNotification("There is no data provided for the current category.", category);
+        return category;
     };
 
     setCurrentCategory(category) {
@@ -97,8 +104,8 @@ class Controller {
         return Model.checkDishInCart(id);
     };
 
-    updateCartIcon(number) {
-        View.updateCartIcon(number)
+    updateCartInfo(num) {
+        View.updateCartInfo(num)
     };
 
     /// REFRESH ///
