@@ -24,7 +24,7 @@ class PopupTemplate extends Template {
         this.wrapper.appendChild(element);
         // this.wrapper.firstElementChild.classList.add("blur");
         [...this.wrapper.children].forEach( child => {
-            if(child.className !== "shadow-container__wrapper") {child.classList.add("blur")}
+            if(child.className !== "shadow-container__wrapper") child.classList.add("blur");
         });
 
         if(this.listeners.length > 0) {

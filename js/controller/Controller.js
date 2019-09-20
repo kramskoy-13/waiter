@@ -100,6 +100,11 @@ class Controller {
         Model.addItemToCart(dish, +num);
     };
 
+    getShoppingCartnfo() {
+        let cart = Model.getShoppingCartnfo();
+        View.getShoppingCartPopup(cart);
+    };
+
     checkDishInCart(id) {
         return Model.checkDishInCart(id);
     };

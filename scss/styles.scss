@@ -8,25 +8,11 @@
 @import './partials/main';
 @import './partials/cart';
 
-.abs-cntr {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-}
-
-html {
-  height: 100%;
-}
 * {
   box-sizing: border-box;
 }
-ul {
-	margin: 0;
-	padding: 0;
-}
-li {
-	list-style: none;
+html {
+  height: 100%;
 }
 body {
     background: $frameBackgroundColor;
@@ -38,6 +24,31 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+ul {
+	margin: 0;
+	padding: 0;
+}
+li {
+	list-style: none;
+}
+.pt-0 {
+    padding-top: 0;
+}
+.mb-30 {
+    margin-bottom: 30px;
+}
+.mt-10 {
+    margin-top: 10px;
+}
+.mt-30 {
+    margin-top: 30px;
+}
+.abs-cntr {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 .wrapper {
     display: flex;
@@ -121,13 +132,6 @@ body {
         height: 1.5px;
     }
 }
-
-.pt-0 {
-    padding-top: 0;
-}
-.mt-30 {
-    margin-top: 30px;
-}
 .color-main {
     color: $primaryColor;
 }
@@ -148,10 +152,6 @@ body {
     color: white;
     text-transform: uppercase;
     margin-bottom: 20px;
-
-    /*& span {
-        margin-left: 10px;
-    }*/
 
     & svg {
         margin-right: 10px;
@@ -239,6 +239,9 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.flex-wrap {
+    flex-wrap: wrap;
 }
 @keyframes bounce-up-down {
     0% {

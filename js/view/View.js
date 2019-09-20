@@ -200,7 +200,11 @@ class View {
     };
 
     getShoppingCartnfo() {
-        console.log("getShoppingCartnfo")
+        Controller.getShoppingCartnfo();
+    };
+
+    getShoppingCartPopup(cartInfo) {
+        this.CartView.showShoppingCartPopup(cartInfo);
     };
 
     addItemToCart(dish, cartInput) {

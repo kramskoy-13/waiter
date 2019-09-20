@@ -43,24 +43,52 @@ class Model {
         return typeof this.cart.dishes[id] !== 'undefined'
     };
 
-    addItemToCart(dish, num) {
-        let id = dish.id;
-        if (!this.cart.dishes[id]) {
+    getShoppingCartnfo() {
+        let cartData = {};
 
-            this.cart.dishes[id] = {};
-
-            for (let key in dish) {
-                
-                if ( dish.hasOwnProperty(key) ) {
-                    this.cart.dishes[id][key] = dish[key]
+        function copyCartData(cartObject, aimObject) {
+            for(let property in cartObject) {
+                if( cartObject.hasOwnProperty(property) ) { 
+                    if(typeof property === "object") {
+                        copyCartData(property, aimObject)
+                    }
+                    if(property !== "description" && property !== "ingredients") {
+                        aimObject[property] = cartObject[property]
+                    }
                 }
+            }                                              
+        }
+        copyCartData(this.cart, cartData);
 
-            }
-            ++this.cart.totalCount;
+        return cartData;
+    };
+
+    addItemToCart(dish, num) {
+        let id = dish.id,
+            dishes = this.cart.dishes,
+            total = 0;
+
+        if (!dishes[id]) {
+
+            dishes[id] = {};
+
+            for (let key in dish) {            
+                if ( dish.hasOwnProperty(key) ) {
+                    dishes[id][key] = dish[key];
+                }
+            }            
         }
 
-        this.cart.dishes[id].number = num
-        
+        ++this.cart.totalCount;
+
+        this.cart.dishes[id].number = num;
+
+        for(let dish in dishes) {
+            total += dishes[dish].number * dishes[dish].price;
+        }
+
+        this.cart.totalPrice += total;
+            
         Controller.updateCartInfo(this.cart.totalCount)
 
         console.log("new item in the cart", this.cart.dishes[id])

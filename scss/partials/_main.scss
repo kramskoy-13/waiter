@@ -195,7 +195,16 @@
         font-size: 14px;
         line-height: 14px;
         //font-size: 16px;
-        &.sum {
+    }
+
+    &-holder {
+        border-bottom: 1.2px dotted $dotsDishesBorderColor;
+        width: 100% !important;
+        margin: 0 5px;
+        flex-shrink: initial !important;
+    }
+}
+div.sum {
             min-width: 70px;
             padding: 0 10px;
             height: 26px;
@@ -212,17 +221,7 @@
                 font-size: 14px;
             }
         }
-    }
-
-    &-holder {
-        border-bottom: 1.2px dotted $dotsDishesBorderColor;
-        width: 100% !important;
-        margin: 0 5px;
-        flex-shrink: initial !important;
-    }
-}
 .sub {
-
     &-menu.open + .sub-item {
         max-height: 200px;
         transform: scale(1);

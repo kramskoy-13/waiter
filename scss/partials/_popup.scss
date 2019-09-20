@@ -18,6 +18,8 @@
         & .navigation {
             display: flex;
             align-items: center;
+            justify-content: flex-end;
+            padding: 10px;
         }
     }
 
@@ -51,12 +53,6 @@
             background: #f9f9f9;
             border-radius: 10px;
             position: relative;
-
-            &.flex {
-                display: flex;
-                justify-content: center;
-                flex-wrap: wrap;
-            }
         }
 
         &_list {

@@ -1,5 +1,7 @@
 import Template from "../Template/Template.js";
 import { SHOPPING_CART_TEMPLATE } from "../Template/templates/_shopping-cart.js";
+import { SHOPPING_CART_POPUP_TEMPLATE } from "../Template/templates/_shopping-cart-popup.js";
+import PopupTemplate from "../Template/PopupTemplate.js";
 
 export class CartView {
 	constructor(wrapper, parent) {
@@ -17,6 +19,19 @@ export class CartView {
         .create(0); /// <- 0 means number of dishes to show, initially the cart is empty
 	};
 
+	showShoppingCartPopup(cartInfo) {
+		let wrapper = document.getElementById('wrapper'),
+			template = SHOPPING_CART_POPUP_TEMPLATE;
+		parent.currentPopup = new PopupTemplate({ wrapper, template });
+		parent.currentPopup
+		.initListener({
+            selector: "#close", listener: "click", callback: () => {
+                parent.currentPopup.destroy.bind(parent.currentPopup)();
+            } 
+        })
+		.create(cartInfo);
+	};
+
     updateCartInfo(num) {
         let holder = document.getElementById(this.wrapper),
         	cart = holder.querySelector(".shopping-cart"),
@@ -32,5 +47,4 @@ export class CartView {
         this.parent.shoppingCartTemplate.handleClass({ selector:cart, _class:"filled", action: cartHandleClassAction});
         this.parent.shoppingCartTemplate.handleClass({ selector:numberIcon, _class:"hidden", action: iconHandleClassAction})
     };
-
 }
