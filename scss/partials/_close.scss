@@ -1,0 +1,51 @@
+.close {
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background-color: $frameBackgroundColorFocused;
+    position: relative;
+    transform: rotate(45deg);
+
+    &:after, &:before {
+        content: "";
+        display: block;
+        width: 22px;
+        border-radius: 5px;
+        background: white;
+    }
+
+    &:after {
+        transform-origin: center;
+        height: 2px;
+        @extend .abs-cntr
+    }
+
+    &:before {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform-origin: 0 0;
+        transform: rotate(90deg) translate(-50%,-50%) !important;
+        height: 1.5px;
+    }
+
+    &_wrapped {
+        background: white;
+        position: absolute;
+        z-index: 50;
+        left: 2px;
+        top: 2px;
+        border-radius: 5px;
+        border: 1px solid $frameBackgroundColorFocused;
+
+        & > .close {
+            background: transparent;
+            border-radius: 0;
+
+            &:after, &:before {
+                background: $closeBackgroundColor;
+            }
+        }
+    }
+}

@@ -15,16 +15,6 @@ class Model {
             totalPrice: 0,
             totalCount: 0
         }
-        /* 
-          dishes: {
-            id: {
-                    number: 1,
-                    price: 22UAH
-                    img: ///
-                    divided: false
-                }
-          }
-         */
     }
 
     /// APP ///
@@ -65,8 +55,7 @@ class Model {
 
     addItemToCart(dish, num) {
         let id = dish.id,
-            dishes = this.cart.dishes,
-            total = 0;
+            dishes = this.cart.dishes;
 
         if (!dishes[id]) {
 
@@ -76,23 +65,37 @@ class Model {
                 if ( dish.hasOwnProperty(key) ) {
                     dishes[id][key] = dish[key];
                 }
-            }            
+            } 
+            
+            ++this.cart.totalCount;
         }
-
-        ++this.cart.totalCount;
-
+       
         this.cart.dishes[id].number = num;
 
-        for(let dish in dishes) {
-            total += dishes[dish].number * dishes[dish].price;
+        this.cart.totalPrice = 0;
+
+        for (let dish in dishes) {
+            this.cart.totalPrice += +(dishes[dish].number * dishes[dish].price).toFixed(2);
         }
+        
+        Controller.updateCartInfo(this.cart)
+    };
 
-        this.cart.totalPrice += total;
-            
-        Controller.updateCartInfo(this.cart.totalCount)
+    deleteItemFromCart(id) {
+        console.log("id",id)
+        let dish = this.cart.dishes[id];
 
-        console.log("new item in the cart", this.cart.dishes[id])
-        console.log("in number", this.cart.dishes[id].number)
+        if (!dish) return Controller.showErrorNotification("The id has not been found at cart.", id);
+
+        --this.cart.totalCount;
+
+        let sumToSubtract = dish.number * dish.price;
+
+        this.cart.totalPrice = (this.cart.totalPrice - sumToSubtract).toFixed(2);
+
+        delete this.cart.dishes[id]
+
+        Controller.updateCartInfo(this.cart)
     };
 
     /// LOGIN ///
@@ -114,7 +117,7 @@ class Model {
     fetchSelectedPlaceData(place) {
         return new Promise(resolve => {
             this.place = place; // <-- should be a reall id
-            this.placeData = createMockMenuData(9); // <-- should be reall data
+            this.placeData = createMockMenuData(8); // <-- should be reall data
             setTimeout(() => resolve(this.placeData), 3000);
         })
     };
@@ -153,4 +156,4 @@ class Model {
 
 }
 
-export const model = new Model();
+export const model = new Model(); 

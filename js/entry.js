@@ -2,14 +2,15 @@
 
 import { controller } from './controller/Controller.js';
 
-const WTR            = {};
-      WTR.Controller = controller;
-      WTR.index      = {
-        progressBar  : document.getElementById('progressBar'),
-        percentage   : document.getElementById('progress-bar__percentage'),
-        wrapper      : document.getElementById('wrapper'),
-        textContainer: document.getElementById('textContainer'),
-        width        : 7.5
+const WTR = {};
+
+WTR.Controller = controller;
+WTR.index = {
+    progressBar: document.getElementById('progressBar'),
+    percentage: document.getElementById('progress-bar__percentage'),
+    wrapper: document.getElementById('wrapper'),
+    textContainer: document.getElementById('textContainer'),
+    width: 7.5
 };
 
     setTimeout( () => {

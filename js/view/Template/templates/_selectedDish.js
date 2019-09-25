@@ -19,7 +19,7 @@ export const SELECTED_DISH_TEMPLATE = ({ dish, flag }) => {
             </h4>
         </nav>
 
-        <div class="main__container_item" id="${dish.id}">
+        <div class="main__container_item dish_item" id="${dish.id}">
             <div class="image item" style="background-image: url('${dish.img}')"></div>
             <div class="dots">
                 <div>Name</div>
@@ -43,9 +43,9 @@ export const SELECTED_DISH_TEMPLATE = ({ dish, flag }) => {
                 <div class="sub-pointer">+</div>
             </div>
             <div class="sub-item description">${dish.description}</div>
-              <button class="button flex-ctr ${flag ? 'visited shopping-cart' : ''}" id="cart-button">
+              <button class="button flex-ctr ${flag ? 'visited' : ''}" id="cart-button">
                 ${ SHOPPING_CART_TEMPLATE && SHOPPING_CART_TEMPLATE(0) }
-                ${flag ? 'Already in Chart' : 'Add to Chart'}
+                ${flag ? 'Already in Cart' : 'Add to Cart'}
             </button>
         </div>
         

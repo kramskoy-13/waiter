@@ -65,7 +65,7 @@ export class DishesView {
         let category = parent.getCurrentCategory(),
         	dish = category.dishes.filter(d => d.id === target)[0],
 			alreadyInCart = parent.checkDishInCart(dish.id),
-			cartCallback = alreadyInCart ? parent.getShoppingCartnfo.bind(this) : parent.getCurrentPurchasePopup.bind(parent, dish, target);
+            cartCallback = alreadyInCart ? parent.getShoppingCartPopup.bind(parent) : parent.getCurrentPurchasePopup.bind(parent, dish, target);
 
         parent.currentMainTemplate = new Template({ wrapper: "main", template });
         parent.currentMainTemplate

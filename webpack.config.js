@@ -8,6 +8,8 @@ const PROCESS = process.env.npm_lifecycle_event;
 
 module.exports = {
 
+    mode: PROCESS === "build"? "production" : 'development',
+
     entry: {
         app: './js/entry.js'
     },

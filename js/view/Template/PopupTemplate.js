@@ -17,12 +17,14 @@ class PopupTemplate extends Template {
             element.className = "shadow-container__wrapper";
         }
 
-        if (typeof this.template === "undefined") { console.error("template is undefined at PopupTemplate"); return }
+        if (typeof this.template === "undefined") return console.error("template is undefined at PopupTemplate"); 
 
-        element.innerHTML = this.message ? this.template(this.message, args) : this.template(args);
-        
+        let template = this.message ? this.template(this.message, args) : this.template(args);
+
+        typeof template === "string" ? element.innerHTML = template : element.appendChild(template);
+               
         this.wrapper.appendChild(element);
-        // this.wrapper.firstElementChild.classList.add("blur");
+
         [...this.wrapper.children].forEach( child => {
             if(child.className !== "shadow-container__wrapper") child.classList.add("blur");
         });
@@ -40,12 +42,10 @@ class PopupTemplate extends Template {
     destroy() {
         //this.wrapper.firstElementChild.classList.remove("blur");
         [...this.wrapper.children].forEach(child => {
-            if (child.className !== "shadow-container__wrapper") { child.classList.remove("blur") }
+            if (child.className !== "shadow-container__wrapper") child.classList.remove("blur");
         });
         let shadow = document.querySelector(".shadow-container__wrapper");
-        if (shadow) {
-            shadow.remove()
-        }
+        if (shadow) shadow.remove();
     };
 }
 export default PopupTemplate;

@@ -31,6 +31,7 @@ import { CartView } from "./Views/CartView.js";
 class View {	
 	constructor() {
         this.wrapper = document.getElementById('wrapper');
+        this.currentPopup = null;
         ////////////////////////
         /////// VIEWS /////////
         //////////////////////
@@ -40,8 +41,6 @@ class View {
         this.DishesView = new DishesView("main", this)
 		this.CurrentPurchase = new CurrentPurchase(this.wrapper, this);
         this.CartView = new CartView("cartHolder", this);
-
-        this.currentPopup = null;
         //////////////////////////////
 		/////// MAIN PARTS //////////
 		////////////////////////////
@@ -49,7 +48,6 @@ class View {
         this.navigationTemplate = null;// <-- navigation id set into main template 
         this.footerTemplate = null; // <-- footer id set into main template 
         this.shoppingCartTemplate = null;
-        //this.shoppingCart = new Template({ wrapper: "cartHolder", template: SHOPPING_CART_TEMPLATE });
         this.highlightedSpanNum = "two"; // two dishes are shown in row
         /////// CURRENT TEMPLATE //////////
         this.currentMainTemplate = null;
@@ -166,7 +164,6 @@ class View {
     };
 
     getDishesTemplate(name, dishes) {
-        console.log("getDishesTemplate", name, dishes);
         this.currentMainTemplateMark = "dishes"; // to highlight
         this.DishesView.getDishesTemplate(name, dishes);
     };
@@ -200,19 +197,23 @@ class View {
     };
 
     getShoppingCartnfo() {
-        Controller.getShoppingCartnfo();
+        return Controller.getShoppingCartnfo();
     };
 
-    getShoppingCartPopup(cartInfo) {
-        this.CartView.showShoppingCartPopup(cartInfo);
+    getShoppingCartPopup() {
+        this.CartView.getShoppingCartPopup();
     };
 
     addItemToCart(dish, cartInput) {
         if (cartInput && dish) Controller.addItemToCart(dish, cartInput.value); 
     };
 
-    updateCartInfo(num) {
-        this.CartView.updateCartInfo(num)
+    deleteItemFromCart(id) {
+        Controller.deleteItemFromCart(id)
+    };
+
+    updateCartInfo(cart) {
+        this.CartView.updateCartInfo(cart)
     };
 
     removeSelectedClass() {

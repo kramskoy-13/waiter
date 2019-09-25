@@ -35,7 +35,7 @@ class PopupSPTemplate extends PopupTemplate {
         ul.appendChild(fragment);
 
         const showList = document.getElementById("showList");
-        if (!showList) { console.error(`#showList`); return }
+        if (!showList) return console.error(`#showList`);
 
         showList.addEventListener('click', () => {
             console.log("PopupSPTemplate selectPlace")

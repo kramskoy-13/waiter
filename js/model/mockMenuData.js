@@ -20,9 +20,6 @@ export default function createMockMenuData(num) {
 			dishes
 		}
 	});
-
-	console.log("mock data", mockMenuData)
-
 	return mockMenuData;
  };
 

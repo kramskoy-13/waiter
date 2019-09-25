@@ -31,12 +31,12 @@ export const CURRENT_PURCHASE_TEMPLATE = (dish) => {
                 <div class="dots">
                     <div>Sum</div>
                     <div class="dots-holder"></div>
-                    <div class="sum" id="sum">${dish.price}</div>
+                    <div class="sum">${dish.price}</div>
                 </div>
                 <div class="popup__panel">
-                    <button class="popup__panel_button button subtract" id="subtract"></button>
-                    <input id="cart-input" type="text" name="number" value="1">
-                    <button class="popup__panel_button button add" id="add"></button>
+                    <button class="popup__panel_button button subtract" data-operation="subtract"></button>
+                    <input class="cart-input" type="text" name="number" value="1">
+                    <button class="popup__panel_button button add" data-operation="add"></button>
              </div> 
             </div>
         </div>

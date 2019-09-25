@@ -1,0 +1,271 @@
+* {
+    box-sizing: border-box;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    background: $frameBackgroundColor;
+    padding: 15px;
+    margin: 25px;
+    margin: 0;
+    height: 100%;
+    min-height: 540px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    list-style: none;
+}
+
+.abs-cntr {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
+    max-height: 640px;
+    background: $wrapperBackgroundColor;
+    max-width: 375px;
+    min-width: 320px;
+    margin: 24px auto;
+    position: relative;
+}
+
+.waiter {
+    &__wrapper {
+        width: 95%;
+        overflow-y: auto;
+        overflow-x: hidden;
+        max-width: 400px;
+        margin: 60px auto 60px;
+        font-size: 16px;
+        font-family: "Quicksand", sans-serif;
+        z-index: 8;
+        height: 100%;
+
+        & input[type='submit'] {
+            width: 100%;
+            background: $primaryColor;
+            margin-top: 15px;
+            padding: 7.5px;
+            border: 1px solid transparent;
+            border-radius: 5px;
+            font-family: $secondaryFont;
+            color: white;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+    }
+}
+
+.logo {
+    font-family: $primaryFont;
+    font-size: 46px;
+    text-align: center;
+    color: $primaryColor;
+    /*margin-top: 0;*/
+    &.small {
+        text-align: left;
+        font-size: 32px;
+    }
+}
+
+.color-main {
+    color: $primaryColor;
+}
+
+.logo-margin {
+    // margin-top: 200px;
+    margin-bottom: 50px;
+}
+
+.txt-bold {
+    font-weight: 900;
+}
+
+.button {
+    background: $primaryColor;
+    margin-top: 15px;
+    padding: 7.5px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    font-family: $secondaryFont;
+    color: white;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+
+    /*& svg {
+        margin-right: 10px;
+        width: 20px;
+        fill: white;
+    }*/
+
+    &.visited {
+        background: white;
+        color: $primaryColor;
+        border: 1px solid $primaryColor;
+
+        /*& svg {
+            fill: $primaryColor;
+        }*/
+    }
+}
+
+.h4 {
+    width: 60%;
+    margin-top: 0;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    color: $headersColorMain;
+    position: relative;
+
+    &.big {
+        font-size: 22px;
+    }
+
+    &:after {
+        content: '';
+        display: block;
+        height: 3px;
+        width: 25%;
+        position: absolute;
+        left: 105%;
+        top: calc(50% - 1.5px);
+        background: $leftAndRightBorder;
+        border-radius: 10px;
+    }
+
+    &:before {
+        content: '';
+        display: block;
+        height: 3px;
+        width: 25%;
+        position: absolute;
+        right: 105%;
+        top: calc(50% - 1.5px);
+        background: $leftAndRightBorder;
+        border-radius: 10px;
+    }
+
+    &.simple {
+        width: 90%;
+        margin: 0 auto;
+
+        &:after,
+        &:before {
+            display: none;
+        }
+    }
+}
+
+.scale-down {
+    transform: scale(.75);
+    transition: .3s;
+}
+
+.blur {
+    filter: blur(5px);
+}
+
+.hidden {
+    transform: scale(0);
+}
+
+.sing-up-link {
+    color: dodgerblue;
+    padding: 0 16px;
+    display: inline-block;
+    text-decoration: underline;
+}
+
+.aside {
+    position: absolute;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 25px;
+    background: white;
+    z-index: 10;
+    /* margin-bottom: 40px; */
+    width: 100%;
+}
+
+.flex-ctr {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-start {
+    align-self: flex-start;
+}
+
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+@keyframes bounce-up-down {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-50px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounce-scale {
+    0% {
+        transform: scale(.9);
+    }
+
+    30% {
+        transform: scale(1.1);
+    }
+
+    60% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(.9);
+    }
+}
+
+@keyframes rotate-to-zero {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

@@ -17,23 +17,17 @@ class Controller {
     /// LOGIN ///
 
     getSignInHTML() {
-        if(!Model.checkIfUserLoggedIn()) {
-            return View.getLoginSignInTemplate();
-        }
+        if (!Model.checkIfUserLoggedIn()) return View.getLoginSignInTemplate();
         this.getCurrentLocationPlaces()
     };
 
     getSignUpHTML() {
-        if(!Model.checkIfUserLoggedIn()) {
-            return View.getLoginSignUpTemplate();
-        }
+        if (!Model.checkIfUserLoggedIn()) return View.getLoginSignUpTemplate();
         this.getCurrentLocationPlaces()
     };
 
     submitUserForm(loginDataObj) {
-        if(!Model.checkIfUserLoggedIn()) {
-            return this.validateUserInfo(loginDataObj)
-        }
+        if (!Model.checkIfUserLoggedIn()) return this.validateUserInfo(loginDataObj);
         this.getCurrentLocationPlaces();
     };
 
@@ -41,9 +35,8 @@ class Controller {
         let validator       = new Validator(),
             loginDataErrors = validator.validateField(loginDataObj);
 
-        if (loginDataErrors.length > 0) {
-            return View.showLoginFormErrors(loginDataErrors);
-        }
+        if (loginDataErrors.length > 0) return View.showLoginFormErrors(loginDataErrors);
+
         Model.fillLoginDataFields(loginDataObj)
         this.getCurrentLocationPlaces();
     };
@@ -96,21 +89,25 @@ class Controller {
     /// CART ///
 
     addItemToCart(dish, num) {
-        if (!dish.id) { return View.showErrorNotification("No dish has been provided.") }
+        if (!dish.id) return View.showErrorNotification("No dish has been provided.");
         Model.addItemToCart(dish, +num);
     };
 
+    deleteItemFromCart(id) {
+        if (!id) return View.showErrorNotification("No dish has been provided.");
+        Model.deleteItemFromCart(id)
+    };
+
     getShoppingCartnfo() {
-        let cart = Model.getShoppingCartnfo();
-        View.getShoppingCartPopup(cart);
+        return Model.getShoppingCartnfo();
     };
 
     checkDishInCart(id) {
         return Model.checkDishInCart(id);
     };
 
-    updateCartInfo(num) {
-        View.updateCartInfo(num)
+    updateCartInfo(cart) {
+        View.updateCartInfo(cart)
     };
 
     /// REFRESH ///
@@ -118,9 +115,15 @@ class Controller {
     refreshUserData(){
         Model.refreshUserData()
     };
+
+    /// ERROR ///
+
+    showErrorNotification(error) {
+        View.showErrorNotification(error)
+    };
 }
 
-export const controller = new Controller();
+export const controller = new Controller(); 
 
 
 
