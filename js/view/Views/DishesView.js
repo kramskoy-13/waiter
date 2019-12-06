@@ -1,26 +1,36 @@
 import Template from "../Template/Template.js";
 import { DISHES_TEMPLATE } from "../Template/templates/_dishes.js";
+import { DISH_TEMPLATE } from "../Template/templates/_dish.js";
 import { SELECTED_DISH_TEMPLATE } from "../Template/templates/_selectedDish.js";
 
 export class DishesView {
 
 	constructor(wrapper, parent) {
 		this.wrapper = wrapper;
-		this.parent = parent;
-	}
-
+        this.parent = parent;
+        this.itemSelector = ".main__container_item";
+        this.selectItem = parent.selectItem.bind(parent, this.itemSelector);
+	} 
+     
 	getDishesTemplate(name, dishes) {
-        let parent = this.parent,
-        	template = DISHES_TEMPLATE,
-        	listener = "click",
-        	selector = ".main__container_item";
-
+        let parent = this.parent, 
+            template = DISHES_TEMPLATE,
+            listener = "click",
+            selector = this.itemSelector,
+            callback = this.selectItem;
+        
         parent.currentMainTemplate = new Template({ wrapper: this.wrapper, template });
         parent.currentMainTemplate
             .initListener({ selector: "#categories", listener, callback: parent.getCategoriesTemplate.bind(parent) }) 
-            .initListener({ selector, listener, callback: parent.selectItem.bind(parent, selector) }) // show select item
+            .initListener({ selector, listener, callback }) // show select item
+            .initListener({
+                selector: "#show_more", listener, callback: e => {
+                    parent.currentMainTemplate.handleListener({ selector, listener, callback, action: "remove" })
+                    parent.fetchMoreDishes.bind(parent)();
+                }
+            }) 
             .initListener({ selector: ".select", listener, callback: this.handleSelectedDish.bind(this)  }) // handle selected item
-            .initListener({ selector: ".footer__display_row", listener, callback: this.changeNumberOfItemsToShow.bind(this) })
+            .initListener({selector: ".footer__display_row", listener, callback: this.changeNumberOfItemsToShow.bind(this) })
             .create({ name, dishes });
 
         parent.currentMainTemplate
@@ -32,7 +42,7 @@ export class DishesView {
 
     /// TABS AT FOOTER TO SWITCH NUMBER OF SHOWED ITEMS: 1-2-3 ///
 
-    changeNumberOfItemsToShow() {
+    changeNumberOfItemsToShow(event) {
         if ( !event.target ||  this.parent.currentMainTemplateMark !== "dishes" ) return;
         let target = event.target.closest(".footer__display_row");
         if (!target || !target.id) return;
@@ -47,9 +57,29 @@ export class DishesView {
             container.classList.add(this.parent.highlightedSpanNum);
     };
 
+    showMoreDishes(newDishes) {
+        let listener = "click",
+            parent = this.parent,
+            callback = this.selectItem,
+            selector = this.itemSelector;
+
+        newDishes.forEach((d, index, arr) => { 
+            let l = arr.length - 1;
+
+            parent.currentMainTemplate.appendElement({ tag: "div", parentSelector: ".main__container", text: DISH_TEMPLATE(d) })
+
+            if (index === l) {
+                parent.currentMainTemplate
+                    .handleListener({ selector, listener, callback, action: "add" })
+                    .handleListener({ selector: ".select", listener, callback: this.handleSelectedDish.bind(this), action: "add" })
+            }
+        })         
+    };
+
 	// USER SELECT AN ITEM //
 
     handleSelectedDish(e) {
+        console.log("handleSelectedDish")
         let target = e; 	
         if (typeof e !== "string") {
             target = e.target.closest(".aim");
@@ -59,7 +89,7 @@ export class DishesView {
         let template = SELECTED_DISH_TEMPLATE,
         	parent = this.parent;
         /// REMOVE HIGHLIGHTED SPAN FROM FOOTER ///
-        parent.currentMainTemplateMark = "dish";
+        parent.currentMainTemplateMark = "dish"; 
         parent.removeSelectedClass();
 
         let category = parent.getCurrentCategory(),

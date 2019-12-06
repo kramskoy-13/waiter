@@ -1,5 +1,5 @@
 import { controller as Controller } from "../controller/Controller.js";
-import createMockMenuData from "./mockMenuData.js";
+import { createMockMenuData, getMockDishesData } from "./mockMenuData.js";
 
 class Model {
     constructor() {
@@ -55,6 +55,7 @@ class Model {
 
     addItemToCart(dish, num) {
         let id = dish.id,
+            sumToAdd = 0,
             dishes = this.cart.dishes;
 
         if (!dishes[id]) {
@@ -71,18 +72,19 @@ class Model {
         }
        
         this.cart.dishes[id].number = num;
+       
+        for (let dish in dishes) {
+            sumToAdd += dishes[dish].number * dishes[dish].price;
+        }
 
         this.cart.totalPrice = 0;
 
-        for (let dish in dishes) {
-            this.cart.totalPrice += +(dishes[dish].number * dishes[dish].price).toFixed(2);
-        }
-        
+        this.cart.totalPrice = +sumToAdd.toFixed(2)
+
         Controller.updateCartInfo(this.cart)
     };
 
     deleteItemFromCart(id) {
-        console.log("id",id)
         let dish = this.cart.dishes[id];
 
         if (!dish) return Controller.showErrorNotification("The id has not been found at cart.", id);
@@ -91,7 +93,7 @@ class Model {
 
         let sumToSubtract = dish.number * dish.price;
 
-        this.cart.totalPrice = (this.cart.totalPrice - sumToSubtract).toFixed(2);
+        this.cart.totalPrice = +(this.cart.totalPrice - sumToSubtract).toFixed(2);
 
         delete this.cart.dishes[id]
 
@@ -123,6 +125,7 @@ class Model {
     };
 
     getCurrentLocationPlaces() {
+        console.log("getCurrentLocationPlaces")
         /// HERE A REAL REQUEST TO THE DATA BASE SHOULD BE USED///
         return new Promise((resolve, reject) => {
             setTimeout(() => resolve("result"), 2000);
@@ -134,6 +137,20 @@ class Model {
         return null;
     };
 
+    fetchMoreDishes(allDishesListShown) {
+        //// allDishesListShown flag is used to fetch 
+        let id = this.selectedCategory.id;
+        return new Promise(resolve => {
+            let newDishes = getMockDishesData(id, 8);
+
+            this.selectedCategory.dishes = [...this.selectedCategory.dishes, ...newDishes];
+
+            console.log(this)
+
+            setTimeout(() => resolve(newDishes), 2000);
+        })
+    };
+
     /// CATEGORIES ///
 
     getCurrentCategory() {
@@ -143,6 +160,22 @@ class Model {
     setCurrentCategory(category) {
         this.selectedCategory = category;
     };
+
+    //// SEARCH SORTED DATA ////
+
+    getSortedDishes(sortedData) {
+        /// method aimed at collecting  ////
+        /// ids of dishes that NOT match ///
+        /// input's value - sortedData variable ///
+        let sortedArrayData = this.selectedCategory.dishes.reduce((accumulator, currentValue) => {
+                if (!currentValue.name.includes(sortedData)) accumulator.push(currentValue.id)
+                return accumulator
+            }, []);
+
+        console.log(sortedArrayData)
+               
+        return sortedArrayData;
+    }
 
     /// REFRESH DATA ///
 
@@ -156,4 +189,4 @@ class Model {
 
 }
 
-export const model = new Model(); 
+export const model = new Model();  

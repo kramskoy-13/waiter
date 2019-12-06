@@ -1,14 +1,11 @@
+import { DISH_TEMPLATE } from "./_dish.js";
+
 export const DISHES_TEMPLATE = ({ name, dishes }) => {
+    console.log(name)
+    console.log(dishes)
     let insert = '';
     dishes.forEach(dish => {
-        insert += `
-        <div class="main__container_item" id="${dish.id}">
-            <div class="image" style="background-image: url('${dish.img}')"></div>
-            <div class="name">${dish.name}</div>
-            <div class="price">${dish.price}UAH</div>
-            <div class="select">Select</div>
-        </div>
-        `
+        insert += `<div>${DISH_TEMPLATE(dish)}</div>`
     })
     return `
     <div class="main__container dishes">
@@ -20,5 +17,6 @@ export const DISHES_TEMPLATE = ({ name, dishes }) => {
         </nav>
         ${insert}
     </div>
+    <button class="button block mt-10 m-auto" id="show_more">Show More</button> 
  `
 }

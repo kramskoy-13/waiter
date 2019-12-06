@@ -27,28 +27,27 @@ import { CategoriesView } from "./Views/CategoriesView.js";
 import { DishesView } from "./Views/DishesView.js";
 import { CurrentPurchase } from "./Views/CurrentPurchase.js"; 
 import { CartView } from "./Views/CartView.js"; 
+import { SearchView } from "./Views/SearchView.js"; 
 
 class View {	
 	constructor() {
         this.wrapper = document.getElementById('wrapper');
         this.currentPopup = null;
-        ////////////////////////
         /////// VIEWS /////////
-        //////////////////////
         this.LoginView = new LoginView(this.wrapper, this);
         this.SelectPlaceView = new SelectPlaceView(this.wrapper, this);
         this.CategoriesView = new CategoriesView("main", this);
-        this.DishesView = new DishesView("main", this)
+        this.DishesView = new DishesView("main", this);
 		this.CurrentPurchase = new CurrentPurchase(this.wrapper, this);
         this.CartView = new CartView("cartHolder", this);
-        //////////////////////////////
+        this.SearchView = new SearchView("searchHolder", this);
 		/////// MAIN PARTS //////////
-		////////////////////////////
         this.mainLayoutTemplate = null; // <-- consists of navigation bar, footer and placeholder for main content
         this.navigationTemplate = null;// <-- navigation id set into main template 
         this.footerTemplate = null; // <-- footer id set into main template 
         this.shoppingCartTemplate = null;
-        this.highlightedSpanNum = "two"; // two dishes are shown in row
+        this.searchTemplate = null;
+        this.highlightedSpanNum = "two"; // <-- two dishes are shown in row
         /////// CURRENT TEMPLATE //////////
         this.currentMainTemplate = null;
         this.currentMainTemplateMark = null;
@@ -122,50 +121,55 @@ class View {
         this.mainLayoutTemplate.create();
         this.mainLayoutTemplate
             .addChild(this.getNavigationTemplate.bind(this))
-            .addChild(this.getFooterTemplate.bind(this))
             .addChild(this.getCurrentMainTemplate.bind(this))
+            .addChild(this.getFooterTemplate.bind(this))
             .createChildren()
     };
 
     getCurrentMainTemplate() {
-        console.log("getCurrentMainTemplate");
-        if (typeof this.currentMainTemplate !== "function") {
-            console.error(this.currentMainTemplate, "currentMainTemplate should be a function");
-            return
-        }
+        if (typeof this.currentMainTemplate !== "function") return console.error(this.currentMainTemplate, "currentMainTemplate should be a function");
         this.currentMainTemplate();
     };
 
     getNavigationTemplate() {
-        console.log("getNavigationTemplate");
         this.navigationTemplate = new Template({ wrapper: "nav", template: NAVIGATION_TEMPLATE });
         this.navigationTemplate.initListener({ selector: "#nav", listener: "click", callback: this.toggleMenuPopup.bind(this) })
         this.navigationTemplate.create()
     };
 
     getFooterTemplate() {
-        console.log("getFooterTemplate");
         this.footerTemplate = new Template({ wrapper: "footer", template: FOOTER_TEMPLATE });  
         this.footerTemplate.create();
         this.footerTemplate
             .addChild(this.getShoppingCartTemplate.bind(this))
+            .addChild(this.getSearchTemplate.bind(this))
             .createChildren()
     };
 
     getCategoriesTemplate() {
-        console.log("getCategoriesTemplate");
         this.currentMainTemplateMark = "categories";
         this.CategoriesView.getCategoriesTemplate();
     };
 
     getShoppingCartTemplate() {
-        console.log("getShoppingCartTemplate");
         this.CartView.getShoppingCartTemplate();      
+    };
+
+    getSearchTemplate() {
+        this.SearchView.getSearchTemplate();
     };
 
     getDishesTemplate(name, dishes) {
         this.currentMainTemplateMark = "dishes"; // to highlight
         this.DishesView.getDishesTemplate(name, dishes);
+    };
+
+    fetchMoreDishes(allDishesListShown) {
+        Controller.fetchMoreDishes(allDishesListShown);
+    };
+
+    showMoreDishes(newDishes) {
+        this.DishesView.showMoreDishes(newDishes);
     };
 
    setCurrentCategory(category) {
@@ -220,6 +224,10 @@ class View {
         // METHOD AIMED TO DELETE HIGHLIGHTED SPAN FROM FOOTER
         let notTargets = document.querySelectorAll(".footer__display_row")
             notTargets.forEach(t => t.classList.remove("selected"));
+    };
+
+    getSortedDishes(sortedDishes) {
+        return Controller.getSortedDishes(sortedDishes)
     };
 
     toggleMenuPopup() {

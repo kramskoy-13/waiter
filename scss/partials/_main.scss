@@ -5,146 +5,151 @@
 }
 
 
-.main {
+    .main {
 
-    &__container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: flex-start;
-
-        & nav {
-            width: 100%;
-        }
-
-        &_item {
-            flex-shrink: 0;
-            padding: 25px;
+        &__container {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
+            flex-wrap: wrap;
+            justify-content: flex-start;
 
-            & .name {
-                color: $categoriesColorMain;
-                font-size: 16px;
-                text-align: center;
-                text-transform: capitalize;
-                padding: 10px;
-                height: 60px;
+            & nav {
+                width: 100%;
             }
 
-            & .select {
+            &_item {
+                flex-shrink: 0;
+                padding: 25px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                position: absolute;
-                left: 10px;
-                right: 10px;
-                top: 10px;
-                bottom: 10px;
-                color: white;
-                font-size: 20px;
-                border-radius: 10px;
-                transform: scale(0);
-                transition: .3s;
-            }
+                flex-direction: column;
+                position: relative;
+                overflow: hidden;
 
-            &.aim {
+                & .name {
+                    color: $categoriesColorMain;
+                    font-size: 16px;
+                    text-align: center;
+                    text-transform: capitalize;
+                    padding: 10px;
+                    height: 60px;
+                }
+
                 & .select {
-                    transform: scale(1);
-                    background: $loadingBackground;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    position: absolute;
+                    left: 10px;
+                    right: 10px;
+                    top: 10px;
+                    bottom: 10px;
+                    color: white;
+                    font-size: 20px;
+                    border-radius: 10px;
+                    transform: scale(0);
+                    transition: .3s;
+                }
+
+                &.aim {
+                    & .select {
+                        transform: scale(1);
+                        background: $loadingBackground;
+                    }
+
+                    & > div:not(.select), & > svg {
+                        filter: blur(2px);
+                    }
                 }
             }
         }
     }
-}
 
-.dishes {
-    @include parent("item") {
-        border: 1px solid rgb(238, 238, 238);
-        border-radius: 5px;
-        margin: 10px !important;
-        padding: 0;
-        background-color: white;
+    .dishes {
+        @include parent("item") {
+            border: 1px solid rgb(238, 238, 238);
+            border-radius: 5px;
+            margin: 10px !important;
+            padding: 0;
+            background-color: white;
 
-        & button {
-            width: 90%;
-        }
-
-        & .image {
-            background-size: cover;
-            background-position: center;
-            width: 100%;
-            padding-top: 100%;
-
-            &.item {
+            & button {
                 width: 90%;
-                margin-top: 5%;
+            }
+
+            & .image {
+                background-size: cover;
+                background-position: center;
+                width: 100%;
+                padding-top: 100%;
+
+                &.item {
+                    width: 90%;
+                    margin-top: 5%;
+                    border-radius: 5px;
+                }
+            }
+
+            & .select {
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
                 border-radius: 5px;
             }
-        }
 
-        & .select {
-            left: 0;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            border-radius: 5px;
-        }
-
-        & .name {
-            height: auto;
-            width: 100%;
-            color: black;
-            font-size: 13px;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
-    }
-
-    &.one {
-        &.item {
-            @include parent("item") {
-                margin: 20px !important;
-                margin-top: 0 !important;
-                width: calc(100% - 40px);
-                //padding-bottom: 25px;
+            & .name {
+                height: auto;
+                width: 100%;
+                color: black;
+                font-size: 13px;
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
             }
         }
 
-        @include parent("item") {
-            width: calc(100% - 20px);
+        &.one {
+            &.item {
+                @include parent("item") {
+                    margin: 20px !important;
+                    margin-top: 0 !important;
+                    width: calc(100% - 40px);
+                    //padding-bottom: 25px;
+                }
+            }
+
+            @include parent("item") {
+                width: calc(100% - 20px);
+            }
         }
+
+        /*&.two {
+            @include parent("item") {
+                width: calc(50% - 20px);
+            }
+        }
+
+        &.three {
+            @include parent("item") {
+                width: calc(33% - 10px);
+                margin: 5px !important;
+            }
+        }*/
     }
 
-    &.two {
-        @include parent("item") {
-            width: calc(50% - 20px);
+    .one {
+        & > div {
+            width: calc(100% - 1.25px);
+            margin-left: 1.25px;
+            margin-right: 1.25px;
         }
     }
-
-    &.three {
-        @include parent("item") {
-            width: calc(33% - 10px);
-            margin: 5px !important;
-        }
-    }
-}
-
-.one {
-    @include parent("item") {
-        width: calc(100% - 1.25px);
-        margin-left: 1.25px;
-        margin-right: 1.25px;
-    }
-}
 
 .two {
-    @include parent("item") {
+    & > div {
         width: calc(50% - 3.75px);
+
         &:nth-of-type(1) {
             margin-left: 2.5px;
             margin-right: 1.25px;
@@ -158,8 +163,9 @@
 }
 
 .three {
-    @include parent("item") {
+    & > div {
         width: calc(33% - 3.75px);
+
         &:nth-of-type(1) {
             margin-left: 2.5px;
             margin-right: 1.25px;
@@ -175,85 +181,92 @@
             margin-right: 2.5px;
         }
     }
-}
-.dots {
-    display: flex;
-    flex-wrap: nowrap;
-    align-items: flex-end;
-    justify-content: space-between;
-    width: 90%;
-    padding: 5px 0;
 
-
-    & > div {
-        flex-shrink: 0;
-        width: auto;
-        white-space: initial;
-        text-overflow: initial;
-        text-align: left;
-        //padding: 0;
+    & .price {
         font-size: 14px;
-        line-height: 14px;
-        //font-size: 16px;
-    }
-
-    &-holder {
-        border-bottom: 1.2px dotted $dotsDishesBorderColor;
-        width: 100% !important;
-        margin: 0 5px;
-        flex-shrink: initial !important;
     }
 }
-div.sum {
-            min-width: 70px;
-            padding: 0 10px;
-            height: 26px;
-            font-size: 16px;
-            line-height: 26px;
-            text-align: center;
-            background: $primaryColor;
-            border-radius: 5px;
-            color: white;
-            font-weight: 900;
 
-            &:after {
-                content: ' UAH';
-                font-size: 14px;
+    .dots {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: flex-end;
+        justify-content: space-between;
+        width: 90%;
+        padding: 5px 0;
+
+
+        & > div {
+            flex-shrink: 0;
+            width: auto;
+            white-space: initial;
+            text-overflow: initial;
+            text-align: left;
+            //padding: 0;
+            font-size: 14px;
+            line-height: 14px;
+            //font-size: 16px;
+        }
+
+        &-holder {
+            border-bottom: 1.2px dotted $dotsDishesBorderColor;
+            width: 100% !important;
+            margin: 0 5px;
+            flex-shrink: initial !important;
+        }
+    }
+
+    div.sum {
+        min-width: 70px;
+        padding: 0 10px;
+        height: 26px;
+        font-size: 16px;
+        line-height: 26px;
+        text-align: center;
+        background: $primaryColor;
+        border-radius: 5px;
+        color: white;
+        font-weight: 900;
+
+        &:after {
+            content: ' UAH';
+            font-size: 14px;
+        }
+    }
+
+    .sub {
+        &-menu.open + .sub-item {
+            max-height: 200px;
+            transform: scale(1);
+            opacity: 1;
+            transition: .3s;
+            padding: 10px;
+
+            &.ingredients {
+                text-align: center;
             }
         }
-.sub {
-    &-menu.open + .sub-item {
-        max-height: 200px;
-        transform: scale(1);
-        opacity: 1;
-        transition: .3s;
-        padding: 10px;
 
-        &.ingredients {
-            text-align: center;
+
+        &-item {
+            font-size: 14px;
+            width: 90%;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            line-height: 22px;
+            max-height: 0;
+            transform: scale(0);
+            opacity: 0;
+            transition: opacity .3s, max-height .3s, transform .3s;
+
+            & li {
+                display: inline-block;
+                margin: 5px;
+            }
+        }
+
+        &-pointer {
+            color: $primaryColor;
+            font-size: 18px;
         }
     }
-
-
-    &-item {
-        font-size: 14px;
-        width: 90%;
-        border: 1px solid #eee;
-        border-radius: 5px;
-        line-height: 22px;
-        max-height: 0;
-        transform: scale(0);
-        opacity: 0;
-        transition: opacity .3s, max-height .3s, transform .3s;
-
-        & li {
-            display: inline-block;
-            margin: 5px;
-        }
-    }
-
-    &-pointer {
-        color: $primaryColor;
-        font-size: 18px;
-    }
-}

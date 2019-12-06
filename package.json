@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "connect-history-api-fallback": "^1.6.0",
     "readable-stream": "^3.4.0"
   },
   "devDependencies": {

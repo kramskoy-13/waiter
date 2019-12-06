@@ -86,6 +86,14 @@ class Controller {
         Model.setCurrentCategory(category)
     };
 
+    fetchMoreDishes(allDishesListShown) {
+        View.setLoading();
+        Model.fetchMoreDishes(allDishesListShown).then( newDishes => {
+            View.removeLoading();
+            View.showMoreDishes(newDishes);
+        })
+    };
+
     /// CART ///
 
     addItemToCart(dish, num) {
@@ -109,6 +117,11 @@ class Controller {
     updateCartInfo(cart) {
         View.updateCartInfo(cart)
     };
+
+    getSortedDishes(sortedData) {
+        if (!sortedData) return View.showErrorNotification("No sorted data has been provided at getSortedDishes function.");
+        return Model.getSortedDishes(sortedData)
+    }
 
     /// REFRESH ///
 

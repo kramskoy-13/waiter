@@ -2,6 +2,20 @@
     &__container {
         bottom: 0;
         box-shadow: 1px 4px 10px 0 rgba(0, 0, 0, 0.36);
+
+        &.shifted {
+            padding: 5px 10px;
+        }
+    }
+
+    &__cart {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &__search {
+        margin-right: 10px;
     }
 
     &__display {
@@ -17,6 +31,23 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            transition: .5s;
+
+            &.shifted {
+                margin: 0;
+            }
+
+            &:nth-of-type(1) {
+                transition-delay: 0;
+            }
+
+            &:nth-of-type(1) {
+                transition-delay: .5s;
+            }
+
+            &:nth-of-type(1) {
+                transition-delay: 1s;
+            }
 
             &.selected {
                 & span {
@@ -54,5 +85,4 @@
             }
         }
     }
-
 }

@@ -33,6 +33,10 @@ export const FOOTER_TEMPLATE = () => {
 	            </div>
             </div>
         </div>
+        
+        <div class="footer__search" id="searchHolder">
+
+        </div>
 
         <div class="footer__cart" id="cartHolder">
 

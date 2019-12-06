@@ -1,6 +1,6 @@
 export default class Template {
     constructor({ wrapper, template }) {
-        this.wrapper = wrapper;
+        this.wrapper = wrapper; 
         this.template = template;
         this.listeners = [];
         this.children = [];
@@ -23,7 +23,7 @@ export default class Template {
         if (this.listeners.length) {
             this.listeners.forEach(obj => {
                 const selector = document.querySelectorAll(obj.selector)
-                if (!selector.length) return console.error(`selector ${selector} wasn't found.`);
+                if (!selector.length) return console.error(`selector ${obj.selector} wasn't found.`);
                    
                 selector.forEach(e => e.addEventListener(obj.listener, obj.callback))
             });
@@ -73,7 +73,7 @@ export default class Template {
         return this
     };
 
-    appendElement({tag, parentSelector, text}) {
+    appendElement({tag, parentSelector, text, _class = ""}) {
         let elem = document.createElement(tag),
             parent;
 
@@ -83,12 +83,13 @@ export default class Template {
         
         else return console.error("impossible to define parent type at appendElement function [Template class]");  
 
-        elem.innerText = text;
+        elem.innerHTML = text;
+        elem.className = _class;
         parent.appendChild(elem);
         return this;
     };
 
-    appendTemplate({template, parentSelector }) {
+    appendTemplate({ template, parentSelector }) {
         if (typeof parentSelector == "object")  parent = parentSelector;
       
         else if (typeof parentSelector == "string")  parent = document.querySelector(parentSelector);

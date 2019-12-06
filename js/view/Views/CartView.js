@@ -8,7 +8,7 @@ export class CartView {
 	constructor(wrapper, parent) {
 		this.wrapper = wrapper;
         this.parent = parent;
-	}
+	} 
 
 	getShoppingCartTemplate(){
         let parent = this.parent,
@@ -21,7 +21,7 @@ export class CartView {
 	};
 
     getShoppingCartPopup() {
-        let wrapper = document.getElementById('wrapper'),
+        let wrapper = document.getElementById('wrapper'), 
             parent = this.parent,
             listener = "click",
             template = SHOPPING_CART_POPUP_TEMPLATE,

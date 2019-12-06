@@ -17,7 +17,7 @@ export const SHOPPING_CART_POPUP_TEMPLATE = (cart) => {
                 </div>
                 <div class="popup__container purchase__wrapper ${empty ? 'hidden' : ''}">
                     <div class="purchase__total-price">Total: <span id="total">${cart.totalPrice}</span> UAH</div>
-                    <button class="button visited purchase__button">Purchase</button>
+                    <button class="button visited block">Purchase</button>
 	            </div>  
     
             </div>

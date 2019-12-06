@@ -115,20 +115,16 @@ li {
     text-transform: uppercase;
     margin-bottom: 20px;
 
-    /*& svg {
-        margin-right: 10px;
-        width: 20px;
-        fill: white;
-    }*/
+    &.block {
+        display: block;
+        width: 100%;
+        max-width: 220px;
+    }
 
     &.visited {
         background: white;
         color: $primaryColor;
         border: 1px solid $primaryColor;
-
-        /*& svg {
-            fill: $primaryColor;
-        }*/
     }
 }
 
@@ -193,6 +189,10 @@ li {
     transform: scale(0);
 }
 
+.disp-none {
+    display: none;
+}
+
 .sing-up-link {
     color: dodgerblue;
     padding: 0 16px;
@@ -206,7 +206,6 @@ li {
     right: 0;
     display: flex;
     justify-content: space-between;
-    align-items: center;
     padding: 5px 25px;
     background: white;
     z-index: 10;
